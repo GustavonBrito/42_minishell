@@ -1,3 +1,6 @@
 minishell
 .vscode
 build
+libft/*.o
+libft/ft_printf/*.o
+libft/gnl/*.o
