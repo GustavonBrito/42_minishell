@@ -1,12 +1,14 @@
 CC = cc
 
-LIBFT = libft
+LIBFT_DIR = libft
+LIBFT_LIB = $(LIBFT_DIR)/libftprintf.a
 
 HEADER = -I $(LIBFT_DIR)
 
 NAME = minishell
 
-SRCS =	src/main.c
+SRCS =	src/main.c \
+		src/shell_loop.c
 
 OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
@@ -18,16 +20,19 @@ READLINE_FLAG = -lreadline
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@ $(READLINE_FLAG)  
+	@make -C $(LIBFT_DIR)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) -o $@ $(READLINE_FLAG)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $<  -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
+	@make -C $(LIBFT_DIR) clean
 	rm -f $(OBJS)
 
 fclean:
+	@make -C $(LIBFT_DIR) fclean
 	rm -f $(OBJS) $(NAME)
 
 re:
