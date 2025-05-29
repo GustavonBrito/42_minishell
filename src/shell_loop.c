@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/05/28 23:14:15 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/05/28 23:17:24 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,5 @@ void	shell_loop(void)
 		if (buffer_received && *buffer_received)
 			add_history(buffer_received);
 		free(buffer_received);
-		// if (read(0, buffer, BUFFER_SIZE) == 0) // verificar como parar com ctrl d
-		// 	exit(0);
 	}
 }
