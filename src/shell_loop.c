@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/05/28 23:07:47 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/05/28 23:14:15 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	shell_loop(void)
 			buffer_received = readline("minishell$ ");
 			g_global = 0;
 		}
+		if (buffer_received == NULL)
+			exit(0);
 		if (ft_strncmp(buffer_received, exit_shell, 5) == 0)
 			exit(0);
 		if (buffer_received && *buffer_received)
