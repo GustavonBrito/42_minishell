@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/05/29 15:25:53 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/05/30 03:27:52 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	shell_loop(void)
 {
 	char *buffer_received;
 	char exit_shell[5] = "exit";
-	
+
 	signal(SIGINT, sigint_handler);
 	while (1)
 	{
@@ -47,7 +47,10 @@ void	shell_loop(void)
 			exit(0);
 		}
 		if (*buffer_received)
+		//{
 			add_history(buffer_received);
+			//process_input(buffer_received);
+		//}
 		free(buffer_received);
 	}
 }
