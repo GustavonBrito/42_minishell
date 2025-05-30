@@ -8,7 +8,8 @@ HEADER = -I $(LIBFT_DIR)
 NAME = minishell
 
 SRCS =	src/main.c \
-		src/shell_loop.c
+		src/shell_loop.c \
+		src/shell_utils.c
 
 OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
