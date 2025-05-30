@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/05/28 23:04:25 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/05/29 23:09:16 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,7 @@
 #include "../libft/headers/ft_printf.h"
 
 void	shell_loop(void);
+void	check_exit_condition(char *buffer_received);
+void	signal_handler(int signal);
 
 #endif
