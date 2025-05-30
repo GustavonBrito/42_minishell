@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/05/30 03:19:27 by luiza            ###   ########.fr       */
+/*   Updated: 2025/05/30 13:46:02 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ void	process_input(char *input)
 
 static void	lex_token(char *input)
 {
-	int		i;
-	t_token	*token_lst;
+	int			i;
+	t_token		*token_lst;
+	t_command	*commands;
 
 	i = 0;
 	token_lst = NULL;
@@ -41,6 +42,12 @@ static void	lex_token(char *input)
 			i += handle_word(input, &token_lst, i);
 	}
 	print_tokens(token_lst);
+	commands = parse_tokens(token_lst);
+	if (commands)
+	{
+		print_commands(commands);
+		free_commands(commands);
+	}
 	free_tokens(token_lst);
 }
 
