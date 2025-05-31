@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_loop.c                                       :+:      :+:    :+:   */
+/*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/05/29 23:08:59 by gustavo-lin      ###   ########.fr       */
+/*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2025/05/29 23:08:22 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	shell_loop(void)
+void	check_exit_condition(char *buffer_received)
 {
-	char	*buffer_received;
-
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
-	while (1)
+	if (buffer_received == NULL)
 	{
-		buffer_received = readline("minishell$ ");
-		check_exit_condition(buffer_received);
-		if (*buffer_received)
-			add_history(buffer_received);
-		free(buffer_received);
+		printf("exit\n");
+		exit(0);
 	}
+	buffer_received = ft_strtrim(buffer_received, " ");
+	if (ft_strlen(buffer_received) == 4 && ft_strncmp(buffer_received, "exit", 4) == 0)
+	{
+		free(buffer_received);
+		exit(0);
+	}
+}
+
+void	signal_handler(int signal)
+{
+	(void)signal;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
