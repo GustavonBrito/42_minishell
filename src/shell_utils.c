@@ -6,11 +6,14 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/05/29 23:08:22 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/05/30 21:40:37 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	check_exit_condition(char *buffer_received);
+void	signal_handler(int signal);
 
 void	check_exit_condition(char *buffer_received)
 {

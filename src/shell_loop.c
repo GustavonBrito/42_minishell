@@ -6,11 +6,13 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/05/29 23:08:59 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/05/30 21:40:52 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	shell_loop(void);
 
 void	shell_loop(void)
 {
