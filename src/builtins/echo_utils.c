@@ -34,5 +34,5 @@ int verify_flag(char *argv, t_builtins **builtins) // verificar se tem um traco 
 			}
 		}
 	}
-	return (*builtins)->flag;
+	return (*builtins)->flag;	
 }
