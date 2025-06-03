@@ -12,23 +12,36 @@
 
 #include "../../includes/minishell.h"
 
-void echo(char *argv)
+void echo(char *argv, t_builtins **builtins)
 {
-	t_builtins *builtins;
-
-	builtins = (t_builtins *)malloc(sizeof(t_builtins));
-	builtins->flag = 0;
-	builtins->name = "echo";
-	verify_flag(argv, &builtins);
-	printf("Flag: %d", builtins->flag);
+	int i;
+	char **buffer;
+	
+	i = 0;
+	buffer = ft_split(argv, ' ');
+	if (buffer[1] == NULL)
+	{
+		printf("\n");
+		return ;
+	}
+	else
+		verify_flag(buffer[1], builtins);
+	if ((*builtins)->flag == 1)
+		printf_without_n(buffer); //Parei aqui, implementar essa funcao sem o \n
+	else
+	{
+		while (buffer[++i])
+		{
+			if (i >= 2)
+				printf(" ");
+			printf("%s", buffer[i]);
+		}
+		printf("\n");
+	}
 }
-// parei implementando a funcao de echo com ou sem flag -n
-
-
 
 // Resumo do funcionamento
 // Recebe os argumentos: O texto e as opções são passados para o programa.
-// Processa as opções: Ajusta o comportamento com base em -n, -e, etc.
-// Interpreta caracteres especiais: Se necessário, converte \n, \t, etc.
+// Processa as opções: Ajusta o comportamento com base em -n.
 // Escreve na saída padrão: Usa chamadas de sistema para imprimir no terminal.
 // Adiciona nova linha: Por padrão, adiciona uma nova linha ao final da saída.

@@ -12,20 +12,16 @@
 
 #include "../../includes/minishell.h"
 
-int verify_flag(char *argv, t_builtins **builtins) // verificar se tem um traco depois do -n 
+void verify_flag(char *argv_splited, t_builtins **builtins) // verificar se tem um traco depois do -n 
 {
 	int i;
-	char **buffer;
 	
 	i = 0;
-	buffer = ft_split(argv, ' ');
-	if (buffer[1] == NULL)
-		(*builtins)->flag = 0;
-	else if (buffer[1][0] == '-' && buffer[1][1] == 'n')
+	if (argv_splited[0] == '-' && argv_splited[1] == 'n')
 	{
-		while (buffer[1][++i])
+		while (argv_splited[++i])
 		{
-			if (buffer[1][i + 1] == ' ' || buffer[1][i + 1] == 'n' || buffer[1][i + 1] == '\0')
+			if (argv_splited[i + 1] == ' ' || argv_splited[i + 1] == 'n' || argv_splited[i + 1] == '\0')
 				(*builtins)->flag = 1;
 			else
 			{
@@ -34,5 +30,10 @@ int verify_flag(char *argv, t_builtins **builtins) // verificar se tem um traco 
 			}
 		}
 	}
-	return (*builtins)->flag;	
 }
+
+void printf_without_n(char **buffer)
+{
+	printf("%s", buffer[1]);
+}
+

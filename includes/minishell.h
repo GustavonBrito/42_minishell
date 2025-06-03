@@ -34,7 +34,8 @@ void	shell_loop(void); // Loop principal aonde o minishell roda
 void	check_exit_condition(char *buffer_received); // funcao para checar se exit foi escrito no terminal.
 void	signal_handler(int signal); // Lida com os sinais UNIX como ctrl c, ctrl d
 void	is_builtin(char *builtin); //Verifica qual builtin foi passado como argumento
-void	echo(char *builtin); // Funcao para implementar a funcao echo
-int		verify_flag(char *argv, t_builtins **builtins); // Verifica se a flag é valida
+void	echo(char *builtin, t_builtins **builtins); // Funcao para implementar a funcao echo
+void	verify_flag(char *argv_splited, t_builtins **builtins); // Verifica se a flag é valida
+void	printf_without_n(char **buffer); // Funcao para printar echo quando tem flag
 
 #endif

@@ -12,23 +12,26 @@
 
 #include "../../includes/minishell.h"
 
-void is_builtin(char *builtin)
+void is_builtin(char *argv)
 {
-	builtin = ft_strtrim(builtin, " ");
+	t_builtins *builtins;
+	argv = ft_strtrim(argv, " ");
 	
-	if (ft_strncmp(builtin, "echo", 4) == 0)
-		echo(builtin);
-	else if (ft_strlen(builtin) == 2 && ft_strncmp(builtin, "cd", 2) == 0)
+	builtins = (t_builtins *)malloc(sizeof(t_builtins));
+	builtins->flag = 0;
+	if (ft_strncmp(argv, "echo", 4) == 0)
+		echo(argv, &builtins);
+	else if (ft_strlen(argv) == 2 && ft_strncmp(argv, "cd", 2) == 0)
 		printf("yep");
-	else if (ft_strlen(builtin) == 3 && ft_strncmp(builtin, "pwd", 3) == 0)
+	else if (ft_strlen(argv) == 3 && ft_strncmp(argv, "pwd", 3) == 0)
 		printf("yep");
-	else if (ft_strlen(builtin) == 6 && ft_strncmp(builtin, "export", 6) == 0)
+	else if (ft_strlen(argv) == 6 && ft_strncmp(argv, "export", 6) == 0)
 		printf("yep");
-	else if (ft_strlen(builtin) == 5 && ft_strncmp(builtin, "unset", 5) == 0)
+	else if (ft_strlen(argv) == 5 && ft_strncmp(argv, "unset", 5) == 0)
 		printf("yep");
-	else if (ft_strlen(builtin) == 3 && ft_strncmp(builtin, "env", 3) == 0)
+	else if (ft_strlen(argv) == 3 && ft_strncmp(argv, "env", 3) == 0)
 		printf("yep");
-	else if (ft_strlen(builtin) == 4 && ft_strncmp(builtin, "exit", 4) == 0)
+	else if (ft_strlen(argv) == 4 && ft_strncmp(argv, "exit", 4) == 0)
 		printf("yep");
 	else
 		printf("nenhum valor corresponde");
