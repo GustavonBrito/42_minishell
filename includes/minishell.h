@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/05/29 23:09:16 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/02 22:47:20 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,18 @@
 #include "../libft/headers/get_next_line.h"
 #include "../libft/headers/ft_printf.h"
 
-void	shell_loop(void);
-void	check_exit_condition(char *buffer_received);
-void	signal_handler(int signal);
+typedef struct s_builtins
+{
+	char	*name; // nome do builtin
+	int		flag;
+	void* (*function)(char **args); // ponteiro para a funcao
+}	t_builtins;
+
+void	shell_loop(void); // Loop principal aonde o minishell roda
+void	check_exit_condition(char *buffer_received); // funcao para checar se exit foi escrito no terminal.
+void	signal_handler(int signal); // Lida com os sinais UNIX como ctrl c, ctrl d
+void	is_builtin(char *builtin); //Verifica qual builtin foi passado como argumento
+void	echo(char *builtin);
+void verify_flag(char *argv, t_builtins **builtins);
 
 #endif

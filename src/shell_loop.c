@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/05/30 21:40:52 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/05/31 01:00:25 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	shell_loop(void)
 		check_exit_condition(buffer_received);
 		if (*buffer_received)
 			add_history(buffer_received);
+		is_builtin(buffer_received);
 		free(buffer_received);
 	}
 }
