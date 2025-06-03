@@ -12,29 +12,27 @@
 
 #include "../../includes/minishell.h"
 
-void verify_flag(char *argv, t_builtins **builtins) // verificar se tem um traco depois do -n 
+int verify_flag(char *argv, t_builtins **builtins) // verificar se tem um traco depois do -n 
 {
 	int i;
 	char **buffer;
 	
-	i = -1;
+	i = 0;
 	buffer = ft_split(argv, ' ');
-	while (buffer[++i])
+	if (buffer[1] == NULL)
+		(*builtins)->flag = 0;
+	else if (buffer[1][0] == '-' && buffer[1][1] == 'n')
 	{
-		if (i == 1 && ft_strncmp(buffer[i], "-n", 2) == 0)
-			break;
-		else
-			(*builtins)->flag = 0;
-	}
-	i = -1;
-	while (buffer[1][++i])
-	{
-		if (buffer[1][i] == '-' && buffer[1][i + 1] == 'n' && (buffer[1][i + 2] == 32 || buffer[1][i + 2] != 32))
+		while (buffer[1][++i])
 		{
-			(*builtins)->flag = 1;
-			break;
+			if (buffer[1][i + 1] == ' ' || buffer[1][i + 1] == 'n' || buffer[1][i + 1] == '\0')
+				(*builtins)->flag = 1;
+			else
+			{
+				(*builtins)->flag = 0;
+				break;
+			}
 		}
-		else
-			break;
 	}
+	return (*builtins)->flag;
 }

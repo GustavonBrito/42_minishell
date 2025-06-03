@@ -16,7 +16,9 @@ void echo(char *argv)
 {
 	t_builtins *builtins;
 
-	builtins = (t_builtins *)malloc(sizeof(t_builtins));	
+	builtins = (t_builtins *)malloc(sizeof(t_builtins));
+	builtins->flag = 0;
+	builtins->name = "echo";
 	verify_flag(argv, &builtins);
 	printf("Flag: %d", builtins->flag);
 }
