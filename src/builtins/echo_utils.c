@@ -6,13 +6,13 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 22:29:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/02 22:53:15 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/03 21:50:15 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void verify_flag(char *argv_splited, t_builtins **builtins) // verificar se tem um traco depois do -n 
+void verify_flag(char *argv_splited, t_builtins **builtins) 
 {
 	int i;
 	
@@ -48,4 +48,3 @@ void printf_without_n(char **buffer)
 		}
 	}
 }
-

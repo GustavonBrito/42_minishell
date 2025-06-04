@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:04:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/01 23:35:29 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/03 22:04:30 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void is_builtin(char *argv)
 	if (ft_strncmp(argv, "echo", 4) == 0)
 		echo(argv, &builtins);
 	else if (ft_strlen(argv) == 2 && ft_strncmp(argv, "cd", 2) == 0)
-		printf("yep");
+		cd(argv);
 	else if (ft_strlen(argv) == 3 && ft_strncmp(argv, "pwd", 3) == 0)
 		printf("yep");
 	else if (ft_strlen(argv) == 6 && ft_strncmp(argv, "export", 6) == 0)
