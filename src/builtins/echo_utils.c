@@ -34,6 +34,18 @@ void verify_flag(char *argv_splited, t_builtins **builtins) // verificar se tem 
 
 void printf_without_n(char **buffer)
 {
-	printf("%s", buffer[1]);
+	int i;
+
+	i = 1;
+	while (1)
+	{
+		if (ft_strnstr(buffer[i], "-n", ft_strlen(buffer[i])) != 0)
+			i++;
+		else
+		{
+			printf("%s", buffer[i]);
+			break;
+		}
+	}
 }
 

@@ -27,7 +27,7 @@ void echo(char *argv, t_builtins **builtins)
 	else
 		verify_flag(buffer[1], builtins);
 	if ((*builtins)->flag == 1)
-		printf_without_n(buffer); //Parei aqui, implementar essa funcao sem o \n
+		printf_without_n(buffer);
 	else
 	{
 		while (buffer[++i])
