@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:35:32 by luiza             #+#    #+#             */
-/*   Updated: 2025/05/30 16:11:37 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/05 01:50:23 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_command	*parse_tokens(t_token *tokens)
 		current_token = current_token->next;
 		if (!current_token)
 		{
-			printf("minishell: syntax error near unexpected token 'newline'\n");
+			ft_printf("minishell: syntax error near unexpected token 'newline'\n");
 			free_commands(first_command);
 			return (NULL);
 		}
@@ -92,7 +92,7 @@ static t_command	*parse_command(t_token **current)
 			*current = (*current)->next;
 			if (!*current || (*current)->type != WORD)
 			{
-				printf("minishell: syntax error near unexpected token\n");
+				ft_printf("minishell: syntax error near unexpected token\n");
 				free_commands(cmd);
 				return (NULL);
 			}

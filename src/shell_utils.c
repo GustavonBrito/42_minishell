@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/05/29 23:08:22 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/05 01:50:23 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	check_exit_condition(char *buffer_received)
 {
 	if (buffer_received == NULL)
 	{
-		printf("exit\n");
+		ft_printf("exit\n");
 		exit(0);
 	}
 	buffer_received = ft_strtrim(buffer_received, " ");
@@ -30,7 +30,7 @@ void	check_exit_condition(char *buffer_received)
 void	signal_handler(int signal)
 {
 	(void)signal;
-	printf("\n");
+	ft_printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

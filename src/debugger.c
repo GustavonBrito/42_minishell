@@ -2,19 +2,22 @@
 #include "../includes/minishell.h"
 #include <stdio.h>
 
-void	print_tokens(t_token *head);
-void	print_commands(t_command *cmd);
+void				print_tokens(t_token *head);
+void				print_commands(t_command *cmd);
+static const char	*get_token_type_name(t_token_type type);
 
 void	print_tokens(t_token *head)
 {
 	t_token	*current;
 
 	current = head;
+	ft_printf("=== TOKENS ===\n");
 	while (current)
 	{
-		ft_printf("Token: %s\n", current->value);
+		ft_printf("Token: '%s' [%s]\n", current->value, get_token_type_name(current->type));
 		current = current->next;
 	}
+	ft_printf("==============\n");
 }
 
 void	print_commands(t_command *cmd)
@@ -29,39 +32,63 @@ void	print_commands(t_command *cmd)
 
 	while (current_command)
 	{
-		printf("=== COMMAND %d ===\n", cmd_num);
-		printf("Args: ");
+		ft_printf("=== COMMAND %d ===\n", cmd_num);
+		ft_printf("Args: ");
 		if (current_command->args)
 		{
 			i = 0;
 			while (current_command->args[i])
 			{
-				printf("'%s' ", current_command->args[i]);
+				ft_printf("'%s' ", current_command->args[i]);
 				i++;
 			}
 		}
-		printf("\n");
-
+		ft_printf("\n");
 		current_redir = current_command->redirs;
 		while (current_redir)
 		{
-			printf("Redir: ");
+			ft_printf("Redir: ");
 			if (current_redir->type == REDIR_IN)
-				printf("< '%s'\n", current_redir->file);
+				ft_printf("< '%s'\n", current_redir->file);
 			else if (current_redir->type == REDIR_OUT)
-				printf("> '%s'\n", current_redir->file);
+				ft_printf("> '%s'\n", current_redir->file);
 			else if (current_redir->type == REDIR_APPEND)
-				printf(">> '%s'\n", current_redir->file);
+				ft_printf(">> '%s'\n", current_redir->file);
 			else if (current_redir->type == HEREDOC)
-				printf("<< '%s'\n", current_redir->file);
+				ft_printf("<< '%s'\n", current_redir->file);
 			current_redir = current_redir->next;
 		}
-
 		current_command = current_command->next;
 		cmd_num++;
-
 		if (current_command)
-			printf("   |\n   V\n");
+			ft_printf("   |\n   V\n");
 	}
-	printf("================\n");
+	ft_printf("================\n");
+}
+
+static const char	*get_token_type_name(t_token_type type)
+{
+	switch (type)
+	{
+		case WORD:
+			return "WORD";
+		case PIPE:
+			return "PIPE";
+		case REDIR_IN:
+			return "REDIR_IN";
+		case REDIR_OUT:
+			return "REDIR_OUT";
+		case REDIR_APPEND:
+			return "REDIR_APPEND";
+		case HEREDOC:
+			return "HEREDOC";
+		case SINGLE_QUOTE:
+			return "SINGLE_QUOTE";
+		case DOUBLE_QUOTE:
+			return "DOUBLE_QUOTE";
+		case VAR:
+			return "VAR";
+		default:
+			return "UNKNOWN";
+	}
 }

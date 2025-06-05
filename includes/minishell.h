@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/04 18:08:25 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/05 01:44:43 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ typedef enum	e_token_type
 	REDIR_IN,
 	REDIR_OUT,
 	REDIR_APPEND,
-	HEREDOC
+	HEREDOC,
+	SINGLE_QUOTE,
+	DOUBLE_QUOTE,
+	VAR
 }	t_token_type;
 
 typedef struct	s_token
@@ -65,6 +68,10 @@ int		ft_isspace(char c);
 int		ft_isop(char c);
 void	add_token(t_token **head, char *input, t_token_type type);
 void	free_tokens(t_token *head);
+
+//lex handlers
+int	handle_quotes(char *input, t_token **token_lst, int i);
+int	handle_var(char *input, t_token **token_lst, int i);
 
 //parsing
 t_command	*parse_tokens(t_token *tokens);

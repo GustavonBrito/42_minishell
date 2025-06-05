@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/05/30 13:46:02 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/05 01:44:43 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ static void	lex_token(char *input)
 	{
 		if (ft_isspace(input[i]))
 			i++;
+		else if (input[i] == '\'' || input[i] == '"')
+			i += handle_quotes(input, &token_lst, i);
+		else if (input[i] == '$')
+			i += handle_var(input, &token_lst, i);
 		else if (ft_isop(input[i]))
 			i += handle_op(input, &token_lst, i);
 		else
@@ -88,13 +92,14 @@ static int	handle_word(char *input, t_token **token_lst, int i)
 	int		len;
 
 	start = i;
-	while (input[i] && !ft_isspace(input[i]) && !ft_isop(input[i]))
+	while (input[i] && !ft_isspace(input[i]) && !ft_isop(input[i])
+			&& input[i] != '\'' && input[i] != '"' && input[i] != '$')
 		i++;
 	len = i - start;
 	word = ft_substr(input, start, len);
 	if (!word)
 		return (len);
-	add_token(token_lst, ft_substr(input, start, i - start), WORD);
+	add_token(token_lst, word, WORD);
 	free (word);
 	return (len);
 }
