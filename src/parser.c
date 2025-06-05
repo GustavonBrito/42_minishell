@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:35:32 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/05 01:50:23 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/05 17:30:20 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,9 @@ static t_command	*parse_command(t_token **current)
 		{
 			t_token_type redir_type = (*current)->type;
 			*current = (*current)->next;
-			if (!*current || (*current)->type != WORD)
+			if (!*current || ((*current)->type != WORD
+				&& (*current)->type != SINGLE_QUOTE
+				&& (*current)->type != DOUBLE_QUOTE))
 			{
 				ft_printf("minishell: syntax error near unexpected token\n");
 				free_commands(cmd);
