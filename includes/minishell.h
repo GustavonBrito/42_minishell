@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/02 22:47:20 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/06 14:28:13 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,11 @@ void	is_builtin(char *builtin); //Verifica qual builtin foi passado como argumen
 void	echo(char *builtin, t_builtins **builtins); // Funcao para implementar a funcao echo
 void	verify_flag(char *argv_splited, t_builtins **builtins); // Verifica se a flag é valida
 void	printf_without_n(char **buffer); // Funcao para printar echo quando tem flag
+void	cd(char *argv, t_builtins **builtins); // Funcao para alterar o diretorio.
+void	env(void);
+void	exit_minishell(void);
+void	export(void);
+void	pwd(void);
+void	unset(void);
 
 #endif

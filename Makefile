@@ -12,7 +12,13 @@ SRCS =	src/main.c \
 		src/shell_utils.c \
 		src/builtins/builtins.c \
 		src/builtins/echo.c \
-		src/builtins/echo_utils.c
+		src/builtins/echo_utils.c\
+		src/builtins/cd.c\
+		src/builtins/env.c\
+		src/builtins/exit.c\
+		src/builtins/export.c\
+		src/builtins/pwd.c\
+		src/builtins/unset.c\
 
 OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
