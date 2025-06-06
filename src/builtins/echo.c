@@ -6,15 +6,16 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:54:36 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/02 22:47:36 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/06 17:34:14 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void echo(char *argv, t_builtins **builtins)
+void echo(char *argv)
 {
 	int i;
+	int flag;
 	char **buffer;
 	
 	i = 0;
@@ -25,8 +26,8 @@ void echo(char *argv, t_builtins **builtins)
 		return ;
 	}
 	else
-		verify_flag(buffer[1], builtins);
-	if ((*builtins)->flag == 1)
+		verify_flag(buffer[1], &flag);
+	if (flag == 1)
 		printf_without_n(buffer);
 	else
 	{
@@ -39,9 +40,3 @@ void echo(char *argv, t_builtins **builtins)
 		printf("\n");
 	}
 }
-
-// Resumo do funcionamento
-// Recebe os argumentos: O texto e as opções são passados para o programa.
-// Processa as opções: Ajusta o comportamento com base em -n.
-// Escreve na saída padrão: Usa chamadas de sistema para imprimir no terminal.
-// Adiciona nova linha: Por padrão, adiciona uma nova linha ao final da saída.

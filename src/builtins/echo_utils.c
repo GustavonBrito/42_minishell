@@ -6,13 +6,13 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 22:29:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/03 21:50:15 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/06 17:35:04 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void verify_flag(char *argv_splited, t_builtins **builtins) 
+void verify_flag(char *argv_splited, int *flag) 
 {
 	int i;
 	
@@ -22,10 +22,10 @@ void verify_flag(char *argv_splited, t_builtins **builtins)
 		while (argv_splited[++i])
 		{
 			if (argv_splited[i + 1] == ' ' || argv_splited[i + 1] == 'n' || argv_splited[i + 1] == '\0')
-				(*builtins)->flag = 1;
+				*flag = 1;
 			else
 			{
-				(*builtins)->flag = 0;
+				*flag = 0;
 				break;
 			}
 		}
