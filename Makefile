@@ -8,16 +8,8 @@ HEADER = -I $(LIBFT_DIR)
 NAME = minishell
 
 SRC_DIR = src/
-SRCS =	$(shell find $(SRC_DIR) -name '*.c') \
-		src/builtins/builtins.c \
-		src/builtins/echo.c \
-		src/builtins/echo_utils.c\
-		src/builtins/cd.c\
-		src/builtins/env.c\
-		src/builtins/exit.c\
-		src/builtins/export.c\
-		src/builtins/pwd.c\
-		src/builtins/unset.c\
+
+SRCS =	$(shell find $(SRC_DIR) -name '*.c')
 
 OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
