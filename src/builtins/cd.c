@@ -6,16 +6,14 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/06 13:19:50 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/06 17:55:16 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//int chdir(const char *path)
-void cd(char *argv, t_builtins **builtins)
+void cd(char *argv)
 {
-	(void) builtins;
 	char **buffer;
 	char *actual_directory;
 	
@@ -31,13 +29,3 @@ void cd(char *argv, t_builtins **builtins)
 	setenv("PWD", actual_directory, 1);
 	free(actual_directory);
 }
-
-// Observações importantes
-
-// chdir() retorna -1 em caso de erro → você deve tratar isso.
-
-// getcwd() te dá o caminho real após o cd (resolvendo .., . etc).
-
-// setenv() atualiza as variáveis visíveis no shell.
-
-//	char *getenv(const char *name);
