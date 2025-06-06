@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/05/30 21:40:37 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/06 15:50:52 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	check_exit_condition(char *buffer_received)
 {
 	if (buffer_received == NULL)
 	{
-		printf("exit\n");
+		ft_printf("exit\n");
 		exit(0);
 	}
 	buffer_received = ft_strtrim(buffer_received, " ");
@@ -33,7 +33,7 @@ void	check_exit_condition(char *buffer_received)
 void	signal_handler(int signal)
 {
 	(void)signal;
-	printf("\n");
+	ft_printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/06 09:38:39 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/06 15:49:11 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ void	shell_loop(void)
 		buffer_received = readline((const char *)relative_path);
 		check_exit_condition(buffer_received);
 		if (*buffer_received)
+		{
 			add_history(buffer_received);
+			process_input(buffer_received);
+		}
 		is_builtin(buffer_received);
 		free(buffer_received);
 		free(current_directory);
