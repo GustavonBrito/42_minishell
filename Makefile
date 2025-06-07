@@ -1,7 +1,7 @@
 CC = cc
 
 LIBFT_DIR = libft
-LIBFT_LIB = $(LIBFT_DIR)/libftprintf.a
+LIBFT_LIB = $(LIBFT_DIR)/libft_gnl_printf.a
 
 HEADER = -I $(LIBFT_DIR)
 
