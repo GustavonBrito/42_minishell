@@ -6,39 +6,50 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/07 02:42:31 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/07 06:41:33 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		process_input(char *input/*, int last_exit*/);
-static void	lex_token(char *input/*, int last_exit*/);
+int			process_input(char *input, int last_exit);
+static int	lex_token(char *input, int last_exit);
 static int	handle_op(char *input, t_token **token_lst, int i);
 static int	handle_word(char *input, t_token **token_lst, int i);
 
-void	process_input(char *input/*, int last_exit*/)
+int	process_input(char *input, int last_exit)
 {
 	if (!input || ft_strlen(input) == 0)
-		return ;
-	lex_token(input/*, last_exit*/);
+		return (last_exit);
+	return (lex_token(input, last_exit));
 }
 
-static void	lex_token(char *input/*, int last_exit*/)
+static int	lex_token(char *input, int last_exit)
 {
 	int			i;
 	t_token		*token_lst;
 	t_command	*commands;
 	t_command	*current_cmd;
+	int			exit_status;
+	int			res;
 
 	i = 0;
 	token_lst = NULL;
+	exit_status = last_exit;
 	while (input[i])
 	{
 		if (ft_isspace(input[i]))
 			i++;
 		else if (input[i] == '\'' || input[i] == '"')
-			i += handle_quotes(input, &token_lst, i);
+		{
+			res = handle_quotes(input, &token_lst, i);
+			if (res == 1)
+			{
+				free_tokens(token_lst);
+				return (1);
+			}
+			i += res;
+		}
 		else if (input[i] == '$')
 			i += handle_var(input, &token_lst, i);
 		else if (ft_isop(input[i]))
@@ -47,20 +58,29 @@ static void	lex_token(char *input/*, int last_exit*/)
 			i += handle_word(input, &token_lst, i);
 	}
 	print_tokens(token_lst);
-	commands = parse_tokens(token_lst/*, last_exit*/);
+	commands = parse_tokens(token_lst);
 	if (commands)
 	{
 		current_cmd = commands;
 		while (current_cmd)
 		{
-			expand_variables(current_cmd/*, last_exit*/);
+			if (expand_variables(current_cmd, last_exit) != 0)
+				exit_status = 1;
 			current_cmd = current_cmd->next;
 		}
-		//print_commands(commands);
+		//TESTERS
+		//lexer OK so far, thus comment: print_commands(commands);
 		print_varsexp(commands);
+		//END TESTERS
+
+		//next-steps: exec call here
+			//this step will update exit status (now just returning 1 if error - line 68 y 81)
 		free_commands(commands);
 	}
+	else
+		exit_status = 1;
 	free_tokens(token_lst);
+	return (exit_status);
 }
 
 static int	handle_op(char *input, t_token **token_lst, int i)

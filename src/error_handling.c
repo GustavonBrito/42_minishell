@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_loop.c                                       :+:      :+:    :+:   */
+/*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/07 03:48:38 by luiza            ###   ########.fr       */
+/*   Created: 2025/06/07 06:28:59 by luiza             #+#    #+#             */
+/*   Updated: 2025/06/07 06:29:55 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	shell_loop(void)
+int	report_error(const char *msg, int exit_code)
 {
-	char	*buffer_received;
-	int		last_exit;
+	ft_printf("minishell: %s\n", msg);
+	return (exit_code);
+}
 
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
-	last_exit = 0;
-	while (1)
-	{
-		buffer_received = readline("minishell$ ");
-		check_exit_condition(buffer_received);
-		if (*buffer_received)
-		{
-			add_history(buffer_received);
-			last_exit = process_input(buffer_received, last_exit);
-		}
-		free(buffer_received);
-	}
+void	critical_error(const char *msg, int exit_code)
+{
+	ft_printf("minishell: %s\n", msg);
+	exit(exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/05 01:50:23 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/07 06:12:29 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,23 @@
 
 void	check_exit_condition(char *buffer_received)
 {
+	char	*trimmed;
+
 	if (buffer_received == NULL)
 	{
 		ft_printf("exit\n");
 		exit(0);
 	}
-	buffer_received = ft_strtrim(buffer_received, " ");
-	if (ft_strlen(buffer_received) == 4 && ft_strncmp(buffer_received, "exit", 4) == 0)
+	trimmed = ft_strtrim(buffer_received, " ");
+	if (!trimmed)
+		return ;
+	if (ft_strlen(trimmed) == 4 && ft_strncmp(trimmed, "exit", 4) == 0)
 	{
-		free(buffer_received);
+		free(trimmed);
+		ft_printf("exit\n");
 		exit(0);
 	}
+	free(trimmed);
 }
 
 void	signal_handler(int signal)

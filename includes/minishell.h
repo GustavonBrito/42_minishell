@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/07 02:42:00 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/07 06:33:21 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	check_exit_condition(char *buffer_received);
 void	signal_handler(int signal);
 
 //lexing
-void	process_input(char *input/*, int last_exit*/);
+int		process_input(char *input, int last_exit);
 int		ft_isspace(char c);
 int		ft_isop(char c);
 void	add_token(t_token **head, char *input, t_token_type type);
@@ -74,12 +74,15 @@ int	handle_quotes(char *input, t_token **token_lst, int i);
 int	handle_var(char *input, t_token **token_lst, int i);
 
 //parsing
-t_command	*parse_tokens(t_token *tokens/*, int last_exit*/);
+t_command	*parse_tokens(t_token *tokens);
 void		free_commands(t_command *cmd);
-void		print_commands(t_command *cmd);
 
 //expand vars
-void	expand_variables(t_command *cmd/*, int last_exit*/);
+int	expand_variables(t_command *cmd, int last_exit);
+
+//error handling
+int	report_error(const char *msg, int exit_code);
+void	critical_error(const char *msg, int exit_code);
 
 // debugs
 void	print_tokens(t_token *head);

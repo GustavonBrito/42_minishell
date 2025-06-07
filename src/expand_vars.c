@@ -6,20 +6,21 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/07 00:40:29 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/07 06:34:09 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		expand_variables(t_command *cmd/*, int last_exit*/);
-static char	*expand_str(const char *str/*, int last_exit*/);
-//static char	*itoa_exit_status(int status);
+int		expand_variables(t_command *cmd, int last_exit);
+static char	*expand_str(const char *str, int last_exit);
+static char	*itoa_exit_status(int status);
 static char	*append_str(char *dest, const char *src);
-static char	*get_env_val(const char *name);
+static char	*itoa_process_id(void);
+static char	*get_env_val(const char *var_name);
 static char	*append_char(char *dest, char c);
 
-void	expand_variables(t_command *cmd/*, int last_exit*/)
+int	expand_variables(t_command *cmd, int last_exit)
 {
 	int		i;
 	char	*expand;
@@ -27,14 +28,17 @@ void	expand_variables(t_command *cmd/*, int last_exit*/)
 	i = 0;
 	while (cmd->args[i])
 	{
-		expand = expand_str(cmd->args[i]/*, last_exit*/);
+		expand = expand_str(cmd->args[i], last_exit);
+		if (!expand)
+			return (report_error("memory allocation error", 1));
 		free(cmd->args[i]);
 		cmd->args[i] = expand;
 		i++;
 	}
+	return (0);
 }
 
-static char	*expand_str(const char *str/*, int last_exit*/)
+static char	*expand_str(const char *str, int last_exit)
 {
 	char	*res;
 	char	var_input[256];
@@ -53,9 +57,30 @@ static char	*expand_str(const char *str/*, int last_exit*/)
 			i_cmd++;
 			if (str[i_cmd] == '?')
 			{
-				//temp = itoa_exit_status(/*last_exit*/);
+				temp = itoa_exit_status(last_exit);
+				if (!temp)
+				{
+					free(res);
+					return (NULL);
+				}
 				res = append_str(res, temp);
 				free(temp);
+				if (!res)
+					return (NULL);
+				i_cmd++;
+			}
+			else if (str[i_cmd] == '$')
+			{
+				temp = itoa_process_id();
+				if (!temp)
+				{
+					free(res);
+					return (NULL);
+				}
+				res = append_str(res, temp);
+				free(temp);
+				if (!res)
+					return (NULL);
 				i_cmd++;
 			}
 			else if (str[i_cmd] && (ft_isalpha(str[i_cmd]) || str[i_cmd] == '_'))
@@ -65,28 +90,46 @@ static char	*expand_str(const char *str/*, int last_exit*/)
 					var_input[i_var++] = str[i_cmd++];
 				var_input[i_var] = '\0';
 				temp = get_env_val(var_input);
+				if (!temp)
+				{
+					free(res);
+					return (NULL);
+				}
 				res = append_str(res, temp);
 				free(temp);
+				if (!res)
+					return (NULL);
 			}
 			else
 				res = append_char(res, '$');
 		}
 		else
+		{
 			res = append_char(res, str[i_cmd++]);
+			if (!res)
+				return (NULL);
+		}
 	}
 	return (res);
 }
 
-/* static char	*itoa_exit_status(int status)
+static char	*itoa_process_id(void)
+{
+	return (ft_itoa(getpid()));
+}
+
+static char	*itoa_exit_status(int status)
 {
 	return (ft_itoa(status));
-} */
+}
 
 static char	*append_str(char *dest, const char *src)
 {
 	char	*new_str;
 	size_t	new_len;
 
+	if (!dest || !src)
+		return (NULL);
 	new_len = ft_strlen(dest) + ft_strlen(src);
 	new_str = malloc(new_len + 1);
 	if (!new_str)
@@ -98,11 +141,11 @@ static char	*append_str(char *dest, const char *src)
 	return (new_str);
 }
 
-static char	*get_env_val(const char *name)
+static char	*get_env_val(const char *var_name)
 {
 	char	*value;
 
-	value = getenv(name);
+	value = getenv(var_name);
 	if (!value)
 		return (ft_strdup(""));
 	return (ft_strdup(value));
@@ -113,6 +156,8 @@ static char	*append_char(char *dest, char c)
 	char	*new_str;
 	size_t	len;
 
+	if (!dest)
+		return (NULL);
 	len = ft_strlen(dest);
 	new_str = malloc(len + 2);
 	if (!new_str)
