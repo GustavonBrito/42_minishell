@@ -6,28 +6,27 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:35:32 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/05 17:30:20 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/07 02:34:42 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_command			*parse_tokens(t_token *tokens);
-static t_command	*parse_command(t_token **current);
-static void			add_argument(t_command *cmd, char *arg, int arg_index);
+t_command			*parse_tokens(t_token *tokens/*, int last_exit*/);
+static t_command	*parse_command(t_token **current/*, int last_exit*/);
 static void			add_redirection(t_command *cmd, t_token_type type, char *file);
 static int			count_args(t_token *start);
 
-t_command	*parse_tokens(t_token *tokens)
+t_command	*parse_tokens(t_token *tokens/*, int last_exit*/)
 {
 	t_command	*first_command;
 	t_command	*current_command;
-	t_token	*current_token;
+	t_token		*current_token;
 
 	if (!tokens)
 		return (NULL);
 	current_token = tokens;
-	first_command = parse_command(&current_token);
+	first_command = parse_command(&current_token/*, last_exit*/);
 	if (!first_command)
 		return (NULL);
 	current_command = first_command;
@@ -40,7 +39,7 @@ t_command	*parse_tokens(t_token *tokens)
 			free_commands(first_command);
 			return (NULL);
 		}
-		current_command->next = parse_command(&current_token);
+		current_command->next = parse_command(&current_token/*, last_exit*/);
 		if (!current_command->next)
 		{
 			free_commands(first_command);
@@ -51,12 +50,12 @@ t_command	*parse_tokens(t_token *tokens)
 	return (first_command);
 }
 
-static t_command	*parse_command(t_token **current)
+static t_command	*parse_command(t_token **current/*, int last_exit*/)
 {
 	t_command	*cmd;
-	int		arg_count;
-	int		arg_index;
-	int		i;
+	int			arg_count;
+	int			arg_index;
+	int			i;
 
 	cmd = malloc(sizeof(t_command));
 	if (!cmd)
@@ -80,9 +79,10 @@ static t_command	*parse_command(t_token **current)
 	arg_index = 0;
 	while (*current && (*current)->type != PIPE)
 	{
-		if ((*current)->type == WORD)
+		if ((*current)->type == WORD || (*current)->type == VAR
+			|| (*current)->type == SINGLE_QUOTE || (*current)->type == DOUBLE_QUOTE)
 		{
-			add_argument(cmd, (*current)->value, arg_index);
+			cmd->args[arg_index] = ft_strdup((*current)->value);
 			arg_index++;
 		}
 		else if ((*current)->type == REDIR_IN || (*current)->type == REDIR_OUT ||
@@ -90,9 +90,10 @@ static t_command	*parse_command(t_token **current)
 		{
 			t_token_type redir_type = (*current)->type;
 			*current = (*current)->next;
-			if (!*current || ((*current)->type != WORD
+			if (!(*current) || ((*current)->type != WORD
 				&& (*current)->type != SINGLE_QUOTE
-				&& (*current)->type != DOUBLE_QUOTE))
+				&& (*current)->type != DOUBLE_QUOTE
+				&& (*current)->type != VAR))
 			{
 				ft_printf("minishell: syntax error near unexpected token\n");
 				free_commands(cmd);
@@ -104,16 +105,6 @@ static t_command	*parse_command(t_token **current)
 	}
 	cmd->args[arg_count] = NULL;
 	return (cmd);
-}
-
-static void	add_argument(t_command *cmd, char *arg, int arg_index)
-{
-	cmd->args[arg_index] = ft_strdup(arg);
-	if (!cmd->args[arg_index])
-	{
-		free_commands(cmd);
-		return ;
-	}
 }
 
 static void	add_redirection(t_command *cmd, t_token_type type, char *file)
@@ -151,7 +142,8 @@ static int	count_args(t_token *start)
 	count = 0;
 	while (start && start->type != PIPE)
 	{
-		if (start->type == WORD)
+		if (start->type == WORD || start->type == VAR ||
+			start->type == SINGLE_QUOTE || start->type == DOUBLE_QUOTE)
 			count++;
 		else if (start->type == REDIR_IN || start->type == REDIR_OUT ||
 				start->type == REDIR_APPEND || start->type == HEREDOC)
