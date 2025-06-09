@@ -6,11 +6,14 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/08 19:28:41 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/09 00:48:51 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	check_exit_condition(char *buffer_received);
+void	signal_handler(int signal);
 
 void	check_exit_condition(char *buffer_received)
 {

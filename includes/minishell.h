@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/06/09 00:16:57 by luiza            ###   ########.fr       */
+=======
+/*   Updated: 2025/06/06 17:31:15 by gustavo-lin      ###   ########.fr       */
+>>>>>>> feat/builtins
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +26,7 @@
 #include "../libft/headers/libft.h"
 #include "../libft/headers/get_next_line.h"
 #include "../libft/headers/ft_printf.h"
+
 
 typedef enum	e_token_type
 {
@@ -64,6 +69,18 @@ extern int	g_exit_status;
 void		shell_loop(void);
 void		check_exit_condition(char *buffer_received);
 void		signal_handler(int signal);
+
+//buitins
+void	is_builtin(char *builtin); //Verifica qual builtin foi passado como argumento
+void 	echo(char *argv); // Funcao para implementar a funcao echo
+void 	verify_flag(char *argv_splited, int *flag); // Verifica se a flag é valida
+void	printf_without_n(char **buffer); // Funcao para printar echo quando tem flag
+void	cd(char *argv); // Funcao para alterar o diretorio.
+void	env(void);
+void	exit_minishell(void);
+void	export(void);
+void	pwd(void);
+void	unset(void);
 
 //lexing
 int		process_input(char *input);

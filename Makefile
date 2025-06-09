@@ -1,13 +1,14 @@
 CC = cc
 
 LIBFT_DIR = libft
-LIBFT_LIB = $(LIBFT_DIR)/libftprintf.a
+LIBFT_LIB = $(LIBFT_DIR)/libft_gnl_printf.a
 
 HEADER = -I $(LIBFT_DIR)
 
 NAME = minishell
 
 SRC_DIR = src/
+
 SRCS =	$(shell find $(SRC_DIR) -name '*.c')
 
 OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
