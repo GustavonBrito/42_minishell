@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/08 19:20:24 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/09 00:23:30 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int			process_input(char *input);
 static int	lex_token(char *input);
+static int	tokenize_input(char *input, t_token **token_lst);
+static int	process_commands(t_command *commands);
 static int	handle_op(char *input, t_token **token_lst, int i);
 static int	handle_word(char *input, t_token **token_lst, int i);
 
@@ -26,65 +28,72 @@ int	process_input(char *input)
 
 static int	lex_token(char *input)
 {
-	int			i;
 	t_token		*token_lst;
 	t_command	*commands;
-	t_command	*current_cmd;
 	int			res;
 
-	i = 0;
 	token_lst = NULL;
+	res = tokenize_input(input, &token_lst);
+	if (res != 0)
+		return (res);
+	//tester print for debbug
+	print_tokens(token_lst);
+	commands = parse_tokens(token_lst);
+	if (!commands)
+	{
+		free_tokens(token_lst);
+		return (1);
+	}
+	res = process_commands(commands);
+	free_commands(commands);
+	free_tokens(token_lst);
+	return (res);
+}
+
+static int	tokenize_input(char *input, t_token **token_lst)
+{
+	int	i;
+	int	res;
+
+	i = 0;
+	res = 0;
 	while (input[i])
 	{
 		if (ft_isspace(input[i]))
 			i++;
 		else if (input[i] == '\'' || input[i] == '"')
 		{
-			res = handle_quotes(input, &token_lst, i);
+			res = handle_quotes(input, token_lst, i);
 			if (res == 1)
 			{
-				free_tokens(token_lst);
+				free_tokens(*token_lst);
 				return (1);
 			}
 			i += res;
 		}
 		else if (input[i] == '$')
-			i += handle_var(input, &token_lst, i);
+			i += handle_var(input, token_lst, i);
 		else if (ft_isop(input[i]))
-			i += handle_op(input, &token_lst, i);
+			i += handle_op(input, token_lst, i);
 		else
-			i += handle_word(input, &token_lst, i);
+			i += handle_word(input, token_lst, i);
 	}
-	print_tokens(token_lst);
-	commands = parse_tokens(token_lst);
-	if (commands)
-	{
-		current_cmd = commands;
-		while (current_cmd)
-		{
-			if (expand_variables(current_cmd) != 0)
-			{
-				free_commands(commands);
-				free_tokens(token_lst);
-				return (1);
-			}
-			current_cmd = current_cmd->next;
-		}
-		//TESTERS
-		//lexer OK so far, thus comment: print_commands(commands);
-		print_varsexp(commands);
-		//END TESTERS
+	return (0);
+}
 
-		//next-steps: exec call here
-			//each execution should update g_exit_status accordingly
-		free_commands(commands);
-	}
-	else
+static int	process_commands(t_command *commands)
+{
+	t_command	*current_cmd;
+
+	current_cmd = commands;
+	while (current_cmd)
 	{
-		free_tokens(token_lst);
-		return (1);
+		if (expand_variables(current_cmd) != 0)
+			return (1);
+		current_cmd = current_cmd->next;
 	}
-	free_tokens(token_lst);
+	//tester print for debbug
+	print_varsexp(commands);
 	return (0);
 }
 

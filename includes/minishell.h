@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/08 22:32:38 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/09 00:16:57 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,28 @@ int	handle_var(char *input, t_token **token_lst, int i);
 
 //parsing
 t_command	*parse_tokens(t_token *tokens);
+int			allocate_command_arrays(t_command *cmd, int arg_count);
+int			fill_command_data(t_command *cmd, t_token **current, int arg_count);
 void		free_commands(t_command *cmd);
+void		free_redirections(t_redir *redirs);
+int			is_argument_token(t_token_type type);
+int			is_redirection_token(t_token_type type);
+int			handle_redirection_parsing(t_command *cmd, t_token **current);
+void		finalize_command_arrays(t_command *cmd, int arg_count);
+void		add_redirection(t_command *cmd, t_token_type type, char *file);
 
 //expand vars
-int	expand_variables(t_command *cmd);
+int		expand_variables(t_command *cmd);
+int		expand_exit_status(char **res);
+int		expand_process_id(char **res);
+int		expand_env_var(const char *str, char **res, int i_cmd);
+char	*itoa_exit_status(void);
+char	*itoa_process_id(void);
+char	*append_str(char *dest, const char *src);
+char	*get_env_val(const char *var_name);
+char	*append_char(char *dest, char c);
+int		handle_dollar_expansion(const char *str, char **res, int i_cmd);
+int		handle_regular_char(const char *str, char **res, int i);
 
 //error handling
 int		report_error(const char *msg, int exit_code);
