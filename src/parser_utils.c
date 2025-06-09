@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:39:52 by luiza             #+#    #+#             */
-/*   Updated: 2025/05/30 13:41:40 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/08 22:36:23 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ void	free_commands(t_command *cmd)
 			}
 			free(cmd->args);
 		}
+		if (cmd->quote_removed)
+				free(cmd->quote_removed);
+		if (cmd->token_types)
+			free(cmd->token_types);
 		free_redirections(cmd->redirs);
 		free(cmd);
 		cmd = temp;

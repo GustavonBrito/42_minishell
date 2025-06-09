@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/08 21:39:23 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/08 22:32:38 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct	s_redir
 typedef struct	s_command
 {
 	char				**args;
+	int					*quote_removed;
+	t_token_type		*token_types;
 	t_redir				*redirs;
 	struct s_command	*next;
 }	t_command;

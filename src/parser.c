@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:35:32 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/07 06:43:32 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/08 22:39:47 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,19 @@ static t_command	*parse_command(t_token **current)
 	if (!cmd)
 		return (NULL);
 	cmd->args = NULL;
+	cmd->quote_removed = NULL;
+	cmd->token_types = NULL;
 	cmd->redirs = NULL;
 	cmd->next = NULL;
 	arg_count = count_args(*current);
 	cmd->args = malloc(sizeof(char *) * (arg_count + 1));
-	if (!cmd->args)
+	cmd->quote_removed = malloc(sizeof(int) * (arg_count + 1));
+	cmd->token_types = malloc(sizeof(t_token_type) * (arg_count + 1));
+	if (!cmd->args || !cmd->quote_removed || !cmd->token_types)
 	{
+		if (cmd->args) free(cmd->args);
+		if (cmd->quote_removed) free(cmd->quote_removed);
+		if (cmd->token_types) free(cmd->token_types);
 		free(cmd);
 		return (NULL);
 	}
@@ -74,6 +81,8 @@ static t_command	*parse_command(t_token **current)
 	while (i <= arg_count)
 	{
 		cmd->args[i] = NULL;
+		cmd->quote_removed[i] = 0;
+		cmd->token_types[i] = WORD;
 		i++;
 	}
 	arg_index = 0;
@@ -83,6 +92,8 @@ static t_command	*parse_command(t_token **current)
 			|| (*current)->type == SINGLE_QUOTE || (*current)->type == DOUBLE_QUOTE)
 		{
 			cmd->args[arg_index] = ft_strdup((*current)->value);
+			cmd->quote_removed[arg_index] = 1;
+			cmd->token_types[arg_index] = (*current)->type;
 			arg_index++;
 		}
 		else if ((*current)->type == REDIR_IN || (*current)->type == REDIR_OUT ||
@@ -104,6 +115,8 @@ static t_command	*parse_command(t_token **current)
 		*current = (*current)->next;
 	}
 	cmd->args[arg_count] = NULL;
+	cmd->quote_removed[arg_count] = 0;
+	cmd->token_types[arg_count] = WORD;
 	return (cmd);
 }
 

@@ -6,14 +6,14 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/08 19:27:38 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/08 22:29:46 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 int			expand_variables(t_command *cmd);
-static char	*expand_str(const char *str);
+static char	*expand_str(const char *str, int expand_check);
 static char	*itoa_exit_status(void);
 static char	*append_str(char *dest, const char *src);
 static char	*itoa_process_id(void);
@@ -24,11 +24,13 @@ int	expand_variables(t_command *cmd)
 {
 	int		i;
 	char	*expand;
+	int		expand_check;
 
 	i = 0;
 	while (cmd->args[i])
 	{
-		expand = expand_str(cmd->args[i]);
+		expand_check = (cmd->token_types && cmd->token_types[i] != SINGLE_QUOTE);
+		expand = expand_str(cmd->args[i], expand_check);
 		if (!expand)
 			return (report_error("memory allocation error", 1));
 		free(cmd->args[i]);
@@ -38,7 +40,7 @@ int	expand_variables(t_command *cmd)
 	return (0);
 }
 
-static char	*expand_str(const char *str)
+static char	*expand_str(const char *str, int expand_check)
 {
 	char	*res;
 	char	var_input[256];
@@ -52,7 +54,7 @@ static char	*expand_str(const char *str)
 	i_cmd = 0;
 	while (str[i_cmd])
 	{
-		if (str[i_cmd] == '$')
+		if (str[i_cmd] == '$' && expand_check)
 		{
 			i_cmd++;
 			if (str[i_cmd] == '?')
