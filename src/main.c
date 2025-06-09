@@ -3,17 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:45:31 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/05/28 23:08:58 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/08 21:34:52 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int main(void)
+int g_exit_status;
+
+int	main(void)
 {
+	g_exit_status = 0;
 	shell_loop();
 	return(0);
 }

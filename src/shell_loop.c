@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/07 03:48:38 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/08 21:39:57 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 void	shell_loop(void)
 {
 	char	*buffer_received;
-	int		last_exit;
 
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-	last_exit = 0;
 	while (1)
 	{
 		buffer_received = readline("minishell$ ");
@@ -27,7 +25,8 @@ void	shell_loop(void)
 		if (*buffer_received)
 		{
 			add_history(buffer_received);
-			last_exit = process_input(buffer_received, last_exit);
+			g_exit_status = process_input(buffer_received);
+			print_exit_status();
 		}
 		free(buffer_received);
 	}

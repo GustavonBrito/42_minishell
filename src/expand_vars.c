@@ -6,21 +6,21 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/07 06:34:09 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/08 19:27:38 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		expand_variables(t_command *cmd, int last_exit);
-static char	*expand_str(const char *str, int last_exit);
-static char	*itoa_exit_status(int status);
+int			expand_variables(t_command *cmd);
+static char	*expand_str(const char *str);
+static char	*itoa_exit_status(void);
 static char	*append_str(char *dest, const char *src);
 static char	*itoa_process_id(void);
 static char	*get_env_val(const char *var_name);
 static char	*append_char(char *dest, char c);
 
-int	expand_variables(t_command *cmd, int last_exit)
+int	expand_variables(t_command *cmd)
 {
 	int		i;
 	char	*expand;
@@ -28,7 +28,7 @@ int	expand_variables(t_command *cmd, int last_exit)
 	i = 0;
 	while (cmd->args[i])
 	{
-		expand = expand_str(cmd->args[i], last_exit);
+		expand = expand_str(cmd->args[i]);
 		if (!expand)
 			return (report_error("memory allocation error", 1));
 		free(cmd->args[i]);
@@ -38,7 +38,7 @@ int	expand_variables(t_command *cmd, int last_exit)
 	return (0);
 }
 
-static char	*expand_str(const char *str, int last_exit)
+static char	*expand_str(const char *str)
 {
 	char	*res;
 	char	var_input[256];
@@ -57,7 +57,7 @@ static char	*expand_str(const char *str, int last_exit)
 			i_cmd++;
 			if (str[i_cmd] == '?')
 			{
-				temp = itoa_exit_status(last_exit);
+				temp = itoa_exit_status();
 				if (!temp)
 				{
 					free(res);
@@ -118,9 +118,9 @@ static char	*itoa_process_id(void)
 	return (ft_itoa(getpid()));
 }
 
-static char	*itoa_exit_status(int status)
+static char	*itoa_exit_status(void)
 {
-	return (ft_itoa(status));
+	return (ft_itoa(g_exit_status));
 }
 
 static char	*append_str(char *dest, const char *src)

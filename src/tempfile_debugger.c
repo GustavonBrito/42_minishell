@@ -6,6 +6,7 @@ void				print_tokens(t_token *head);
 //void				print_commands(t_command *cmd);
 void				print_varsexp(t_command *cmd);
 static const char	*get_token_type_name(t_token_type type);
+void				print_exit_status(void);
 
 void	print_tokens(t_token *head)
 {
@@ -97,6 +98,7 @@ void	print_varsexp(t_command *cmd)
 			ft_printf("   |\n   V\n");
 	}
 	ft_printf("================\n");
+	
 }
 
 static const char	*get_token_type_name(t_token_type type)
@@ -124,4 +126,11 @@ static const char	*get_token_type_name(t_token_type type)
 		default:
 			return "UNKNOWN";
 	}
+}
+
+void	print_exit_status(void)
+{
+    ft_printf("=== FT TESTER EXIT_STATUS ===\n");
+    ft_printf("Current g_exit_status: %d\n", g_exit_status);
+    ft_printf("============================\n");
 }
