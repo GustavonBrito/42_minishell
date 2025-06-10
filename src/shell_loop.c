@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/06 21:00:37 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/09 23:59:26 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ void	shell_loop(void)
 		directory_splited = ft_split(current_directory, '/');
 		relative_path = obtain_current_directory(directory_splited, current_directory);
 		buffer_received = readline((const char *)relative_path);
+		check_exit_condition(buffer_received);
 		if (*buffer_received)
 		{
 			add_history(buffer_received);
-			check_exit_condition(buffer_received);
 			process_input(buffer_received);
 			is_builtin(buffer_received);
 		}

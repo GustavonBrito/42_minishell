@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/06 17:31:15 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/10 00:43:52 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 #include "../libft/headers/libft.h"
 #include "../libft/headers/get_next_line.h"
 #include "../libft/headers/ft_printf.h"
-
 
 typedef enum	e_token_type
 {
@@ -68,7 +67,7 @@ void	printf_without_n(char **buffer); // Funcao para printar echo quando tem fla
 void	cd(char *argv); // Funcao para alterar o diretorio.
 void	env(void);
 void	exit_minishell(void);
-void	export(void);
+void	export(char *argv);
 void	pwd(void);
 void	unset(void);
 
