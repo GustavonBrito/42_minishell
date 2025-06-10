@@ -6,11 +6,11 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/09 00:23:30 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/10 20:05:34 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int			process_input(char *input);
 static int	lex_token(char *input);
