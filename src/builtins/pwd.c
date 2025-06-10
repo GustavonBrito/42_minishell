@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:31 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/06 14:22:48 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/10 00:01:59 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void pwd(void)
 {
-	
+	printf("%s", getenv("PWD"));
 }
