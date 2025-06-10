@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:04:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/10 19:50:21 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/10 20:16:45 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ void is_builtin(char *argv)
 	else if (ft_strncmp(argv, "exit", 4) == 0 && (argv[4] == ' ' || argv[4] == '\0'))
 		exit_minishell();
 	else
-		printf("nenhum valor corresponde");
+		printf("no matching value\n");
 }
 
