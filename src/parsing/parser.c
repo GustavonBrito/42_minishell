@@ -6,11 +6,11 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:35:32 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/09 00:18:27 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/10 19:52:06 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 t_command			*parse_tokens(t_token *tokens);
 static t_command	*parse_command(t_token **current);

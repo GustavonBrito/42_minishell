@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:04:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/06 17:31:43 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/10 19:50:21 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void is_builtin(char *argv)
 {
 	argv = ft_strtrim(argv, " ");
-	
+
 	if (ft_strncmp(argv, "echo", 4) == 0 && (argv[4] == ' ' || argv[4] == '\0'))
 		echo(argv);
 	else if (ft_strncmp(argv, "cd", 2) == 0 && (argv[2] == ' ' || argv[2] == '\0'))

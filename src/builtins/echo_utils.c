@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 22:29:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/06 17:35:04 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/10 19:50:36 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-void verify_flag(char *argv_splited, int *flag) 
+void verify_flag(char *argv_splited, int *flag)
 {
 	int i;
-	
+
 	i = 0;
 	if (argv_splited[0] == '-' && argv_splited[1] == 'n')
 	{

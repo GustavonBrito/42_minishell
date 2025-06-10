@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:54:36 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/06 17:34:14 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/10 19:50:44 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void echo(char *argv)
 {
 	int i;
 	int flag;
 	char **buffer;
-	
+
 	i = 0;
 	buffer = ft_split(argv, ' ');
 	if (buffer[1] == NULL)

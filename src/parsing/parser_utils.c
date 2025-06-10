@@ -6,11 +6,11 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:39:52 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/09 00:18:53 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/10 19:51:58 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int		allocate_command_arrays(t_command *cmd, int arg_count);
 int		fill_command_data(t_command *cmd, t_token **current, int arg_count);

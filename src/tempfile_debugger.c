@@ -1,6 +1,5 @@
 
-#include "../includes/minishell.h"
-#include <stdio.h>
+#include "minishell.h"
 
 void				print_tokens(t_token *head);
 //void				print_commands(t_command *cmd);
@@ -98,7 +97,7 @@ void	print_varsexp(t_command *cmd)
 			ft_printf("   |\n   V\n");
 	}
 	ft_printf("================\n");
-	
+
 }
 
 static const char	*get_token_type_name(t_token_type type)
