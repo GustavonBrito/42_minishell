@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/09 00:52:51 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/11 00:50:50 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
 #include "../libft/headers/libft.h"
 #include "../libft/headers/get_next_line.h"
 #include "../libft/headers/ft_printf.h"
@@ -113,6 +115,23 @@ char	*get_env_val(const char *var_name);
 char	*append_char(char *dest, char c);
 int		handle_dollar_expansion(const char *str, char **res, int i_cmd);
 int		handle_regular_char(const char *str, char **res, int i);
+
+//redirs
+int		setup_redirections(t_command *cmd);
+int		handle_input_redirection(t_redir *redir);
+int		handle_output_redirection(t_redir *redir);
+int		handle_append_redirection(t_redir *redir);
+int		handle_heredoc(t_redir *redir);
+int		create_heredoc_file(char *delimiter);
+void	restore_std_fds(int saved_stdin, int saved_stdout);
+
+//exec
+int		execute_command(t_command *cmd);
+int		execute_builtin_with_redirections(t_command *cmd);
+int		execute_external_command(t_command *cmd);
+void	handle_command_execution(t_command *cmd);
+void	handle_command_execution(t_command *cmd);
+int		is_builtin_command(char *cmd);
 
 //error handling
 int		report_error(const char *msg, int exit_code);
