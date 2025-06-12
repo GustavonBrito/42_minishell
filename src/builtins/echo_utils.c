@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 22:29:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/06 17:35:04 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/11 23:36:01 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void printf_without_n(char **buffer)
 			i++;
 		else
 		{
-			printf("%s", buffer[i]);
+			ft_printf("%s", buffer[i]);
 			break;
 		}
 	}
