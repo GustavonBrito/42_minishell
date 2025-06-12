@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:54:36 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/06 17:34:14 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/11 13:41:08 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void echo(char *argv)
 	buffer = ft_split(argv, ' ');
 	if (buffer[1] == NULL)
 	{
-		printf("\n");
+		ft_printf("\n");
 		return ;
 	}
 	else
@@ -34,9 +34,9 @@ void echo(char *argv)
 		while (buffer[++i])
 		{
 			if (i >= 2)
-				printf(" ");
-			printf("%s", buffer[i]);
+				ft_printf(" ");
+			ft_printf("%s", buffer[i]);
 		}
-		printf("\n");
+		ft_printf("\n");
 	}
 }
