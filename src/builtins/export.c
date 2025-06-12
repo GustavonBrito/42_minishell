@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/10 00:45:16 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/11 16:47:39 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,16 @@
 
 void export(char *argv)
 {
-	int j;
-	int i;
 	char **buffer;
 	char **sub_buffer;
 	
-	i = -1;
 	buffer = ft_split(argv, ' ');
-	while(buffer[++i])
+	if (buffer[1] == NULL)
+		env(1);
+	else
 	{
-		j = -1;
-		while (buffer[i][++j])
-		{
-			if (buffer[i][++j + 1] == '=')
-			{
-				sub_buffer = ft_split(buffer[1],  '=');
-				break;
-			}
-		}
-		if (buffer[i][++j + 1] == '=')
-			break;
+		sub_buffer = ft_split(buffer[1], '=');
+		setenv(sub_buffer[0], sub_buffer[1], 1);
+		ft_printf("Created env %s\n", getenv(sub_buffer[0]));
 	}
-	setenv(sub_buffer[0], sub_buffer[1], 1);
-	printf("Env criada agora %s", getenv(sub_buffer[0]));
 }
