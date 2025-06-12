@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:26 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/06 14:26:21 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/11 12:09:47 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void exit_minishell(void)
 {
-	
+	exit(0);
 }
