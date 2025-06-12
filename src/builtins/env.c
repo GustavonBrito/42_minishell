@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/06 14:22:21 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/11 11:29:11 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,12 @@
 
 void env(void)
 {
-	
+	extern char **environ;
+	int i;
+
+	i = -1;
+	while (environ[++i])
+	{
+		printf("%s\n", environ[i]);
+	}
 }
