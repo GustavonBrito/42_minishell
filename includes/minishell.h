@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/10 00:43:52 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/11 16:45:13 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ void 	echo(char *argv); // Funcao para implementar a funcao echo
 void 	verify_flag(char *argv_splited, int *flag); // Verifica se a flag é valida
 void	printf_without_n(char **buffer); // Funcao para printar echo quando tem flag
 void	cd(char *argv); // Funcao para alterar o diretorio.
-void	env(void);
+void	env(int is_export);
 void	exit_minishell(void);
 void	export(char *argv);
 void	pwd(void);
-void	unset(void);
+void	unset(char *argv);
 
 //lexing
 void	process_input(char *input);
