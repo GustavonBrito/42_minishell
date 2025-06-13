@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_utils.c                                      :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/11 13:51:13 by gustavo-lin      ###   ########.fr       */
+/*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2025/06/11 16:47:39 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	check_exit_condition(char *buffer_received);
-void	signal_handler(int signal);
-
-void	check_exit_condition(char *buffer_received)
+void export(char *argv)
 {
-	if (buffer_received == NULL)
+	char **buffer;
+	char **sub_buffer;
+	
+	buffer = ft_split(argv, ' ');
+	if (buffer[1] == NULL)
+		env(1);
+	else
 	{
-		ft_printf("exit\n");
-		exit(0);
+		sub_buffer = ft_split(buffer[1], '=');
+		setenv(sub_buffer[0], sub_buffer[1], 1);
+		ft_printf("Created env %s\n", getenv(sub_buffer[0]));
 	}
-}
-
-void	signal_handler(int signal)
-{
-	(void)signal;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
 }

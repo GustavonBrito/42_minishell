@@ -1,34 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_utils.c                                      :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/11 13:51:13 by gustavo-lin      ###   ########.fr       */
+/*   Created: 2025/05/31 10:54:36 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2025/06/11 13:41:08 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	check_exit_condition(char *buffer_received);
-void	signal_handler(int signal);
-
-void	check_exit_condition(char *buffer_received)
+void echo(char *argv)
 {
-	if (buffer_received == NULL)
+	int i;
+	int flag;
+	char **buffer;
+	
+	i = 0;
+	buffer = ft_split(argv, ' ');
+	if (buffer[1] == NULL)
 	{
-		ft_printf("exit\n");
-		exit(0);
+		ft_printf("\n");
+		return ;
 	}
-}
-
-void	signal_handler(int signal)
-{
-	(void)signal;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	else
+		verify_flag(buffer[1], &flag);
+	if (flag == 1)
+		printf_without_n(buffer);
+	else
+	{
+		while (buffer[++i])
+		{
+			if (i >= 2)
+				ft_printf(" ");
+			ft_printf("%s", buffer[i]);
+		}
+		ft_printf("\n");
+	}
 }

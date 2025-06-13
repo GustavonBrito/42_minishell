@@ -19,7 +19,7 @@ OBJS = $(SRCS:.c=.o)
 
 CFLAGS = -Werror -Wall -Wextra $(foreach dir, $(HEADER), -I$(dir))
 
-NAME = libftprintf.a
+NAME = libft_gnl_printf.a
 
 all: $(NAME)
 
