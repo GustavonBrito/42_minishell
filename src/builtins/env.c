@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/11 23:05:44 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/13 11:07:05 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,6 @@ void env(int is_export)
 	else
 	{
 		while (environ[++i])
-			ft_printf("\"%s\"\n", environ[i]);
+			ft_printf("%s\n", environ[i]);
 	}
 }
