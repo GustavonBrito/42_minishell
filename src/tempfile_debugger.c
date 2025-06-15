@@ -16,7 +16,8 @@ void	print_tokens(t_token *head)
 	ft_printf("=== TOKENS ===\n");
 	while (current)
 	{
-		ft_printf("Token: '%s' [%s]\n", current->value, get_token_type_name(current->type));
+		ft_printf("Token: '%s' [%s]\n", current->value, get_token_type_name
+			(current->type));
 		current = current->next;
 	}
 	ft_printf("==============\n");

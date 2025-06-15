@@ -6,29 +6,34 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/14 22:44:02 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:13:07 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void cd(char *argv)
+void	cd(char **argv)
 {
-	char 	**buffer;
-	char 	*home;
+	char	*home;
 	char	*actual_directory;
+	char	*target_dir;
 
-	buffer = ft_split(argv, ' ');
-	if (buffer[1] == NULL)
+	if (!argv[1])
 	{
-		home = malloc(sizeof(char) * ft_strlen(getenv("HOME")) + 1);
-		ft_strlcpy(home, getenv("HOME"), ft_strlen(getenv("HOME") + 1));
-		chdir(home);
-		free(home);
+		home = getenv("HOME");
+		if (!home)
+		{
+			ft_printf("cd: HOME not set\n");
+			return ;
+		}
+		target_dir = home;
 	}
-	if (chdir(buffer[1]) == -1)
+	else
+		target_dir = argv[1];
+
+	if (chdir(argv[1]) == -1)
 	{
-		ft_printf("No such file or directory: %s\n", buffer[1]);
+		ft_printf("No such file or directory: %s\n", target_dir);
 		return ;
 	}
 	actual_directory = getcwd(NULL, 0);

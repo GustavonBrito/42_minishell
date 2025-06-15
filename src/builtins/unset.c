@@ -6,16 +6,17 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/14 22:46:08 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:23:29 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void unset(char *argv)
+void	unset(char **argv)
 {
-	char **buffer;
+	int	i;
 
-	buffer = ft_split(argv, ' ');
-	unsetenv(buffer[1]);
+	i = 1;
+	while (argv[i])
+		unsetenv(argv[i++]);
 }

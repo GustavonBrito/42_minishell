@@ -6,13 +6,13 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:31 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/14 22:46:02 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 00:44:42 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void pwd(void)
+void	pwd(void)
 {
 	ft_printf("%s\n", getenv("PWD"));
 }
