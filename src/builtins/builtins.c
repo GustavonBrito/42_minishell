@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:04:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/10 20:16:45 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/14 22:43:02 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,13 @@ void is_builtin(char *argv)
 	else if (ft_strncmp(argv, "pwd", 3) == 0 && (argv[3] == ' ' || argv[3] == '\0'))
 		pwd();
 	else if (ft_strncmp(argv, "export", 6) == 0 && (argv[6] == ' ' || argv[6] == '\0'))
-		export();
+		export(argv);
 	else if (ft_strncmp(argv, "unset", 5) == 0 && (argv[5] == ' ' || argv[5] == '\0'))
-		unset();
+		unset(argv);
 	else if (ft_strncmp(argv, "env", 3) == 0 && (argv[3] == ' ' || argv[3] == '\0'))
-		env();
+		env(0);
 	else if (ft_strncmp(argv, "exit", 4) == 0 && (argv[4] == ' ' || argv[4] == '\0'))
 		exit_minishell();
 	else
-		printf("no matching value\n");
+		return ;
 }
-

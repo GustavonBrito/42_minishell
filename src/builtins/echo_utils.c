@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 22:29:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/10 19:50:36 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/14 22:44:49 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void printf_without_n(char **buffer)
 			i++;
 		else
 		{
-			printf("%s", buffer[i]);
+			ft_printf("%s", buffer[i]);
 			break;
 		}
 	}

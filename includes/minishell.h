@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/11 00:50:50 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/14 22:41:59 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 #include "../libft/headers/libft.h"
 #include "../libft/headers/get_next_line.h"
 #include "../libft/headers/ft_printf.h"
-
 
 typedef enum	e_token_type
 {
@@ -74,11 +73,11 @@ void 	echo(char *argv); // Funcao para implementar a funcao echo
 void 	verify_flag(char *argv_splited, int *flag); // Verifica se a flag é valida
 void	printf_without_n(char **buffer); // Funcao para printar echo quando tem flag
 void	cd(char *argv); // Funcao para alterar o diretorio.
-void	env(void);
+void	env(int is_export);
 void	exit_minishell(void);
-void	export(void);
+void	export(char *argv);
 void	pwd(void);
-void	unset(void);
+void	unset(char *argv);
 
 //lexing
 int		process_input(char *input);

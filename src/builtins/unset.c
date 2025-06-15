@@ -6,13 +6,16 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/10 19:51:16 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/14 22:46:08 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void unset(void)
+void unset(char *argv)
 {
+	char **buffer;
 
+	buffer = ft_split(argv, ' ');
+	unsetenv(buffer[1]);
 }
