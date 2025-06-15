@@ -6,29 +6,30 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:04:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/14 22:43:02 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 00:15:59 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void is_builtin(char *argv)
+void	is_builtin(char **argv)
 {
-	argv = ft_strtrim(argv, " ");
+	if (!argv || !argv[0])
+		return ;
 
-	if (ft_strncmp(argv, "echo", 4) == 0 && (argv[4] == ' ' || argv[4] == '\0'))
+	if (ft_strncmp(argv[0], "echo", 4) == 0 && (argv[0][4] == ' ' || argv[0][4] == '\0'))
 		echo(argv);
-	else if (ft_strncmp(argv, "cd", 2) == 0 && (argv[2] == ' ' || argv[2] == '\0'))
-		cd(argv);
-	else if (ft_strncmp(argv, "pwd", 3) == 0 && (argv[3] == ' ' || argv[3] == '\0'))
+	else if (ft_strncmp(argv[0], "cd", 2) == 0 && (argv[0][2] == ' ' || argv[0][2] == '\0'))
+		cd(argv[1]);
+	else if (ft_strncmp(argv[0], "pwd", 3) == 0 && (argv[0][3] == ' ' || argv[0][3] == '\0'))
 		pwd();
-	else if (ft_strncmp(argv, "export", 6) == 0 && (argv[6] == ' ' || argv[6] == '\0'))
-		export(argv);
-	else if (ft_strncmp(argv, "unset", 5) == 0 && (argv[5] == ' ' || argv[5] == '\0'))
-		unset(argv);
-	else if (ft_strncmp(argv, "env", 3) == 0 && (argv[3] == ' ' || argv[3] == '\0'))
+	else if (ft_strncmp(argv[0], "export", 6) == 0 && (argv[0][6] == ' ' || argv[0][6] == '\0'))
+		export(argv[1]);
+	else if (ft_strncmp(argv[0], "unset", 5) == 0 && (argv[0][5] == ' ' || argv[0][5] == '\0'))
+		unset(argv[1]);
+	else if (ft_strncmp(argv[0], "env", 3) == 0 && (argv[0][3] == ' ' || argv[0][3] == '\0'))
 		env(0);
-	else if (ft_strncmp(argv, "exit", 4) == 0 && (argv[4] == ' ' || argv[4] == '\0'))
+	else if (ft_strncmp(argv[0], "exit", 4) == 0 && (argv[0][4] == ' ' || argv[0][4] == '\0'))
 		exit_minishell();
 	else
 		return ;

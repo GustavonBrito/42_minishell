@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/11 00:42:20 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 00:34:07 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	lex_token(char *input)
 	if (res != 0)
 		return (res);
 	//tester print for debbug
-	print_tokens(token_lst);
+	//print_tokens(token_lst);
 	commands = parse_tokens(token_lst);
 	if (!commands)
 	{
@@ -93,7 +93,7 @@ static int	process_commands(t_command *commands)
 		current_cmd = current_cmd->next;
 	}
 	//tester print for debbug
-	print_varsexp(commands);
+	//print_varsexp(commands);
 	handle_command_execution(commands);
 	return (0);
 }

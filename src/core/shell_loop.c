@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/14 22:48:13 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 00:33:52 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ void	shell_loop(void)
 		{
 			add_history(buffer_received);
 			g_exit_status = process_input(buffer_received);
-			is_builtin(buffer_received);
-			print_exit_status();
+			//print_exit_status();
 		}
 		free(buffer_received);
 		free(current_directory);

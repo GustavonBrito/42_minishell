@@ -1,4 +1,4 @@
-
+/*
 #include "minishell.h"
 
 void				print_tokens(t_token *head);
@@ -22,7 +22,7 @@ void	print_tokens(t_token *head)
 	ft_printf("==============\n");
 }
 
-/* void	print_commands(t_command *cmd)
+void	print_commands(t_command *cmd)
 {
 	t_command	*current_command;
 	t_redir	*current_redir;
@@ -66,7 +66,7 @@ void	print_tokens(t_token *head)
 			ft_printf("   |\n   V\n");
 	}
 	ft_printf("================\n");
-} */
+}
 
 void	print_varsexp(t_command *cmd)
 {
@@ -133,3 +133,4 @@ void	print_exit_status(void)
     ft_printf("Current g_exit_status: %d\n", g_exit_status);
     ft_printf("============================\n");
 }
+ */

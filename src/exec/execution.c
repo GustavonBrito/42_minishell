@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/11 00:40:34 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 00:30:04 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int		execute_command(t_command *cmd);
 int		execute_builtin_with_redirections(t_command *cmd);
 int		execute_external_command(t_command *cmd);
 void	handle_command_execution(t_command *cmd);
+int		is_builtin_command(char *cmd);
 
 int	execute_command(t_command *cmd)
 {
@@ -44,31 +45,9 @@ int	execute_command(t_command *cmd)
 
 int	execute_builtin_with_redirections(t_command *cmd)
 {
-	char	*command_line;
-	int		i;
-	int		total_len;
-
-	total_len = 0;
-	i = 0;
-	while (cmd->args[i])
-	{
-		total_len += ft_strlen(cmd->args[i]) + 1;
-		i++;
-	}
-	command_line = malloc(total_len + 1);
-	if (!command_line)
+	if (!cmd || !cmd->args || !cmd->args[0])
 		return (1);
-	command_line[0] = '\0';
-	i = 0;
-	while (cmd->args[i])
-	{
-		ft_strlcat(command_line, cmd->args[i], total_len + 1);
-		if (cmd->args[i + 1])
-			ft_strlcat(command_line, " ", total_len + 1);
-		i++;
-	}
-	is_builtin(command_line);
-	free(command_line);
+	is_builtin(cmd->args);
 	return (0);
 }
 
@@ -117,23 +96,21 @@ void	handle_command_execution(t_command *cmd)
 
 int	is_builtin_command(char *cmd)
 {
-	if (!cmd)
+	char *trimmed;
+	int   result;
+
+	trimmed = ft_strtrim(cmd, " ");
+	if (!trimmed)
 		return (0);
 
-	if (ft_strncmp(cmd, "echo", 4) == 0 && (cmd[4] == '\0'))
-		return (1);
-	else if (ft_strncmp(cmd, "cd", 2) == 0 && (cmd[2] == '\0'))
-		return (1);
-	else if (ft_strncmp(cmd, "pwd", 3) == 0 && (cmd[3] == '\0'))
-		return (1);
-	else if (ft_strncmp(cmd, "export", 6) == 0 && (cmd[6] == '\0'))
-		return (1);
-	else if (ft_strncmp(cmd, "unset", 5) == 0 && (cmd[5] == '\0'))
-		return (1);
-	else if (ft_strncmp(cmd, "env", 3) == 0 && (cmd[3] == '\0'))
-		return (1);
-	else if (ft_strncmp(cmd, "exit", 4) == 0 && (cmd[4] == '\0'))
-		return (1);
+	result = (ft_strncmp(trimmed, "echo", 4) == 0 && (trimmed[4] == ' ' || trimmed[4] == '\0'))
+		|| (ft_strncmp(trimmed, "cd", 2) == 0 && (trimmed[2] == ' ' || trimmed[2] == '\0'))
+		|| (ft_strncmp(trimmed, "pwd", 3) == 0 && (trimmed[3] == ' ' || trimmed[3] == '\0'))
+		|| (ft_strncmp(trimmed, "export", 6) == 0 && (trimmed[6] == ' ' || trimmed[6] == '\0'))
+		|| (ft_strncmp(trimmed, "unset", 5) == 0 && (trimmed[5] == ' ' || trimmed[5] == '\0'))
+		|| (ft_strncmp(trimmed, "env", 3) == 0 && (trimmed[3] == ' ' || trimmed[3] == '\0'))
+		|| (ft_strncmp(trimmed, "exit", 4) == 0 && (trimmed[4] == ' ' || trimmed[4] == '\0'));
 
-	return (0);
+	free(trimmed);
+	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/14 22:48:43 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 00:29:34 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	signal_handler(int signal);
 
 void	check_exit_condition(char *buffer_received)
 {
-	char	*trimmed;
 
 	if (buffer_received == NULL)
 	{
