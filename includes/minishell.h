@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 00:31:33 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:26:31 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ void		signal_handler(int signal);
 void	is_builtin(char **builtin); //Verifica qual builtin foi passado como argumento
 void	echo(char **argv); // Funcao para implementar a funcao echo
 void 	verify_flag(char *argv_splited, int *flag); // Verifica se a flag é valida
-void	printf_without_n(char **buffer); // Funcao para printar echo quando tem flag
-void	cd(char *argv); // Funcao para alterar o diretorio.
+//void	printf_without_n(char **buffer); // Funcao para printar echo quando tem flag
+void	cd(char **argv); // Funcao para alterar o diretorio.
 void	env(int is_export);
 void	exit_minishell(void);
-void	export(char *argv);
+void	export(char **argv);
 void	pwd(void);
-void	unset(char *argv);
+void	unset(char **argv);
 
 //lexing
 int		process_input(char *input);
