@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/10 20:05:41 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:42:33 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	add_token(t_token **head, char *input, t_token_type type)
 	if (!new)
 		return ;
 	new->value = ft_strdup(input);
-	if(!new->value)
+	if (!new->value)
 	{
 		free(new);
 		return ;

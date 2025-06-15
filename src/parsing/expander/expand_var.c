@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/10 19:51:51 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:49:55 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int		expand_process_id(char **res);
 char	*itoa_process_id(void);
 int		expand_env_var(const char *str, char **res, int i_cmd);
 
-
 int	expand_exit_status(char **res)
 {
 	char	*temp;
+
 	temp = itoa_exit_status();
 	if (!temp)
 	{
@@ -44,6 +44,7 @@ char	*itoa_exit_status(void)
 int	expand_process_id(char **res)
 {
 	char	*temp;
+
 	temp = itoa_process_id();
 	if (!temp)
 	{

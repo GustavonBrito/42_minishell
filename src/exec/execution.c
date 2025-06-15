@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/15 00:30:04 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:57:26 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	execute_builtin_with_redirections(t_command *cmd)
 	return (0);
 }
 
+//norminette:+25 lines needs to be chopped
 int	execute_external_command(t_command *cmd)
 {
 	pid_t	pid;
@@ -96,21 +97,26 @@ void	handle_command_execution(t_command *cmd)
 
 int	is_builtin_command(char *cmd)
 {
-	char *trimmed;
-	int   result;
+	char	*trimmed;
+	int		result;
 
 	trimmed = ft_strtrim(cmd, " ");
 	if (!trimmed)
 		return (0);
-
-	result = (ft_strncmp(trimmed, "echo", 4) == 0 && (trimmed[4] == ' ' || trimmed[4] == '\0'))
-		|| (ft_strncmp(trimmed, "cd", 2) == 0 && (trimmed[2] == ' ' || trimmed[2] == '\0'))
-		|| (ft_strncmp(trimmed, "pwd", 3) == 0 && (trimmed[3] == ' ' || trimmed[3] == '\0'))
-		|| (ft_strncmp(trimmed, "export", 6) == 0 && (trimmed[6] == ' ' || trimmed[6] == '\0'))
-		|| (ft_strncmp(trimmed, "unset", 5) == 0 && (trimmed[5] == ' ' || trimmed[5] == '\0'))
-		|| (ft_strncmp(trimmed, "env", 3) == 0 && (trimmed[3] == ' ' || trimmed[3] == '\0'))
-		|| (ft_strncmp(trimmed, "exit", 4) == 0 && (trimmed[4] == ' ' || trimmed[4] == '\0'));
-
+	result = (ft_strncmp(trimmed, "echo", 4) == 0 && (trimmed[4] == ' '
+				|| trimmed[4] == '\0'))
+		|| (ft_strncmp(trimmed, "cd", 2) == 0 && (trimmed[2] == ' '
+				|| trimmed[2] == '\0'))
+		|| (ft_strncmp(trimmed, "pwd", 3) == 0 && (trimmed[3] == ' '
+				|| trimmed[3] == '\0'))
+		|| (ft_strncmp(trimmed, "export", 6) == 0 && (trimmed[6] == ' '
+				|| trimmed[6] == '\0'))
+		|| (ft_strncmp(trimmed, "unset", 5) == 0 && (trimmed[5] == ' '
+				|| trimmed[5] == '\0'))
+		|| (ft_strncmp(trimmed, "env", 3) == 0 && (trimmed[3] == ' '
+				|| trimmed[3] == '\0'))
+		|| (ft_strncmp(trimmed, "exit", 4) == 0 && (trimmed[4] == ' '
+				|| trimmed[4] == '\0'));
 	free(trimmed);
 	return (result);
 }

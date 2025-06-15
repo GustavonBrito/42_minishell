@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/10 19:51:42 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:48:58 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	expand_variables(t_command *cmd)
 	i = 0;
 	while (cmd->args[i])
 	{
-		expand_check = (cmd->token_types && cmd->token_types[i] != SINGLE_QUOTE);
+		expand_check = (cmd->token_types && cmd->token_types[i]
+				!= SINGLE_QUOTE);
 		expand = expand_str(cmd->args[i], expand_check);
 		if (!expand)
 			return (report_error("memory allocation error", 1));
@@ -69,7 +70,6 @@ int	handle_dollar_expansion(const char *str, char **res, int i_cmd)
 		return (expand_env_var(str, res, i_cmd) + 1);
 	else
 		return (handle_lone_dollar(res));
-
 }
 
 static int	handle_lone_dollar(char **res)

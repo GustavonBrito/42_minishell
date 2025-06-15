@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:35:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/11 00:52:51 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:56:55 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ int	create_heredoc_file(char *delimiter)
 		perror("minishell: pipe");
 		return (-1);
 	}
-
 	ft_printf("> ");
-	while ((line = readline("")) != NULL)
+	line = readline("");
+	while (line != NULL)
 	{
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
 			&& ft_strlen(line) == ft_strlen(delimiter))
 		{
 			free(line);
-			break;
+			break ;
 		}
 		write(pipe_fd[1], line, ft_strlen(line));
 		write(pipe_fd[1], "\n", 1);

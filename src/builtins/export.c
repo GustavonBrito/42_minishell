@@ -6,15 +6,15 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 01:21:52 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:35:05 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void export(char **argv)
+void	export(char **argv)
 {
-	char **sub_buffer;
+	char	**sub_buffer;
 
 	if (argv[1] == NULL)
 		env(1);

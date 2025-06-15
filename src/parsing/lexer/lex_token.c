@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/15 00:34:07 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:44:58 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static int	lex_token(char *input)
 	res = tokenize_input(input, &token_lst);
 	if (res != 0)
 		return (res);
-	//tester print for debbug
 	//print_tokens(token_lst);
 	commands = parse_tokens(token_lst);
 	if (!commands)
@@ -50,6 +49,7 @@ static int	lex_token(char *input)
 	return (res);
 }
 
+//norminette:+25 lines needs to be chopped
 static int	tokenize_input(char *input, t_token **token_lst)
 {
 	int	i;
@@ -98,6 +98,7 @@ static int	process_commands(t_command *commands)
 	return (0);
 }
 
+//norminette:+25 lines needs to be chopped
 static int	handle_op(char *input, t_token **token_lst, int i)
 {
 	if (input[i] == '|')
@@ -128,6 +129,7 @@ static int	handle_op(char *input, t_token **token_lst, int i)
 	return (0);
 }
 
+//norminette: to many fts in file:reorder
 static int	handle_word(char *input, t_token **token_lst, int i)
 {
 	int		start;
@@ -136,7 +138,7 @@ static int	handle_word(char *input, t_token **token_lst, int i)
 
 	start = i;
 	while (input[i] && !ft_isspace(input[i]) && !ft_isop(input[i])
-			&& input[i] != '\'' && input[i] != '"' && input[i] != '$')
+		&& input[i] != '\'' && input[i] != '"' && input[i] != '$')
 		i++;
 	len = i - start;
 	word = ft_substr(input, start, len);

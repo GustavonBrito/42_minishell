@@ -6,12 +6,13 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 01:13:07 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:34:43 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//norminette:+25 lines needs to be chopped
 void	cd(char **argv)
 {
 	char	*home;
@@ -30,7 +31,6 @@ void	cd(char **argv)
 	}
 	else
 		target_dir = argv[1];
-
 	if (chdir(argv[1]) == -1)
 	{
 		ft_printf("No such file or directory: %s\n", target_dir);

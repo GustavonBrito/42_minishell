@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:35:32 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/10 19:52:06 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:37:55 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static t_command	*parse_command(t_token **current);
 static t_command	*init_command(void);
 static int			count_args(t_token *start);
 
+//norminette:+25 lines needs to be chopped
 t_command	*parse_tokens(t_token *tokens)
 {
 	t_command	*first_command;
@@ -94,16 +95,16 @@ static int	count_args(t_token *start)
 	count = 0;
 	while (start && start->type != PIPE)
 	{
-		if (start->type == WORD || start->type == VAR ||
-			start->type == SINGLE_QUOTE || start->type == DOUBLE_QUOTE)
+		if (start->type == WORD || start->type == VAR
+			|| start->type == SINGLE_QUOTE || start->type == DOUBLE_QUOTE)
 			count++;
-		else if (start->type == REDIR_IN || start->type == REDIR_OUT ||
-				start->type == REDIR_APPEND || start->type == HEREDOC)
+		else if (start->type == REDIR_IN || start->type == REDIR_OUT
+			|| start->type == REDIR_APPEND || start->type == HEREDOC)
 		{
 			start = start->next;
 			if (start)
 				start = start->next;
-			continue ; // same as while->next? norma permits?
+			continue ;
 		}
 		start = start->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:39:52 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/10 19:51:58 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:41:56 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int	fill_command_data(t_command *cmd, t_token **current, int arg_count)
 void	free_commands(t_command *cmd)
 {
 	t_command	*temp;
-	int		i;
+	int			i;
+
 	while (cmd)
 	{
 		temp = cmd->next;
@@ -85,7 +86,7 @@ void	free_commands(t_command *cmd)
 			free(cmd->args);
 		}
 		if (cmd->quote_removed)
-				free(cmd->quote_removed);
+			free(cmd->quote_removed);
 		if (cmd->token_types)
 			free(cmd->token_types);
 		free_redirections(cmd->redirs);
@@ -109,13 +110,15 @@ void	free_redirections(t_redir *redirs)
 
 int	is_argument_token(t_token_type type)
 {
-	return (type == WORD || type == VAR || type == SINGLE_QUOTE || type == DOUBLE_QUOTE);
+	return (type == WORD || type == VAR || type == SINGLE_QUOTE
+		|| type == DOUBLE_QUOTE);
 }
 
+//norminette:too many fts in file -> divide this file in two thematic
 int	is_redirection_token(t_token_type type)
 {
-	return (type == REDIR_IN || type == REDIR_OUT ||
-			type == REDIR_APPEND || type == HEREDOC);
+	return (type == REDIR_IN || type == REDIR_OUT
+		|| type == REDIR_APPEND || type == HEREDOC);
 }
 
 int	handle_redirection_parsing(t_command *cmd, t_token **current)
@@ -125,20 +128,17 @@ int	handle_redirection_parsing(t_command *cmd, t_token **current)
 
 	redir_type = (*current)->type;
 	*current = (*current)->next;
-
 	if (!*current)
 	{
 		report_error("syntax error near unexpected token 'newline'", 2);
 		return (0);
 	}
-
 	file_token = *current;
 	if (!is_argument_token(file_token->type))
 	{
 		report_error("syntax error: expected filename after redirection", 2);
 		return (0);
 	}
-
 	add_redirection(cmd, redir_type, file_token->value);
 	return (1);
 }
@@ -158,7 +158,6 @@ void	add_redirection(t_command *cmd, t_token_type type, char *file)
 	new_redir = malloc(sizeof(t_redir));
 	if (!new_redir)
 		return ;
-
 	new_redir->file = ft_strdup(file);
 	if (!new_redir->file)
 	{

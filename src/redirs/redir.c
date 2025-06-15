@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 23:14:39 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/11 00:52:10 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:55:24 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	setup_redirections(t_command *cmd)
 
 	if (!cmd || !cmd->redirs)
 		return (0);
-
 	current_redir = cmd->redirs;
 	while (current_redir)
 	{
@@ -39,7 +38,6 @@ int	setup_redirections(t_command *cmd)
 			result = handle_heredoc(current_redir);
 		else
 			result = 0;
-
 		if (result != 0)
 			return (result);
 		current_redir = current_redir->next;
@@ -119,7 +117,6 @@ int	handle_heredoc(t_redir *redir)
 	heredoc_fd = create_heredoc_file(delimiter);
 	if (heredoc_fd == -1)
 		return (1);
-
 	if (dup2(heredoc_fd, STDIN_FILENO) == -1)
 	{
 		perror("minishell: dup2");
