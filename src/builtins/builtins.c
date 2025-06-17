@@ -6,20 +6,20 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:04:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/11 16:47:51 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/14 23:18:35 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void is_builtin(char *argv)
+void is_builtin(char *argv, t_token *token_lst)
 {
 	argv = ft_strtrim(argv, " ");
 	
 	if (ft_strncmp(argv, "echo", 4) == 0 && (argv[4] == ' ' || argv[4] == '\0'))
 		echo(argv);
 	else if (ft_strncmp(argv, "cd", 2) == 0 && (argv[2] == ' ' || argv[2] == '\0'))
-		cd(argv);
+		cd(argv, token_lst);
 	else if (ft_strncmp(argv, "pwd", 3) == 0 && (argv[3] == ' ' || argv[3] == '\0'))
 		pwd();
 	else if (ft_strncmp(argv, "export", 6) == 0 && (argv[6] == ' ' || argv[6] == '\0'))

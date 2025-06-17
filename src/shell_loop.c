@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/14 20:15:25 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/16 23:23:19 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	shell_loop(void)
 	char 	*current_directory;
 	char	**directory_splited;
 	const char	*relative_path;
+	t_token		*token_lst;
 
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -78,8 +79,8 @@ void	shell_loop(void)
 		if (*buffer_received)
 		{
 			add_history(buffer_received);
-			process_input(buffer_received);
-			is_builtin(buffer_received);
+			token_lst = process_input(buffer_received);
+			is_builtin(buffer_received, token_lst);
 		}
 		free(buffer_received);
 		free(current_directory);
