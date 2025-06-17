@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/11 16:45:13 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/14 23:18:59 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ typedef struct	s_command
 void	shell_loop(void); // Loop principal aonde o minishell roda
 void	check_exit_condition(char *buffer_received);  // funcao para checar se exit foi escrito no terminal.
 void	signal_handler(int signal); // Lida com os sinais UNIX como ctrl c, ctrl d
-void	is_builtin(char *builtin); //Verifica qual builtin foi passado como argumento
+void	is_builtin(char *argv, t_token *token_lst); //Verifica qual builtin foi passado como argumento
 void 	echo(char *argv); // Funcao para implementar a funcao echo
 void 	verify_flag(char *argv_splited, int *flag); // Verifica se a flag é valida
 void	printf_without_n(char **buffer); // Funcao para printar echo quando tem flag
-void	cd(char *argv); // Funcao para alterar o diretorio.
+void	cd(char *argv, t_token *token_lst); // Funcao para alterar o diretorio.
 void	env(int is_export);
 void	exit_minishell(void);
 void	export(char *argv);
@@ -72,7 +72,7 @@ void	pwd(void);
 void	unset(char *argv);
 
 //lexing
-void	process_input(char *input);
+void	*process_input(char *input);
 int		ft_isspace(char c);
 int		ft_isop(char c);
 void	add_token(t_token **head, char *input, t_token_type type);
