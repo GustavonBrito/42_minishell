@@ -3,32 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   lex_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/05 01:44:43 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/18 10:55:32 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		process_input(char *input);
-static void	lex_token(char *input);
+void	*process_input(char *input);
+static t_token	*lex_token(char *input);
 static int	handle_op(char *input, t_token **token_lst, int i);
 static int	handle_word(char *input, t_token **token_lst, int i);
 
-void	process_input(char *input)
+void	*process_input(char *input)
 {
+	t_token	*token_lst;
 	if (!input || ft_strlen(input) == 0)
-		return ;
-	lex_token(input);
+		return NULL;
+	token_lst = lex_token(input);
+	return (token_lst);
 }
 
-static void	lex_token(char *input)
+static t_token	*lex_token(char *input)
 {
 	int			i;
 	t_token		*token_lst;
-	t_command	*commands;
 
 	i = 0;
 	token_lst = NULL;
@@ -45,14 +46,7 @@ static void	lex_token(char *input)
 		else
 			i += handle_word(input, &token_lst, i);
 	}
-	print_tokens(token_lst);
-	commands = parse_tokens(token_lst);
-	if (commands)
-	{
-		print_commands(commands);
-		free_commands(commands);
-	}
-	free_tokens(token_lst);
+	return (token_lst);
 }
 
 static int	handle_op(char *input, t_token **token_lst, int i)
@@ -93,7 +87,7 @@ static int	handle_word(char *input, t_token **token_lst, int i)
 
 	start = i;
 	while (input[i] && !ft_isspace(input[i]) && !ft_isop(input[i])
-			&& input[i] != '\'' && input[i] != '"' && input[i] != '$')
+			&& input[i] != '"' && input[i] != '$')
 		i++;
 	len = i - start;
 	word = ft_substr(input, start, len);
@@ -103,3 +97,4 @@ static int	handle_word(char *input, t_token **token_lst, int i)
 	free (word);
 	return (len);
 }
+//input[i] != '\''
