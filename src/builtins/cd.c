@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/17 00:05:09 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/17 19:31:24 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void cd(char *argv, t_token *token_lst)
 		if (chdir(token_lst->next->value) == -1)
 		{
 			ft_printf("No such file or directory: %s\n", token_lst->next->value);
-			return ;	
+			return ;
 		}
 	}
 	if (token_lst->next == NULL)
