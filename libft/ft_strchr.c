@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 00:45:31 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/05/28 16:05:44 by gustavo-lin      ###   ########.fr       */
+/*   Created: 2025/04/17 12:33:56 by gserafio          #+#    #+#             */
+/*   Updated: 2025/04/17 12:33:58 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
-int main(void)
+char	*ft_strchr(char *s, int c)
 {
-	// Main here
+	int	i;
+
+	i = 0;
+	if (c > 255)
+		c = c % 256;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (s = &s[i]);
+		i++;
+	}
+	if (c == 0)
+		return (s = &s[i]);
+	return (0);
 }
