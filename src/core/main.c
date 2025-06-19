@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/06 13:31:26 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 00:44:33 by luiza            ###   ########.fr       */
+/*   Created: 2025/05/28 00:45:31 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2025/06/15 01:50:27 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_minishell(void)
+int	g_exit_status;
+
+int	main(void)
 {
-	exit(0);
+	g_exit_status = 0;
+	shell_loop();
+	return (0);
 }

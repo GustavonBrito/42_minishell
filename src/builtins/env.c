@@ -3,25 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/13 11:07:05 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/15 01:33:54 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-void print_export()
+//norminette: many vars and +25 lines: needs to be chopped in 2
+void	print_export(void)
 {
-	extern char **environ;
-	char **buffer;
-	int i;
-	int is_upper_char = 64;
-	int is_lower_char = 96;
-	char *temp;
+	extern char	**environ;
+	char		**buffer;
+	int			i;
+	int			is_upper_char;
+	int			is_lower_char;
+	char		*temp;
 
 	temp = malloc(sizeof(char) * 2);
+	is_upper_char = 64;
+	is_lower_char = 96;
 	while (++is_upper_char <= 90 && ++is_lower_char <= 122)
 	{
 		i = -1;
@@ -53,11 +56,11 @@ void print_export()
 	}
 }
 
-void env(int is_export)
+void	env(int is_export)
 {
-	extern char **environ;
-	int i;
-		
+	extern char	**environ;
+	int			i;
+
 	i = -1;
 	if (is_export == 1)
 		print_export();

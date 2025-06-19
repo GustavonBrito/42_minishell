@@ -6,32 +6,35 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/17 23:05:44 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/19 18:51:26 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-void cd(char *argv, t_token *token_lst)
+//norminette:+25 lines needs to be chopped
+void	cd(char **argv)
 {
-	char 	*home;
+	char	*home;
 	char	*actual_directory;
-	
-	(void)argv;
-	if (token_lst->next != NULL)
+	char	*target_dir;
+
+	if (!argv[1])
 	{
-		if (chdir(token_lst->next->value) == -1)
+		home = getenv("HOME");
+		if (!home)
 		{
-			ft_printf("No such file or directory: %s\n", token_lst->next->value);
+			ft_printf("cd: HOME not set\n");
 			return ;
 		}
+		target_dir = home;
 	}
-	if (token_lst->next == NULL)
+	else
+		target_dir = argv[1];
+	if (chdir(argv[1]) == -1)
 	{
-		home = malloc(sizeof(char) * ft_strlen(getenv("HOME")) + 1);
-		ft_strlcpy(home, getenv("HOME"), ft_strlen(getenv("HOME")) + 1);
-		chdir(home);
-		free(home);
+		ft_printf("No such file or directory: %s\n", target_dir);
+		return ;
 	}
 	actual_directory = getcwd(NULL, 0);
 	if (!actual_directory)

@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/11 11:30:47 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/15 01:23:29 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-void unset(char *argv)
+void	unset(char **argv)
 {
-	char **buffer;
-	
-	buffer = ft_split(argv, ' ');
-	unsetenv(buffer[1]);
+	int	i;
+
+	i = 1;
+	while (argv[i])
+		unsetenv(argv[i++]);
 }

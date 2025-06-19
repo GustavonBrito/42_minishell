@@ -6,15 +6,16 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/05 01:45:17 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/15 01:47:43 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int			handle_quotes(char *input, t_token **token_lst, int i);
 int			handle_var(char *input, t_token **token_lst, int i);
-static int	process_quote(char *input, t_token **token_lst, int start, char quote_type);
+static int	process_quote(char *input, t_token **token_lst, int start,
+				char quote_type);
 static int	process_var_name(char *input, t_token **token_lst, int start);
 static int	handle_special_vars(char *input, t_token **token_lst, int i);
 
@@ -52,7 +53,8 @@ int	handle_var(char *input, t_token **token_lst, int i)
 	return (process_var_name(input, token_lst, start));
 }
 
-static int	process_quote(char *input, t_token **token_lst, int start, char quote_type)
+static int	process_quote(char *input, t_token **token_lst, int start
+	, char quote_type)
 {
 	int		i;
 	int		len;

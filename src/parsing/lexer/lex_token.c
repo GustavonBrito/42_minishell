@@ -6,49 +6,100 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/18 10:55:32 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/19 19:05:41 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-void	*process_input(char *input);
-static t_token	*lex_token(char *input);
+int			process_input(char *input);
+static int	lex_token(char *input);
+static int	tokenize_input(char *input, t_token **token_lst);
+static int	process_commands(t_command *commands);
 static int	handle_op(char *input, t_token **token_lst, int i);
 static int	handle_word(char *input, t_token **token_lst, int i);
 
-void	*process_input(char *input)
+int	process_input(char *input)
 {
 	t_token	*token_lst;
 	if (!input || ft_strlen(input) == 0)
-		return NULL;
-	token_lst = lex_token(input);
-	return (token_lst);
+		return (g_exit_status);
+	return (lex_token(input));
 }
 
-static t_token	*lex_token(char *input)
+static int	lex_token(char *input)
 {
-	int			i;
 	t_token		*token_lst;
+	t_command	*commands;
+	int			res;
+
+	token_lst = NULL;
+	res = tokenize_input(input, &token_lst);
+	if (res != 0)
+		return (res);
+	//print_tokens(token_lst);
+	commands = parse_tokens(token_lst);
+	if (!commands)
+	{
+		free_tokens(token_lst);
+		return (1);
+	}
+	res = process_commands(commands);
+	free_commands(commands);
+	free_tokens(token_lst);
+	return (res);
+}
+
+//norminette:+25 lines needs to be chopped
+static int	tokenize_input(char *input, t_token **token_lst)
+{
+	int	i;
+	int	res;
 
 	i = 0;
-	token_lst = NULL;
+	res = 0;
 	while (input[i])
 	{
 		if (ft_isspace(input[i]))
 			i++;
 		else if (input[i] == '\'' || input[i] == '"')
-			i += handle_quotes(input, &token_lst, i);
+		{
+			res = handle_quotes(input, token_lst, i);
+			if (res == 1)
+			{
+				free_tokens(*token_lst);
+				return (1);
+			}
+			i += res;
+		}
 		else if (input[i] == '$')
-			i += handle_var(input, &token_lst, i);
+			i += handle_var(input, token_lst, i);
 		else if (ft_isop(input[i]))
-			i += handle_op(input, &token_lst, i);
+			i += handle_op(input, token_lst, i);
 		else
-			i += handle_word(input, &token_lst, i);
+			i += handle_word(input, token_lst, i);
 	}
-	return (token_lst);
+	return (0);
 }
 
+static int	process_commands(t_command *commands)
+{
+	t_command	*current_cmd;
+
+	current_cmd = commands;
+	while (current_cmd)
+	{
+		if (expand_variables(current_cmd) != 0)
+			return (1);
+		current_cmd = current_cmd->next;
+	}
+	//tester print for debbug
+	//print_varsexp(commands);
+	handle_command_execution(commands);
+	return (0);
+}
+
+//norminette:+25 lines needs to be chopped
 static int	handle_op(char *input, t_token **token_lst, int i)
 {
 	if (input[i] == '|')
@@ -79,6 +130,7 @@ static int	handle_op(char *input, t_token **token_lst, int i)
 	return (0);
 }
 
+//norminette: to many fts in file:reorder
 static int	handle_word(char *input, t_token **token_lst, int i)
 {
 	int		start;
@@ -87,7 +139,7 @@ static int	handle_word(char *input, t_token **token_lst, int i)
 
 	start = i;
 	while (input[i] && !ft_isspace(input[i]) && !ft_isop(input[i])
-			&& input[i] != '"' && input[i] != '$')
+		&& input[i] != '\'' && input[i] != '"' && input[i] != '$')
 		i++;
 	len = i - start;
 	word = ft_substr(input, start, len);

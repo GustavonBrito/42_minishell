@@ -1,9 +1,9 @@
 CC = cc
 
 LIBFT_DIR = libft
-LIBFT_LIB = $(LIBFT_DIR)/libft_gnl_printf.a
+LIBFT_LIB = $(LIBFT_DIR)/libftprintf.a
 
-HEADER = -I $(LIBFT_DIR)
+HEADER = -Iincludes -I$(LIBFT_DIR)
 
 NAME = minishell
 
@@ -15,7 +15,7 @@ OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 OBJ_DIR = build
 
-CFLAGS = -Werror -Wall -Wextra
+CFLAGS = -Werror -Wall -Wextra $(HEADER)
 READLINE_FLAG = -lreadline
 
 all: $(NAME)
