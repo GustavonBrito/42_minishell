@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/19 18:51:26 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/20 01:08:53 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	cd(char **argv)
 			ft_printf("cd: HOME not set\n");
 			return ;
 		}
-		target_dir = home;
+		chdir(home);
+		return;
 	}
 	else
 		target_dir = argv[1];
