@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/15 01:44:58 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/19 20:29:22 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ static int	handle_word(char *input, t_token **token_lst, int i);
 
 int	process_input(char *input)
 {
+	// t_token	*token_lst;
 	if (!input || ft_strlen(input) == 0)
-		return (g_exit_status);
+		return 0;
 	return (lex_token(input));
 }
 
@@ -148,3 +149,4 @@ static int	handle_word(char *input, t_token **token_lst, int i)
 	free (word);
 	return (len);
 }
+//input[i] != '\''

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 02:01:44 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/19 20:36:42 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ char	*obtain_current_directory(char **dir_extracted, char *current_directory)
 	flag = 0;
 	while (dir_extracted[++i])
 	{
-		if (ft_strncmp(dir_extracted[i], getenv("USER"),
-				ft_strlen(getenv("USER"))) == 0)
+		if (ft_strncmp(dir_extracted[i], getenv("USER"), ft_strlen(getenv("USER"))) == 0 && dir_extracted[i + 1] != NULL)
 		{
 			i++;
 			flag = 1;
@@ -68,9 +67,10 @@ void	shell_loop(void)
 	char		*current_directory;
 	char		**directory_splited;
 	const char	*relative_path;
+	//t_token		*token_lst;
 
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, signal_handler); // Lida com CTRL + C
+	signal(SIGQUIT, SIG_IGN); // Lida com CTRL + '\'
 	while (1)
 	{
 		current_directory = getcwd(NULL, 0);
@@ -80,12 +80,11 @@ void	shell_loop(void)
 		relative_path = obtain_current_directory(directory_splited,
 				current_directory);
 		buffer_received = readline((const char *)relative_path);
-		check_exit_condition(buffer_received);
+		check_exit_condition(buffer_received); // Lida com CTRL + D
 		if (*buffer_received)
 		{
 			add_history(buffer_received);
 			g_exit_status = process_input(buffer_received);
-			//print_exit_status();
 		}
 		free(buffer_received);
 		free(current_directory);

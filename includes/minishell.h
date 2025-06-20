@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 02:06:03 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/20 00:59:45 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <termcap.h>
 # include "../libft/headers/libft.h"
 # include "../libft/headers/get_next_line.h"
 # include "../libft/headers/ft_printf.h"
@@ -71,7 +72,7 @@ void		signal_handler(int signal);
 void		is_builtin(char **builtin);//Verifica qual builtin foi passado como argumento
 void		echo(char **argv); // Funcao para implementar a funcao echo
 void		verify_flag(char *argv_splited, int *flag);// Verifica se a flag é valida
-//void		printf_without_n(char **buffer);// Funcao para printar echo quando tem flag
+void		printf_without_n(char **buffer);// Funcao para printar echo quando tem flag
 void		cd(char **argv); // Funcao para alterar o diretorio.
 void		env(int is_export);
 void		exit_minishell(void);
