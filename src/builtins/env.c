@@ -6,13 +6,13 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 01:33:54 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/23 15:22:56 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//norminette: many vars and +25 lines: needs to be chopped in 2
+//norminette: many vars and +25 lines: needs to be chopped
 void	print_export(void)
 {
 	extern char	**environ;

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/15 01:57:26 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/23 14:49:46 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ void	handle_command_execution(t_command *cmd)
 {
 	t_command	*current;
 
+	if (!cmd)
+		return ;
 	current = cmd;
-	while (current)
-	{
+	if (has_pipes(current))
+		g_exit_status = execute_pipeline(current);
+	else
 		g_exit_status = execute_command(current);
-		current = current->next;
-		// TODO: implement pipes
-	}
 }
 
 int	is_builtin_command(char *cmd)

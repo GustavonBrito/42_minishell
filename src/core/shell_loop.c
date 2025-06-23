@@ -6,13 +6,13 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 02:01:44 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/23 15:23:41 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//norminette:+25 lines needs to be chopped
+//norminette: many vars and +25 lines: needs to be chopped
 char	*obtain_current_directory(char **dir_extracted, char *current_directory)
 {
 	const char	*relative_path;
