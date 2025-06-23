@@ -6,11 +6,44 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/23 15:23:41 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/23 15:44:53 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	shell_loop(void);
+char	*obtain_current_directory(char **dir_extracted, char *current_directory);
+
+void	shell_loop(void)
+{
+	char		*buffer_received;
+	char		*current_directory;
+	char		**directory_splited;
+	const char	*relative_path;
+
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	while (1)
+	{
+		current_directory = getcwd(NULL, 0);
+		if (!current_directory)
+			return ;
+		directory_splited = ft_split(current_directory, '/');
+		relative_path = obtain_current_directory(directory_splited,
+				current_directory);
+		buffer_received = readline((const char *)relative_path);
+		check_exit_condition(buffer_received);
+		if (*buffer_received)
+		{
+			add_history(buffer_received);
+			g_exit_status = process_input(buffer_received);
+			//print_exit_status();
+		}
+		free(buffer_received);
+		free(current_directory);
+	}
+}
 
 //norminette: many vars and +25 lines: needs to be chopped
 char	*obtain_current_directory(char **dir_extracted, char *current_directory)
@@ -60,34 +93,4 @@ char	*obtain_current_directory(char **dir_extracted, char *current_directory)
 	}
 	ft_strlcat(user_path, " ", user_length + 2);
 	return (user_path);
-}
-
-void	shell_loop(void)
-{
-	char		*buffer_received;
-	char		*current_directory;
-	char		**directory_splited;
-	const char	*relative_path;
-
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
-	while (1)
-	{
-		current_directory = getcwd(NULL, 0);
-		if (!current_directory)
-			return ;
-		directory_splited = ft_split(current_directory, '/');
-		relative_path = obtain_current_directory(directory_splited,
-				current_directory);
-		buffer_received = readline((const char *)relative_path);
-		check_exit_condition(buffer_received);
-		if (*buffer_received)
-		{
-			add_history(buffer_received);
-			g_exit_status = process_input(buffer_received);
-			//print_exit_status();
-		}
-		free(buffer_received);
-		free(current_directory);
-	}
 }

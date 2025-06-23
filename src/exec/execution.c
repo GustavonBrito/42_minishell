@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/23 14:49:46 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/23 15:39:40 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		execute_command(t_command *cmd);
 int		execute_builtin_with_redirections(t_command *cmd);
 int		execute_external_command(t_command *cmd);
 void	handle_command_execution(t_command *cmd);
-int		is_builtin_command(char *cmd);
+int		check_builtin(char *cmd);
 
 int	execute_command(t_command *cmd)
 {
@@ -35,7 +35,7 @@ int	execute_command(t_command *cmd)
 		restore_std_fds(saved_stdin, saved_stdout);
 		return (redir_result);
 	}
-	if (is_builtin_command(cmd->args[0]))
+	if (check_builtin(cmd->args[0]))
 		exec_result = execute_builtin_with_redirections(cmd);
 	else
 		exec_result = execute_external_command(cmd);
@@ -95,7 +95,7 @@ void	handle_command_execution(t_command *cmd)
 		g_exit_status = execute_command(current);
 }
 
-int	is_builtin_command(char *cmd)
+int	check_builtin(char *cmd)
 {
 	char	*trimmed;
 	int		result;
