@@ -6,13 +6,25 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/19 20:36:42 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/22 21:24:11 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//norminette:+25 lines needs to be chopped
+/**
+ * @brief Obtém e formata o caminho relativo do diretório atual para o prompt.
+ *
+ * Constrói uma string para o prompt do shell que inclui o nome de usuário,
+ * "@minishell:~/" e, se aplicável, o caminho relativo do diretório atual
+ * a partir do diretório do usuário.
+ *
+ * @param dir_extracted Um array de strings que representa o caminho do diretório
+ *                      atual dividido por '/'.
+ * @param current_directory A string completa do caminho do diretório atual.
+ * @return Uma string recém-alocada contendo o caminho formatado para o prompt.
+ *         É responsabilidade do chamador liberar essa string.
+ */
 char	*obtain_current_directory(char **dir_extracted, char *current_directory)
 {
 	const char	*relative_path;
@@ -61,6 +73,18 @@ char	*obtain_current_directory(char **dir_extracted, char *current_directory)
 	return (user_path);
 }
 
+/**
+ * @brief O loop principal do shell.
+ *
+ * Esta função implementa o loop interativo do minishell. Ela continuamente:
+ * 1. Obtém o diretório de trabalho atual para exibir no prompt.
+ * 2. Define os manipuladores de sinal (Ctrl+C e Ctrl+\).
+ * 3. Lê a entrada do usuário usando `readline`.
+ * 4. Verifica a condição de saída (Ctrl+D).
+ * 5. Adiciona a entrada ao histórico do readline.
+ * 6. Processa a entrada (lex, parse, expand, execute).
+ * 7. Libera a memória alocada para o buffer de entrada e o diretório atual.
+ */
 void	shell_loop(void)
 {
 	char		*buffer_received;

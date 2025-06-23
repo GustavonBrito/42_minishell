@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 01:33:54 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/22 20:51:21 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//norminette: many vars and +25 lines: needs to be chopped in 2
+/**
+ * @brief Imprime as variáveis de ambiente formatadas para o comando 'export' sem argumentos.
+ *
+ * Esta função itera sobre o array global `environ` e imprime cada variável
+ * de ambiente no formato `declare -x CHAVE="VALOR"`. Variáveis sem valor
+ * são impressas como `declare -x CHAVE`.
+ * A lógica tenta ordenar as variáveis com base no primeiro caractere (letras maiúsculas e minúsculas)
+ * antes de imprimir aquelas que não começam com letras.
+ */
 void	print_export(void)
 {
 	extern char	**environ;
@@ -56,6 +64,18 @@ void	print_export(void)
 	}
 }
 
+/**
+ * @brief Implementa o comando 'env'.
+ *
+ * Esta função exibe as variáveis de ambiente.
+ * Se `is_export` for 1, chama `print_export` para um formato detalhado
+ * (usado pelo comando 'export' sem argumentos). Caso contrário, imprime
+ * cada variável de ambiente em uma nova linha.
+ *
+ * @param is_export Um flag booleano (0 ou 1) que determina o formato de saída.
+ *                  1 para o formato `declare -x` (como 'export' sem args),
+ *                  0 para o formato padrão do 'env'.
+ */
 void	env(int is_export)
 {
 	extern char	**environ;
