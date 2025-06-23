@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/22 21:57:17 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/23 00:39:50 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ static int	tokenize_input(char *input, t_token **token_lst)
 			i += handle_var(input, token_lst, i);
 		else if (ft_isop(input[i]))
 			i += handle_op(input, token_lst, i);
+		else if (input[i] == '\\')
+			i += handle_escape(input, token_lst, i);
 		else
 			i += handle_word(input, token_lst, i);
 	}

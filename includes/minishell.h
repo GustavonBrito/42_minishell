@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/20 00:59:45 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/23 00:49:03 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ typedef enum e_token_type
 	HEREDOC,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
-	VAR
+	VAR,
+	ESCAPE
 }	t_token_type;
 
 typedef struct s_token
@@ -90,6 +91,7 @@ void		free_tokens(t_token *head);
 //lex handlers
 int			handle_quotes(char *input, t_token **token_lst, int i);
 int			handle_var(char *input, t_token **token_lst, int i);
+int			handle_escape(char *input, t_token **token_lst, int i);
 
 //parsing
 t_command	*parse_tokens(t_token *tokens);

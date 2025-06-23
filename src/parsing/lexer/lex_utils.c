@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/22 21:21:23 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/23 01:26:03 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int		ft_isspace(char c);
 int		ft_isop(char c);
 void	add_token(t_token **head, char *input, t_token_type type);
+int		handle_escape(char *input, t_token **token_lst, int i);
 void	free_tokens(t_token *head);
 
 /**
@@ -82,6 +83,34 @@ void	add_token(t_token **head, char *input, t_token_type type)
 		temp = temp->next;
 	temp->next = new;
 }
+
+int		handle_escape(char *input, t_token **token_lst, int i)
+{
+	(void) input;
+	(void) token_lst;
+	(void) i;
+	int j;
+	int actual_final_len;
+	int actual_init_len;
+
+	j = -1;
+	actual_final_len = 0;
+	actual_init_len = 0;
+	while (input[++j])
+	{
+		if (ft_isspace(input[j]) && ft_isalnum(input[j + 1]))
+		{
+			j++;
+			actual_init_len = j;
+			
+		}
+		if (input[j] == '\\' && ft_isspace(input[j + 1]))
+		{
+			actual_final_len = j;
+		}
+	}
+	return 0;
+}//Tem que implementar a logica apos pegar o indice comeco e o indice final depois de '\'
 
 /**
  * @brief Libera toda a memória alocada para uma lista encadeada de tokens.
