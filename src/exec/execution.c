@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/23 17:48:02 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/23 20:46:32 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ void	handle_command_execution(t_command *cmd)
 	if (!cmd)
 		return ;
 	current = cmd;
+	if (!cmd->args[1] && cmd->args[0] && cmd->args[0][0] == '/')
+	{
+		ft_printf("%s\n", current->args[0]);
+		return ;
+	}
 	if (has_pipes(current))
 		g_exit_status = execute_pipeline(current);
 	else
