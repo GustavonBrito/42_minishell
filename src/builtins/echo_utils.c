@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/02 22:29:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 01:04:52 by luiza            ###   ########.fr       */
+/*   Created: 2025/06/19 19:43:27 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2025/06/19 19:43:28 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,19 @@ void	verify_flag(char *argv_splited, int *flag)
 	}
 }
 
-/* void	printf_without_n(char **buffer)
+void	printf_without_n(char **argv)
 {
 	int	i;
 
 	i = 1;
 	while (1)
 	{
-		if (ft_strnstr(buffer[i], "-n", ft_strlen(buffer[i])) != 0)
+		if (ft_strnstr(argv[i], "-n", ft_strlen(argv[i])) != 0)
 			i++;
 		else
 		{
-			ft_printf("%s", buffer[i]);
+			ft_printf("%s", argv[i]);
 			break ;
 		}
 	}
-} */
+}

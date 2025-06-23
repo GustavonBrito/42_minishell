@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 01:34:43 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/20 01:08:53 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	cd(char **argv)
 			ft_printf("cd: HOME not set\n");
 			return ;
 		}
-		target_dir = home;
+		chdir(home);
+		return;
 	}
 	else
 		target_dir = argv[1];

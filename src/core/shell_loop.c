@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/23 15:44:53 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/23 15:50:52 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ char	*obtain_current_directory(char **dir_extracted, char *current_directory)
 	flag = 0;
 	while (dir_extracted[++i])
 	{
-		if (ft_strncmp(dir_extracted[i], getenv("USER"),
-				ft_strlen(getenv("USER"))) == 0)
+		if (ft_strncmp(dir_extracted[i], getenv("USER"), ft_strlen(getenv("USER"))) == 0 && dir_extracted[i + 1] != NULL)
 		{
 			i++;
 			flag = 1;

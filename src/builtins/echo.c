@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:54:36 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 00:45:15 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/19 19:43:04 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,24 @@ void	echo(char **argv)
 	int	i;
 	int	flag;
 
-	i = 1;
+	i = 0;
 	flag = 0;
-	if (argv[0] == NULL)
+	if (argv[1] == NULL)
 	{
 		ft_printf("\n");
 		return ;
 	}
 	verify_flag(argv[1], &flag);
 	if (flag)
-		i++;
-	while (argv[i])
+		printf_without_n(argv);
+	else
 	{
-		if (i > 1)
-			ft_printf(" ");
-		ft_printf("%s", argv[i]);
-		i++;
+		while (argv[++i])
+		{
+			if (i > 1)
+				ft_printf(" ");
+			ft_printf("%s", argv[i]);
+		}
+		ft_printf("\n");
 	}
-	ft_printf("\n");
 }

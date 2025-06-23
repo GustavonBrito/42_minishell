@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/23 15:39:40 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/23 15:51:18 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	execute_external_command(t_command *cmd)
 	pid_t	pid;
 	int		status;
 
+	(void) cmd;
 	pid = fork();
 	if (pid == -1)
 	{
