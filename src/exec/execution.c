@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/23 15:51:18 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/23 17:48:02 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	execute_builtin_with_redirections(t_command *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (1);
-	is_builtin(cmd->args);
+	is_builtin(cmd);
 	return (0);
 }
 

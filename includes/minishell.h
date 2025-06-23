@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/23 15:47:15 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/23 19:32:19 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,14 @@ void		check_exit_condition(char *buffer_received);
 void		signal_handler(int signal);
 
 //buitins
-void		is_builtin(char **builtin);//Verifica qual builtin foi passado como argumento
+void		is_builtin(t_command *cmd);//Verifica qual builtin foi passado como argumento
 void		echo(char **argv); // Funcao para implementar a funcao echo
 void		verify_flag(char *argv_splited, int *flag);// Verifica se a flag é valida
 void		printf_without_n(char **buffer);// Funcao para printar echo quando tem flag
 void		cd(char **argv); // Funcao para alterar o diretorio.
 void		env(int is_export);
 void		exit_minishell(void);
-void		export(char **argv);
+void		export(t_command *cmd);
 void		pwd(void);
 void		unset(char **argv);
 
@@ -90,6 +90,7 @@ void		free_tokens(t_token *head);
 //lex handlers
 int			handle_quotes(char *input, t_token **token_lst, int i);
 int			handle_var(char *input, t_token **token_lst, int i);
+int			handle_attribution_w_quote(char *input, t_token **token_lst, int i);
 
 //parsing
 t_command	*parse_tokens(t_token *tokens);
