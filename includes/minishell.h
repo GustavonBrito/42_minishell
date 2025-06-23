@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 02:06:03 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/23 14:45:54 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,14 @@ int			execute_external_command(t_command *cmd);
 void		handle_command_execution(t_command *cmd);
 void		handle_command_execution(t_command *cmd);
 int			is_builtin_command(char *cmd);
+
+//pipes
+int			has_pipes(t_command *cmd);
+int			execute_pipeline(t_command *cmd);
+int			count_commands(t_command *cmd);
+int			**create_pipes(int cmd_count);
+void		close_all_pipes(int **pipes, int pipe_count);
+void		free_pipes(int **pipes, int pipe_count);
 
 //error handling
 int			report_error(const char *msg, int exit_code);
