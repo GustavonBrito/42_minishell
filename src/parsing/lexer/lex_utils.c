@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/23 23:12:14 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/24 00:28:15 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,11 @@ void	add_token(t_token **head, char *input, t_token_type type)
 
 int		handle_escape(char *input, t_token **token_lst, int i)
 {
-	(void) input;
-	(void) token_lst;
-	(void) i;
+	char	*word_escaped;
 	int j;
 	int actual_final_len;
 	int actual_init_len;
+	t_token_type	token;
 
 	j = -1;
 	actual_final_len = 0;
@@ -102,15 +101,16 @@ int		handle_escape(char *input, t_token **token_lst, int i)
 		{
 			j++;
 			actual_init_len = j;
-			
 		}
 		if (input[j] == '\\' && ft_isspace(input[j + 1]))
 		{
 			actual_final_len = j;
 		}
 	}
-	return 0;
-}
+	word_escaped = ft_substr(input,actual_init_len, actual_final_len);
+	add_token(token_lst, word_escaped, ESCAPE);
+}//Tem que implementar a logica apos pegar o indice comeco e o indice final depois de '\'
+
 /**
  * @brief Libera toda a memória alocada para uma lista encadeada de tokens.
  *
