@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/23 01:26:03 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/23 23:12:14 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,7 @@ int		handle_escape(char *input, t_token **token_lst, int i)
 		}
 	}
 	return 0;
-}//Tem que implementar a logica apos pegar o indice comeco e o indice final depois de '\'
-
+}
 /**
  * @brief Libera toda a memória alocada para uma lista encadeada de tokens.
  *
