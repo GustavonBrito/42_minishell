@@ -6,11 +6,13 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/23 17:48:21 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 01:05:13 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
 
 int			has_pipes(t_command *cmd);
 int			execute_pipeline(t_command *cmd);

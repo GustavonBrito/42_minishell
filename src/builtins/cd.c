@@ -6,11 +6,27 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/23 23:26:19 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 02:09:45 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
+
+/**
+ * @brief Implementa o comando 'cd'.
+ *
+ * Esta função muda o diretório de trabalho atual do shell.
+ * Se nenhum arg for fornecido, tenta mudar para o diretório HOME do usuário.
+ * Se um argumento for fornecido, tenta mudar para o diretório especificado.
+ * Em caso de sucesso, atualiza a variável de ambiente PWD.
+ * Reporta erros se o dir HOME não estiver definido ou se o diretório de dest
+ * não existir ou não puder ser acessado.
+ *
+ * @param argv Um array de strings, onde argv é "cd" e argv (se existir)
+ *             é o caminho para o diretório de destino.
+ */
 
 //norminette:+25 lines needs to be chopped
 void	cd(t_command *cmd)
@@ -37,7 +53,6 @@ void	cd(t_command *cmd)
 			ft_printf("No such file or directory: %s\n", target_dir);
 			return ;
 		}
-
 	}
 	update_pwd();
 }

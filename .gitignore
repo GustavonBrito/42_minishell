@@ -5,3 +5,7 @@ libft/*.o
 libft/ft_printf/*.o
 libft/gnl/*.o
 libft/libft_gnl_printf.a
+Doxyfile
+html
+latex
+xml

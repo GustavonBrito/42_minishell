@@ -6,12 +6,16 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/23 23:28:08 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 02:26:36 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+//NORMINETTE: REVIEW ALL FILES AND
+//				REMOVE ALL COMMENTS B4 SUBMIT
+//				IF BRIEFS PERSISTS NEED TO BE TRANSLATED
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -36,7 +40,8 @@ typedef enum e_token_type
 	HEREDOC,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
-	VAR
+	VAR,
+	ESCAPE
 }	t_token_type;
 
 typedef struct s_token
@@ -94,6 +99,7 @@ void		free_tokens(t_token *head);
 int			handle_quotes(char *input, t_token **token_lst, int i);
 int			handle_var(char *input, t_token **token_lst, int i);
 int			handle_attribution_w_quote(char *input, t_token **token_lst, int i);
+int			handle_escape(char *input, t_token **token_lst, int i);
 
 //parsing
 t_command	*parse_tokens(t_token *tokens);

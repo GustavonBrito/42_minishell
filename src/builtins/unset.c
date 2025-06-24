@@ -6,12 +6,22 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 01:23:29 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 02:08:32 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Implementa o comando 'unset'.
+ *
+ * Esta função remove variáveis de ambiente do ambiente atual do shell.
+ * Percorre a lista de argumentos e para cada um, tenta remover a variável
+ * de ambiente correspondente usando `unsetenv`.
+ *
+ * @param argv Um array de strings, onde argv é "unset" e os elementos
+ *             subsequentes são os nomes das vars de ambiente a serem rm.
+ */
 void	unset(char **argv)
 {
 	int	i;

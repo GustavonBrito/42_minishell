@@ -6,18 +6,32 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:04:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/23 22:26:29 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 02:07:46 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
+
+/**
+ * @brief Verifica e executa um comando built-in.
+ *
+ * Esta função recebe um array de argumentos e verifica se o primeiro
+ * argumento (o nome do comando) corresponde a um comando built-in suportado
+ * (echo, cd, pwd, export, unset, env, exit). Se houver uma correspondência,
+ * a função correspondente do built-in é invocada.
+ *
+ * @param argv Um array de strings contendo o comando e seus argumentos.
+ *             argv é o nome do comando.
+ */
 
 //norminette:+25 lines needs to be chopped
 void	is_builtin(t_command *cmd)
 {
 	char	**argv;
 
-	argv  = cmd->args;
+	argv = cmd->args;
 	if (!argv || !argv[0])
 		return ;
 	if (ft_strncmp(argv[0], "echo", 4) == 0)

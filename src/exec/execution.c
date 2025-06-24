@@ -6,11 +6,13 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/23 21:58:03 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 01:10:34 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
 
 int		execute_command(t_command *cmd);
 int		execute_builtin_with_redirections(t_command *cmd);
@@ -18,6 +20,20 @@ int		execute_external_command(t_command *cmd);
 void	handle_command_execution(t_command *cmd);
 int		check_builtin(char *cmd);
 
+/**
+ * @brief Executa um único comando.
+ *
+ * Esta é a função central para a execução de um comando individual. Ela:
+ * 1. Salva os descritores de arquivo padrão (stdin, stdout).
+ * 2. Configura quaisquer redirecionamentos associados ao comando.
+ * 3. Determina se o comando é um built-in ou um comando externo.
+ * 4. Chama a função de execução apropriada (`execute_builtin_with_redirections`
+ *    ou `execute_external_command`).
+ * 5. Restaura os descritores de arquivo padrão.
+ *
+ * @param cmd Um ponteiro para a estrutura `t_command` a ser executada.
+ * @return O status de saída do comando executado.
+ */
 int	execute_command(t_command *cmd)
 {
 	int	saved_stdin;
@@ -43,6 +59,18 @@ int	execute_command(t_command *cmd)
 	return (exec_result);
 }
 
+/**
+ * @brief Executa um comando built-in após a configuração de redirecionamentos.
+ *
+ * Esta função é um wrapper para `is_builtin`, garantindo que um comando built-in
+ * seja chamado com seus argumentos apropriados *depois* que os redirecionamentos
+ * de E/S tenham sido configurados pelo `execute_command`.
+ *
+ * @param cmd Um ponteiro para a estrutura `t_command` representando o built-in a
+ *        ser executado.
+ * @return 0 em caso de sucesso na execução, ou 1 se o comando ou seus argumentos
+ *         forem inválidos.
+ */
 int	execute_builtin_with_redirections(t_command *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
@@ -51,7 +79,21 @@ int	execute_builtin_with_redirections(t_command *cmd)
 	return (0);
 }
 
-//norminette:+25 lines needs to be chopped
+/**
+ * @brief Executa um comando externo (não built-in).
+ *
+ * Esta função cria um novo processo filho usando `fork()`.
+ * No processo filho, tenta executar o comando usando `execvp()`.
+ * No processo pai, espera pelo processo filho e captura seu status de saída.
+ * Reporta erros de `fork` ou "comando não encontrado".
+ *
+ * @param cmd Um ponteiro para a estrutura `t_command` representando o comando
+ *        externo.
+ * @return O status de saída do comando externo (0 para sucesso, 127 para comando
+ *         não encontrado, outros valores para erros ou sinais).
+ */
+
+//norminette: +25 lines: needs to be chopped
 int	execute_external_command(t_command *cmd)
 {
 	pid_t	pid;
@@ -83,6 +125,16 @@ int	execute_external_command(t_command *cmd)
 	return (0);
 }
 
+/**
+ * @brief Gerencia a execução de uma lista de comandos.
+ *
+ * Esta função itera sobre uma lista encadeada de comandos, executando cada um
+ * sequencialmente. O status de saída do último comando executado é armazenado
+ * na variável global `g_exit_status`. Atualmente, não implementa pipes entre
+ * comandos.
+ *
+ * @param cmd O primeiro ponteiro para a lista de `t_command` a ser executada.
+ */
 void	handle_command_execution(t_command *cmd)
 {
 	t_command	*current;

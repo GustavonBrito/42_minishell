@@ -6,11 +6,26 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/23 19:34:24 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 02:08:56 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
+
+/**
+ * @brief Implementa o comando 'export'.
+ *
+ * Esta função manipula variáveis de ambiente.
+ * Se chamada sem argumentos, comporta-se como `env` com o modo de exportação,
+ * exibindo todas as variáveis de ambiente formatadas com "declare -x".
+ * Se um argumento `CHAVE=VALOR` for fornecido, cria ou atualiza a variável
+ * de ambiente correspondente.
+ *
+ * @param argv Um array de strings, onde argv é "export" e argv (se existir)
+ *             é a var de ambiente a ser exportada no formato "CHAVE=VALOR".
+ */
 
 //norminette:+25 lines needs to be chopped
 void	export(t_command *cmd)
