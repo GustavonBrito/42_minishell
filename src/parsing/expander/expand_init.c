@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/15 01:48:58 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/23 23:28:44 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int				expand_variables(t_command *cmd);
 char			*expand_str(const char *str, int expand_check);
 int				handle_dollar_expansion(const char *str, char **res, int i_cmd);
+int				handle_tilde_expansion(const char *str, char **res, int i_cmd);
 static int		handle_lone_dollar(char **res);
 
 int	expand_variables(t_command *cmd)
@@ -51,6 +52,8 @@ char	*expand_str(const char *str, int expand_check)
 	{
 		if (str[i_cmd] == '$' && expand_check)
 			i_cmd += handle_dollar_expansion(str, &res, i_cmd);
+		else if (str[i_cmd] == '~' && expand_check && (i_cmd == 0 || str[i_cmd - 1] == ' '))
+			i_cmd += handle_tilde_expansion(str, &res, i_cmd);
 		else
 			i_cmd += handle_regular_char(str, &res, i_cmd);
 		if (!res)
@@ -70,6 +73,44 @@ int	handle_dollar_expansion(const char *str, char **res, int i_cmd)
 		return (expand_env_var(str, res, i_cmd) + 1);
 	else
 		return (handle_lone_dollar(res));
+}
+
+int	handle_tilde_expansion(const char *str, char **res, int i_cmd)
+{
+	char	*home;
+	int		start;
+
+	start = i_cmd;
+	home = getenv("HOME");
+	if (!home)
+	{
+		*res = append_char(*res, '~');
+		if (!*res)
+			return (0);
+		return (1);
+	}
+	if (str[i_cmd + 1] == '\0' || str[i_cmd + 1] == '/')
+	{
+		*res = append_str(*res, home);
+		if (!*res)
+			return (0);
+		i_cmd++;
+		if (str[i_cmd] == '/')
+		{
+			while (str[i_cmd] && str[i_cmd] != ' ' && str[i_cmd] != '\t')
+			{
+				*res = append_char(*res, str[i_cmd]);
+				if (!*res)
+					return (0);
+				i_cmd++;
+			}
+		}
+		return (i_cmd - start);
+	}
+	*res = append_char(*res, '~');
+	if (!*res)
+		return (0);
+	return (1);
 }
 
 static int	handle_lone_dollar(char **res)

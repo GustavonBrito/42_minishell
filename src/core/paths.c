@@ -1,43 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/23 23:26:19 by luiza            ###   ########.fr       */
+/*   Created: 2025/06/23 22:59:26 by luiza             #+#    #+#             */
+/*   Updated: 2025/06/23 23:27:22 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//norminette:+25 lines needs to be chopped
-void	cd(t_command *cmd)
+void		update_pwd(void);
+
+void	update_pwd(void)
 {
-	char	*home;
-	char	*target_dir;
+	char	*actual_directory;
 
-	if (!cmd->args[1])
-	{
-		home = getenv("HOME");
-		if (!home)
-		{
-			ft_printf("cd: HOME not set\n");
-			return ;
-		}
-		chdir(home);
+	actual_directory = getcwd(NULL, 0);
+	if (!actual_directory)
 		return ;
-	}
-	else
-	{
-		target_dir = cmd->args[1];
-		if (chdir(target_dir) == -1)
-		{
-			ft_printf("No such file or directory: %s\n", target_dir);
-			return ;
-		}
-
-	}
-	update_pwd();
+	setenv("PWD", actual_directory, 1);
+	free(actual_directory);
 }

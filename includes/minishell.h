@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/23 19:32:19 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/23 23:28:08 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,15 @@ void		shell_loop(void);
 void		check_exit_condition(char *buffer_received);
 void		signal_handler(int signal);
 
+//paths
+void		update_pwd(void);
+
 //buitins
 void		is_builtin(t_command *cmd);//Verifica qual builtin foi passado como argumento
 void		echo(char **argv); // Funcao para implementar a funcao echo
 void		verify_flag(char *argv_splited, int *flag);// Verifica se a flag é valida
 void		printf_without_n(char **buffer);// Funcao para printar echo quando tem flag
-void		cd(char **argv); // Funcao para alterar o diretorio.
+void		cd(t_command *cmd); // Funcao para alterar o diretorio.
 void		env(int is_export);
 void		exit_minishell(void);
 void		export(t_command *cmd);
@@ -115,6 +118,7 @@ char		*append_str(char *dest, const char *src);
 char		*get_env_val(const char *var_name);
 char		*append_char(char *dest, char c);
 int			handle_dollar_expansion(const char *str, char **res, int i_cmd);
+int			handle_tilde_expansion(const char *str, char **res, int i_cmd);
 int			handle_regular_char(const char *str, char **res, int i);
 
 //redirs
