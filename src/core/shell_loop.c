@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 01:46:34 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 17:41:48 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	*obtain_current_directory(char **dir_ext,
  * 5. Adiciona a entrada ao histórico do readline.
  * 6. Processa a entrada (lex, parse, expand, execute).
  * 7. Libera a memória alocada para o buffer de entrada e o diretório atual.
+ *
+ * Permanece em execução até o programa ser encerrado.
  */
 void	shell_loop(void)
 {

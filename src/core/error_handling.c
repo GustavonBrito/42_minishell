@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 06:28:59 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 16:01:53 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 17:36:06 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	report_error(const char *msg, int exit_code)
  * @brief Reporta um erro crítico e encerra o programa.
  *
  * Imprime a mensagem de erro formatada para a saída padrão de erros e,
- * em seguida, end o programa imediatamente com o código de saída especificado.
+ * encerra o programa imediatamente com o código de saída especificado.
  *
  * @param msg A mensagem de erro crítico a ser exibida.
  * @param exit_code O código de saída com o qual o programa será encerrado.
