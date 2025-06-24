@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/20 01:08:53 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/23 21:47:28 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	cd(char **argv)
 			return ;
 		}
 		chdir(home);
-		return;
+		return ;
 	}
 	else
 		target_dir = argv[1];
