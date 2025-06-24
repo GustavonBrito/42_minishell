@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/15 01:42:33 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/23 23:12:14 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,15 @@
 int		ft_isspace(char c);
 int		ft_isop(char c);
 void	add_token(t_token **head, char *input, t_token_type type);
+int		handle_escape(char *input, t_token **token_lst, int i);
 void	free_tokens(t_token *head);
 
+/**
+ * @brief Verifica se um caractere é um espaço em branco.
+ *
+ * @param c O caractere a ser verificado.
+ * @return 1 se o caractere for ' ', '\t', '\n' ou '\r', 0 caso contrário.
+ */
 int	ft_isspace(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n' || c == '\r')
@@ -25,6 +32,12 @@ int	ft_isspace(char c)
 		return (0);
 }
 
+/**
+ * @brief Verifica se um caractere é um operador de shell.
+ *
+ * @param c O caractere a ser verificado.
+ * @return 1 se o caractere for '|', '<' ou '>', 0 caso contrário.
+ */
 int	ft_isop(char c)
 {
 	if (c == '|' || c == '<' || c == '>')
@@ -33,6 +46,17 @@ int	ft_isop(char c)
 		return (0);
 }
 
+/**
+ * @brief Adiciona um novo token ao final de uma lista encadeada de tokens.
+ *
+ * Aloca memória para um novo `t_token`, duplica o valor da string de entrada,
+ * define seu tipo e o anexa ao final da lista `head`.
+ *
+ * @param head Um ponteiro para o ponteiro para o início da lista de tokens.
+ *             Será atualizado se a lista estiver vazia.
+ * @param input A string de valor para o novo token.
+ * @param type O tipo do novo token (e.g., WORD, PIPE, REDIR_IN).
+ */
 void	add_token(t_token **head, char *input, t_token_type type)
 {
 	t_token	*new;
@@ -60,6 +84,41 @@ void	add_token(t_token **head, char *input, t_token_type type)
 	temp->next = new;
 }
 
+int		handle_escape(char *input, t_token **token_lst, int i)
+{
+	(void) input;
+	(void) token_lst;
+	(void) i;
+	int j;
+	int actual_final_len;
+	int actual_init_len;
+
+	j = -1;
+	actual_final_len = 0;
+	actual_init_len = 0;
+	while (input[++j])
+	{
+		if (ft_isspace(input[j]) && ft_isalnum(input[j + 1]))
+		{
+			j++;
+			actual_init_len = j;
+			
+		}
+		if (input[j] == '\\' && ft_isspace(input[j + 1]))
+		{
+			actual_final_len = j;
+		}
+	}
+	return 0;
+}
+/**
+ * @brief Libera toda a memória alocada para uma lista encadeada de tokens.
+ *
+ * Percorre a lista de tokens e libera a string de valor de cada token
+ * e a própria estrutura `t_token`.
+ *
+ * @param head O ponteiro para o início da lista de tokens a ser liberada.
+ */
 void	free_tokens(t_token *head)
 {
 	t_token	*temp;

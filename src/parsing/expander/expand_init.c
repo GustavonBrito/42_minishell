@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/15 01:48:58 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/22 21:12:40 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,17 @@ char			*expand_str(const char *str, int expand_check);
 int				handle_dollar_expansion(const char *str, char **res, int i_cmd);
 static int		handle_lone_dollar(char **res);
 
+/**
+ * @brief Expande variáveis em todos os argumentos de um comando.
+ *
+ * Esta função itera por cada argumento da estrutura `t_command` e,
+ * se o token não for uma aspas simples, chama `expand_str` para
+ * realizar a expansão de variáveis. O argumento original é liberado
+ * e substituído pela string expandida.
+ *
+ * @param cmd Um ponteiro para a estrutura `t_command` cujos argumentos serão expandidos.
+ * @return 0 em caso de sucesso, ou 1 em caso de erro de alocação de memória.
+ */
 int	expand_variables(t_command *cmd)
 {
 	int		i;
@@ -38,6 +49,19 @@ int	expand_variables(t_command *cmd)
 	return (0);
 }
 
+/**
+ * @brief Expande variáveis dentro de uma única string.
+ *
+ * Percorre a string de entrada caractere por caractere. Se encontrar um '$'
+ * e `expand_check` for verdadeiro (ou seja, não estamos dentro de aspas simples),
+ * chama `handle_dollar_expansion`. Caso contrário, trata o caractere como normal.
+ * Constrói a string expandida incrementalmente.
+ *
+ * @param str A string de entrada possivelmente contendo variáveis a serem expandidas.
+ * @param expand_check Um flag booleano (0 ou 1) que indica se a expansão de variáveis
+ *                     deve ocorrer (1) ou ser ignorada (0, e.g., dentro de aspas simples).
+ * @return Uma nova string com as variáveis expandidas, ou NULL em caso de erro de alocação.
+ */
 char	*expand_str(const char *str, int expand_check)
 {
 	char	*res;
@@ -59,6 +83,20 @@ char	*expand_str(const char *str, int expand_check)
 	return (res);
 }
 
+/**
+ * @brief Lida com a expansão de diferentes tipos de variáveis precedidas por '$'.
+ *
+ * Analisa o caractere seguinte ao '$' para determinar o tipo de expansão:
+ * - `$?`: status de saída do último comando.
+ * - `$$`: ID do processo atual.
+ * - `$` seguido por letra ou '_' : variável de ambiente.
+ * - `$`: Tratado como um caractere literal se não corresponder a nenhum dos acima.
+ *
+ * @param str A string de entrada onde o '$' foi encontrado.
+ * @param res Um ponteiro para a string de resultado onde a expansão será anexada.
+ * @param i_cmd O índice atual na string de entrada onde o '$' foi encontrado.
+ * @return O número de caracteres processados a partir de `i_cmd` (incluindo o '$').
+ */
 int	handle_dollar_expansion(const char *str, char **res, int i_cmd)
 {
 	i_cmd++;
@@ -72,6 +110,20 @@ int	handle_dollar_expansion(const char *str, char **res, int i_cmd)
 		return (handle_lone_dollar(res));
 }
 
+/**
+ * @brief Lida com a expansão de diferentes tipos de variáveis precedidas por '$'.
+ *
+ * Analisa o caractere seguinte ao '$' para determinar o tipo de expansão:
+ * - `$?`: status de saída do último comando.
+ * - `$$`: ID do processo atual.
+ * - `$` seguido por letra ou '_' : variável de ambiente.
+ * - `$`: Tratado como um caractere literal se não corresponder a nenhum dos acima.
+ *
+ * @param str A string de entrada onde o '$' foi encontrado.
+ * @param res Um ponteiro para a string de resultado onde a expansão será anexada.
+ * @param i_cmd O índice atual na string de entrada onde o '$' foi encontrado.
+ * @return O número de caracteres processados a partir de `i_cmd` (incluindo o '$').
+ */
 static int	handle_lone_dollar(char **res)
 {
 	*res = append_char(*res, '$');

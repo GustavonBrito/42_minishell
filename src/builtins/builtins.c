@@ -6,13 +6,23 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:04:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/19 00:10:15 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/22 20:49:46 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//norminette:+25 lines needs to be chopped
+/**
+ * @brief Verifica e executa um comando built-in.
+ *
+ * Esta função recebe um array de argumentos e verifica se o primeiro
+ * argumento (o nome do comando) corresponde a um comando built-in suportado
+ * (echo, cd, pwd, export, unset, env, exit). Se houver uma correspondência,
+ * a função correspondente do built-in é invocada.
+ *
+ * @param argv Um array de strings contendo o comando e seus argumentos.
+ *             argv é o nome do comando.
+ */
 void	is_builtin(char **argv)
 {
 	if (!argv || !argv[0])

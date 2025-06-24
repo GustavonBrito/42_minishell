@@ -6,13 +6,25 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/20 01:08:53 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/22 20:50:02 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//norminette:+25 lines needs to be chopped
+/**
+ * @brief Implementa o comando 'cd'.
+ *
+ * Esta função muda o diretório de trabalho atual do shell.
+ * Se nenhum argumento for fornecido, tenta mudar para o diretório HOME do usuário.
+ * Se um argumento for fornecido, tenta mudar para o diretório especificado.
+ * Em caso de sucesso, atualiza a variável de ambiente PWD.
+ * Reporta erros se o diretório HOME não estiver definido ou se o diretório de destino
+ * não existir ou não puder ser acessado.
+ *
+ * @param argv Um array de strings, onde argv é "cd" e argv (se existir)
+ *             é o caminho para o diretório de destino.
+ */
 void	cd(char **argv)
 {
 	char	*home;
