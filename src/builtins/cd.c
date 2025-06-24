@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 15:55:56 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 16:44:33 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ void	cd(t_command *cmd);
  * Reporta erros se o dir HOME não estiver definido ou se o diretório de dest
  * não existir ou não puder ser acessado.
  *
- * @param argv Um array de strings, onde argv é "cd" e argv (se existir)
- *             é o caminho para o diretório de destino.
+ * @param cmd Estrutura contendo os argumentos e informações do comando 'cd'.
  */
 
 //norminette:+25 lines needs to be chopped

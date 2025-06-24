@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 01:10:34 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 17:46:47 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,11 @@ int	execute_external_command(t_command *cmd)
 /**
  * @brief Gerencia a execução de uma lista de comandos.
  *
- * Esta função itera sobre uma lista encadeada de comandos, executando cada um
- * sequencialmente. O status de saída do último comando executado é armazenado
- * na variável global `g_exit_status`. Atualmente, não implementa pipes entre
- * comandos.
+ * Itera sobre a lista de comandos e executa:
+ * 1. Se o primeiro comando for uma variável (token VAR), imprime seu conteúdo.
+ * 2. Se houver pipes, executa a pipeline.
+ * 3. Caso contrário, executa o comando individual.
+ * O status de saída do último comando executado é armazenado em `g_exit_status`.
  *
  * @param cmd O primeiro ponteiro para a lista de `t_command` a ser executada.
  */

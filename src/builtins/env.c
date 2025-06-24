@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 15:57:16 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 16:42:31 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ void	env(int is_export)
  * Esta função itera sobre o array global `environ` e imprime cada variável
  * de ambiente no formato `declare -x CHAVE="VALOR"`. Variáveis sem valor
  * são impressas como `declare -x CHAVE`.
- * A lógica tenta ordenar as vars com base no primeiro
- * char (maiúsculas e minúsculas)
- * antes de imprimir aquelas que não começam com letras.
+ * A função percorre e imprime as variáveis que começam com:
+ * 1) letras maiúsculas; 2) letras minúsculas; 3)antes de imprimir as demais.
  */
 
 //norminette: many vars and +25 lines: needs to be chopped

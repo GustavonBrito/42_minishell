@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 01:05:13 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 17:57:31 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,33 @@ int			execute_pipeline(t_command *cmd);
 static int	exec_pip_cmd(t_command *cmd, int **pipes, int cmd_i, int cmd_count);
 static void	setup_pipe_fds(int **pipes, int cmd_index, int cmd_count);
 
+/**
+ * @brief Verifica se há mais de um comando encadeado.
+ *
+ * Retorna 1 se o comando atual possui um próximo comando na lista,
+ * indicando a existência de pipes. Caso contrário, retorna 0.
+ *
+ * @param cmd Ponteiro para a estrutura `t_command`.
+ * @return 1 se houver pipe, 0 caso contrário.
+ */
+
 int	has_pipes(t_command *cmd)
 {
 	if (!cmd)
 		return (0);
 	return (cmd->next != NULL);
 }
+
+/**
+ * @brief Executa uma sequência de comandos conectados por pipes.
+ *
+ * Cria os pipes necessários, executa cada comando em um processo separado,
+ * conecta suas saídas e entradas, e espera o término de todos os processos.
+ * Atualiza a variável global `g_exit_status` com o status do último comando.
+ *
+ * @param cmd Ponteiro para a lista de comandos encadeados.
+ * @return Código de status do último comando executado.
+ */
 
 //norminette: many vars and +25 lines: needs to be chopped
 int	execute_pipeline(t_command *cmd)
@@ -87,6 +108,21 @@ int	execute_pipeline(t_command *cmd)
 	return (g_exit_status);
 }
 
+/**
+ * @brief Executa um comando dentro de uma pipeline.
+ *
+ * Cria um processo filho via `fork()`. No filho:
+ * - Configura os descritores de arquivo para os pipes.
+ * - Executa redirecionamentos.
+ * - Executa o comando (built-in ou externo via `execvp()`).
+ *
+ * @param cmd Ponteiro para o comando a ser executado.
+ * @param pipes Array de pipes abertos.
+ * @param cmd_i Índice do comando atual.
+ * @param cmd_count Quantidade total de comandos na pipeline.
+ * @return PID do processo filho ou 1 em erro.
+ */
+
 //norminette:+25 lines needs to be chopped
 static int	exec_pip_cmd(t_command *cmd, int **pipes, int cmd_i, int cmd_count)
 {
@@ -122,6 +158,19 @@ static int	exec_pip_cmd(t_command *cmd, int **pipes, int cmd_i, int cmd_count)
 	}
 	return (pid);
 }
+
+/**
+ * @brief Configura os descritores de arquivo padrão para um comando da pipeline.
+ *
+ * Redireciona a entrada e/ou saída padrão do processo conforme sua posição
+ * na pipeline:
+ * - Entrada recebe o lado de leitura do pipe anterior, se houver.
+ * - Saída recebe o lado de escrita do próximo pipe, se houver.
+ *
+ * @param pipes Array de pipes abertos.
+ * @param cmd_index Índice do comando atual.
+ * @param cmd_count Quantidade total de comandos na pipeline.
+ */
 
 static void	setup_pipe_fds(int **pipes, int cmd_index, int cmd_count)
 {

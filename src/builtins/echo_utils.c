@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 19:43:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 15:56:19 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 16:16:32 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ void	verify_flag(char *argv_splited, int *flag)
  * @brief Imprime os argumentos do `echo` sem uma nova linha final.
  *
  * Esta função é usada pelo comando `echo` quando a flag '-n' está presente.
- * Ela itera pelos argumentos do `echo`, começando após a flag '-n', e os
- * imprime na saída padrão, sem adicionar uma nova linha ao final.
+ * Ela itera pelos argumentos do `echo`, começando após a flag '-n', (ou seja,
+ * itera(não imprimindo) todas as ocorrências de -n) e os imprime na saída
+ * padrão, sem adicionar uma nova linha ao final.
  *
  * @param argv Um array de strings, que são os argumentos do comando `echo`.
  *             Assume que a flag '-n' já foi tratada e os argumentos a serem

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 02:26:36 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 17:04:21 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,41 +30,70 @@
 # include "../libft/headers/get_next_line.h"
 # include "../libft/headers/ft_printf.h"
 
+/**
+ * @brief Enumeração dos tipos de tokens reconhecidos no shell.
+ *
+ * Define os tipos de elementos sintáticos que podem ser encontrados
+ * durante a análise léxica da linha de comando.
+ */
+
 typedef enum e_token_type
 {
-	WORD,
-	PIPE,
-	REDIR_IN,
-	REDIR_OUT,
-	REDIR_APPEND,
-	HEREDOC,
-	SINGLE_QUOTE,
-	DOUBLE_QUOTE,
-	VAR,
-	ESCAPE
+	WORD,			/**< Palavra normal (comando ou argumento). */
+	PIPE,			/**< Pipe '|'. */
+	REDIR_IN,		/**< Redirecionamento de entrada '<'. */
+	REDIR_OUT,		/**< Redirecionamento de saída '>'. */
+	REDIR_APPEND,	/**< Redirecionamento de append '>>'. */
+	HEREDOC,		/**< Redirecionamento heredoc '<<'. */
+	SINGLE_QUOTE,	/**< Aspa simples '\''. */
+	DOUBLE_QUOTE,	/**< Aspa dupla '"'. */
+	VAR,			/**< Variável de ambiente '$VAR'. */
+	ESCAPE			/**< Caractere de escape '\\'. */
 }	t_token_type;
+
+/**
+ * @brief Estrutura que representa um token da linha de comando.
+ *
+ * Cada token contém um valor em string, seu tipo, e um ponteiro para o
+ * próximo token, formando uma lista ligada.
+ */
 
 typedef struct s_token
 {
-	char			*value;
-	t_token_type	type;
-	struct s_token	*next;
+	char			*value;	/**< Valor textual do token. */
+	t_token_type	type;	/**< Tipo do token (palavra, pipe, redir etc). */
+	struct s_token	*next;	/**< Ponteiro para o próximo token na lista. */
 }	t_token;
+
+/**
+ * @brief Estrutura que representa uma redireção de entrada ou saída.
+ *
+ * Contém o tipo da redireção, o nome do arquivo associado, e um ponteiro
+ * para a próxima redireção, formando uma lista ligada.
+ */
 
 typedef struct s_redir
 {
-	t_token_type	type;
-	char			*file;
-	struct s_redir	*next;
+	t_token_type	type;	/**< Tipo de redireção (>, >>, < ou <<). */
+	char			*file;	/**< Nome do arquivo associado à redireção. */
+	struct s_redir	*next;	/**< Ponteiro para a próxima redireção. */
 }	t_redir;
+
+/**
+ * @brief Estrutura que representa um comando completo.
+ *
+ * Contém os argumentos do comando, informações sobre as aspas removidas,
+ * tipos de tokens, redireções associadas e ponteiro para o próximo comando
+ * em caso de pipes.
+ */
 
 typedef struct s_command
 {
-	char				**args;
-	int					*quote_removed;
-	t_token_type		*token_types;
-	t_redir				*redirs;
-	struct s_command	*next;
+	char				**args;			/**< Array de argumentos do comando. */
+	int					*quote_removed;	/**< Flags indicando remoção de aspas. */
+	t_token_type		*token_types;	/**< Tipos de tokens associados aos args. */
+	t_redir				*redirs;		/**< Lista ligada de redireções. */
+	struct s_command	*next;			/**< Próximo comando (pipe). */
 }	t_command;
 
 //core

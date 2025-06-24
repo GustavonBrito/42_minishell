@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 15:57:41 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 16:53:34 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@ void	export(t_command *cmd);
  *
  * Esta função manipula variáveis de ambiente.
  * Se chamada sem argumentos, comporta-se como `env` com o modo de exportação,
- * exibindo todas as variáveis de ambiente formatadas com "declare -x".
- * Se um argumento `CHAVE=VALOR` for fornecido, cria ou atualiza a variável
- * de ambiente correspondente.
+ * retornando env(1), ou seja, exibindo todas as vars de ambiente formatadas
+ * com "declare -x".
+ * Se argumentos forem fornecidos, verifica se cada argumento é do tipo
+ * WORD (nó cmd->t_token_types é do tipo t_token_type, ou seja
+ * a enum q quarda essa info) e se contém um sinal '=', criando ou atualizando
+ * a variável de ambiente correspondente e removendo aspas se necessário.
  *
- * @param argv Um array de strings, onde argv é "export" e argv (se existir)
- *             é a var de ambiente a ser exportada no formato "CHAVE=VALOR".
+ * @param cmd Estrutura contendo os argumentos e informações do comando.
  */
 
 //norminette:+25 lines needs to be chopped

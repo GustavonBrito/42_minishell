@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:04:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 15:04:19 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 16:57:26 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@ void	is_builtin(t_command *cmd);
 /**
  * @brief Verifica e executa um comando built-in.
  *
- * Esta função recebe um array de argumentos e verifica se o primeiro
+ * Esta função recebe uma estrutura `t_command` e verifica se o primeiro
  * argumento (o nome do comando) corresponde a um comando built-in suportado
- * (echo, cd, pwd, export, unset, env, exit). Se houver uma correspondência,
- * a função correspondente do built-in é invocada.
+ * (echo, cd, pwd, export, unset, env, exit).
+ * Se houver uma correspondência, a ft correspondente do built-in é invocada,
+ * Se não, retorna para a execution() {em exec/execution.c} seguindo o fluxo
+ * para chamar execve;
  *
- * @param argv Um array de strings contendo o comando e seus argumentos.
- *             argv é o nome do comando.
+ * @param cmd Estrutura contendo os argumentos e informações do comando.
  */
 
 //norminette:+25 lines needs to be chopped
