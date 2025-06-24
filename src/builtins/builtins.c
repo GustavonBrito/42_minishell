@@ -6,13 +6,15 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:04:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 02:07:46 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 15:04:19 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
+
+void	is_builtin(t_command *cmd);
 
 /**
  * @brief Verifica e executa um comando built-in.

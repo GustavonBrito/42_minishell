@@ -6,13 +6,15 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 02:09:45 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 15:55:56 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
+
+void	cd(t_command *cmd);
 
 /**
  * @brief Implementa o comando 'cd'.

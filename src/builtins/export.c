@@ -6,13 +6,15 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 02:08:56 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 15:57:41 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
+
+void	export(t_command *cmd);
 
 /**
  * @brief Implementa o comando 'export'.

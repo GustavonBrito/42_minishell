@@ -6,11 +6,14 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 19:43:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 02:12:33 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 15:56:19 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	verify_flag(char *argv_splited, int *flag);
+void	printf_without_n(char **argv);
 
 /**
  * @brief Verifica se um argumento de `echo` é a flag '-n'.

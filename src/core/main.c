@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:45:31 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/22 21:25:32 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/24 15:58:08 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_exit_status;
+int	main(void);
 
 /**
  * @brief A função principal do programa minishell.
