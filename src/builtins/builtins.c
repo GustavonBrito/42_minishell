@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:04:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 16:57:26 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 22:07:58 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	is_builtin(t_command *cmd)
 	else if (ft_strncmp(argv[0], "export", 6) == 0)
 		export(cmd);
 	else if (ft_strncmp(argv[0], "unset", 5) == 0)
-		unset(argv);
+		unset(cmd);
 	else if (ft_strncmp(argv[0], "env", 3) == 0)
 		env(0);
 	else if (ft_strncmp(argv[0], "exit", 4) == 0)

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 01:57:29 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 22:14:13 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ static int	tokenize_input(char *input, t_token **token_lst)
 			i += handle_var(input, token_lst, i);
 		else if (ft_isop(input[i]))
 			i += handle_op(input, token_lst, i);
-		else if (input[i] == '\\')
-			i += handle_escape(input, token_lst, i);
+		/* else if (input[i] == '\\')
+			i += handle_escape(input, token_lst, i); */
 		else
 		{
 			if (is_assignment_with_quotes(input, i))
