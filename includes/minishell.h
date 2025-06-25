@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 22:07:20 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/25 01:16:04 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,8 @@ void		update_pwd(void);
 
 //buitins
 void		is_builtin(t_command *cmd);//Verifica qual builtin foi passado como argumento
-void		echo(char **argv); // Funcao para implementar a funcao echo
-void		verify_flag(char *argv_splited, int *flag);// Verifica se a flag é valida
-void		printf_without_n(char **buffer);// Funcao para printar echo quando tem flag
+void		echo(t_command *cmd); // Funcao para implementar a funcao echo
+int			verify_flag(char *arg);// Verifica se a flag é valida
 void		cd(t_command *cmd); // Funcao para alterar o diretorio.
 void		env(int is_export);
 void		exit_minishell(void);
