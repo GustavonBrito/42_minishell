@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 02:24:58 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 22:08:44 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	add_token(t_token **head, char *input, t_token_type type)
 	temp->next = new;
 }
 
-int	handle_escape(char *input, t_token **token_lst, int i)
+/* int	handle_escape(char *input, t_token **token_lst, int i)
 {
 	int	j;
 	int	actual_final_len;
@@ -109,7 +109,7 @@ int	handle_escape(char *input, t_token **token_lst, int i)
 		}
 	}
 	return (0);
-}
+} */
 
 /**
  * @brief Libera toda a memória alocada para uma lista encadeada de tokens.

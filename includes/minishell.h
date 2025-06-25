@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 17:04:21 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/24 22:07:20 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void		env(int is_export);
 void		exit_minishell(void);
 void		export(t_command *cmd);
 void		pwd(void);
-void		unset(char **argv);
+void		unset(t_command *cmd);
 
 //lexing
 int			process_input(char *input);
