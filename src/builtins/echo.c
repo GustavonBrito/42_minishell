@@ -3,24 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:54:36 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/22 20:48:27 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/24 15:56:30 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	echo(char **argv);
+
 /**
  * @brief Implementa o comando 'echo'.
  *
  * Esta função simula o comportamento do comando 'echo' do shell.
- * Ela imprime os argumentos fornecidos para a saída padrão, separados por espaços.
+ * Ela imprime os args fornecidos para a saída padrão, separados por espaços.
  * Se nenhum argumento for fornecido, imprime uma nova linha.
  * Suporta a flag '-n' para suprimir a nova linha final.
  *
- * @param argv Um array de strings representando os argumentos do comando 'echo',
+ * @param argv Um array de strings representando os args do comando 'echo',
  *             onde argv é "echo" e os elementos subsequentes são os argumentos
  *             a serem impressos.
  */

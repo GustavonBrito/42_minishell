@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/23 00:39:39 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/24 01:50:16 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,18 @@ static int	handle_special_vars(char *input, t_token **token_lst, int i);
 /**
  * @brief Lida com a tokenização de strings entre aspas.
  *
- * Esta função é responsável por encontrar o fechamento de uma aspa (simples ou dupla),
- * extrair o conteúdo entre aspas e criar um token apropriado (`SINGLE_QUOTE` ou `DOUBLE_QUOTE`).
+ * Esta função é responsável por encontrar o fechamento de uma
+ * aspa (simples ou dupla), extrair o conteúdo entre aspas e criar um
+ * token apropriado (`SINGLE_QUOTE` ou `DOUBLE_QUOTE`).
  * Reporta um erro de sintaxe se a aspa não for fechada.
  *
  * @param input A string de entrada completa.
- * @param token_lst Um ponteiro para a lista de tokens onde o novo token será adicionado.
- * @param i O índice atual na string de entrada onde a aspa de abertura foi encontrada.
- * @return O número de caracteres processados (comprimento da string entre aspas + 2 para aspas),
- *         ou 1 em caso de erro de aspas não fechadas.
+ * @param token_lst Um ponteiro para a lista de tokens onde o novo token
+ *        será adicionado.
+ * @param i O índice atual na string de entrada onde a aspa de abertura foi
+ *          encontrada.
+ * @return O número de caracteres processados (comprimento da string entre
+ *         aspas + 2 para aspas), ou 1 em caso de erro de aspas não fechadas.
  */
 int	handle_quotes(char *input, t_token **token_lst, int i)
 {
@@ -54,12 +57,14 @@ int	handle_quotes(char *input, t_token **token_lst, int i)
  * @brief Lida com a tokenização de variáveis.
  *
  * Esta função é chamada quando um caractere '$' é encontrado. Ela determina
- * se é uma variável especial (`$?` ou `$$`) ou uma variável de ambiente normal,
+ * se é uma variável especial (`$?` ou `$$`) ou uma var de ambiente normal,
  * e então chama a função auxiliar apropriada para criar o token `VAR`.
- * Se o '$' não for seguido por um nome de variável válido, é tratado como uma palavra literal.
+ * Se o '$' não for seguido por um nome de variável válido, é tratado como
+ * uma palavra literal.
  *
  * @param input A string de entrada completa.
- * @param token_lst Um ponteiro para a lista de tokens onde o novo token será adicionado.
+ * @param token_lst Um ponteiro para a lista de tokens onde o novo token
+ *        será adicionado.
  * @param i O índice atual na string de entrada onde o '$' foi encontrado.
  * @return O número de caracteres processados para formar o token da variável.
  */
@@ -87,7 +92,8 @@ int	handle_var(char *input, t_token **token_lst, int i)
  *
  * @param input A string de entrada completa.
  * @param token_lst Um ponteiro para a lista de tokens.
- * @param start O índice de início do conteúdo da citação (após a aspa de abertura).
+ * @param start O índice de início do conteúdo da citação
+ *        (após a aspa de abertura).
  * @param quote_type O caractere da aspa ('\'' ou '"').
  * @return O número de caracteres processados, incluindo as aspas.
  */
@@ -120,13 +126,13 @@ static int	process_quote(char *input, t_token **token_lst, int start
 /**
  * @brief Processa o nome de uma variável de ambiente.
  *
- * Extrai o nome da variável (seguindo as regras de nomes de variáveis de shell:
- * alfanumérico ou underscore) e a adiciona à lista de tokens como um token `VAR`.
+ * Extrai o nome da variável (seguindo as regras de nomes de vars de shell:
+ * alfanum ou underscore) e a adiciona à lista de tokens como um token `VAR`.
  *
  * @param input A string de entrada completa.
  * @param token_lst Um ponteiro para a lista de tokens.
  * @param start O índice de início do `$VAR` (incluindo o '$').
- * @return O número de caracteres processados para o nome da variável (incluindo o '$').
+ * @return O número de chars processados para o nome da var (incluindo o '$').
  */
 static int	process_var_name(char *input, t_token **token_lst, int start)
 {
@@ -155,7 +161,8 @@ static int	process_var_name(char *input, t_token **token_lst, int start)
  * @param input A string de entrada completa.
  * @param token_lst Um ponteiro para a lista de tokens.
  * @param i O índice do caractere '$' na string de entrada.
- * @return O número de caracteres processados (2 para `$?` ou `$$`, 1 para '$' literal).
+ * @return O número de caracteres processados (2 para `$?` ou `$$`, 1 para
+ *        '$' literal).
  */
 static int	handle_special_vars(char *input, t_token **token_lst, int i)
 {

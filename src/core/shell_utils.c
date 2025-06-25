@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/22 21:24:51 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/24 17:37:20 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	check_exit_condition(char *buffer_received)
 }
 
 /**
- * @brief Manipulador de sinais para o shell.
+ * @brief Manipulador de sinais para interrupção do shell.
  *
  * Lida com o sinal `SIGINT` (Ctrl+C). Quando o sinal é recebido,
  * ele imprime uma nova linha, limpa a linha atual do readline,

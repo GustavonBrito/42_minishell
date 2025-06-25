@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/22 21:27:52 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/24 17:46:47 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
+
 int		execute_command(t_command *cmd);
 int		execute_builtin_with_redirections(t_command *cmd);
 int		execute_external_command(t_command *cmd);
 void	handle_command_execution(t_command *cmd);
-int		is_builtin_command(char *cmd);
+int		check_builtin(char *cmd);
 
 /**
  * @brief Executa um único comando.
@@ -49,7 +51,7 @@ int	execute_command(t_command *cmd)
 		restore_std_fds(saved_stdin, saved_stdout);
 		return (redir_result);
 	}
-	if (is_builtin_command(cmd->args[0]))
+	if (check_builtin(cmd->args[0]))
 		exec_result = execute_builtin_with_redirections(cmd);
 	else
 		exec_result = execute_external_command(cmd);
@@ -64,14 +66,16 @@ int	execute_command(t_command *cmd)
  * seja chamado com seus argumentos apropriados *depois* que os redirecionamentos
  * de E/S tenham sido configurados pelo `execute_command`.
  *
- * @param cmd Um ponteiro para a estrutura `t_command` representando o built-in a ser executado.
- * @return 0 em caso de sucesso na execução, ou 1 se o comando ou seus argumentos forem inválidos.
+ * @param cmd Um ponteiro para a estrutura `t_command` representando o built-in a
+ *        ser executado.
+ * @return 0 em caso de sucesso na execução, ou 1 se o comando ou seus argumentos
+ *         forem inválidos.
  */
 int	execute_builtin_with_redirections(t_command *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (1);
-	is_builtin(cmd->args);
+	is_builtin(cmd);
 	return (0);
 }
 
@@ -83,10 +87,13 @@ int	execute_builtin_with_redirections(t_command *cmd)
  * No processo pai, espera pelo processo filho e captura seu status de saída.
  * Reporta erros de `fork` ou "comando não encontrado".
  *
- * @param cmd Um ponteiro para a estrutura `t_command` representando o comando externo.
- * @return O status de saída do comando externo (0 para sucesso, 127 para comando não encontrado,
- *         outros valores para erros ou sinais).
+ * @param cmd Um ponteiro para a estrutura `t_command` representando o comando
+ *        externo.
+ * @return O status de saída do comando externo (0 para sucesso, 127 para comando
+ *         não encontrado, outros valores para erros ou sinais).
  */
+
+//norminette: +25 lines: needs to be chopped
 int	execute_external_command(t_command *cmd)
 {
 	pid_t	pid;
@@ -121,9 +128,11 @@ int	execute_external_command(t_command *cmd)
 /**
  * @brief Gerencia a execução de uma lista de comandos.
  *
- * Esta função itera sobre uma lista encadeada de comandos, executando cada um
- * sequencialmente. O status de saída do último comando executado é armazenado
- * na variável global `g_exit_status`. Atualmente, não implementa pipes entre comandos.
+ * Itera sobre a lista de comandos e executa:
+ * 1. Se o primeiro comando for uma variável (token VAR), imprime seu conteúdo.
+ * 2. Se houver pipes, executa a pipeline.
+ * 3. Caso contrário, executa o comando individual.
+ * O status de saída do último comando executado é armazenado em `g_exit_status`.
  *
  * @param cmd O primeiro ponteiro para a lista de `t_command` a ser executada.
  */
@@ -131,25 +140,21 @@ void	handle_command_execution(t_command *cmd)
 {
 	t_command	*current;
 
+	if (!cmd)
+		return ;
 	current = cmd;
-	while (current)
+	if (cmd->token_types[0] == VAR)
 	{
-		g_exit_status = execute_command(current);
-		current = current->next;
-		// TODO: implement pipes
+		ft_printf("%s\n", current->args[0]);
+		return ;
 	}
+	if (has_pipes(current))
+		g_exit_status = execute_pipeline(current);
+	else
+		g_exit_status = execute_command(current);
 }
 
-/**
- * @brief Verifica se uma string de comando corresponde a um comando built-in.
- *
- * Compara a string de comando (após remover espaços em branco iniciais/finais)
- * com os nomes dos comandos built-in suportados pelo minishell.
- *
- * @param cmd A string que representa o nome do comando a ser verificado.
- * @return 1 se o comando for um built-in, 0 caso contrário.
- */
-int	is_builtin_command(char *cmd)
+int	check_builtin(char *cmd)
 {
 	char	*trimmed;
 	int		result;

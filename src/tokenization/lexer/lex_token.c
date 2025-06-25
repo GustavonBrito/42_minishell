@@ -6,11 +6,14 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 00:20:42 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/24 23:30:24 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
+//NORMINETTE: too many fts in file. reorder with new file
 
 int			process_input(char *input);
 static int	lex_token(char *input);
@@ -18,6 +21,8 @@ static int	tokenize_input(char *input, t_token **token_lst);
 static int	process_commands(t_command *commands);
 static int	handle_op(char *input, t_token **token_lst, int i);
 static int	handle_word(char *input, t_token **token_lst, int i);
+int			handle_attribution_w_quote(char *input, t_token **token_lst, int i);
+int			is_assignment_with_quotes(char *input, int start);
 
 /**
  * @brief Ponto de entrada principal para processar uma linha de entrada.
@@ -27,20 +32,21 @@ static int	handle_word(char *input, t_token **token_lst, int i);
  *
  * @param input A linha de entrada recebida do readline.
  * @return 0 se a entrada for vazia, ou o status de saída do último comando
- *         processado (ou 1 em caso de erro de sintaxe/alocação durante o processamento).
+ *         processado (ou 1 em caso de erro de sintaxe/alocação durante
+ *         o processamento).
  */
 int	process_input(char *input)
 {
 	if (!input || ft_strlen(input) == 0)
-		return 0;
+		return (0);
 	return (lex_token(input));
 }
 
 /**
- * @brief Orquestra as etapas de tokenização, parsing e processamento de comandos.
+ * @brief Orquestra etapas de tokenização, parsing e processamento de comandos.
  *
  * Cria uma lista de tokens a partir da entrada, então analisa esses tokens
- * para formar uma lista de comandos. Finalmente, processa (executa) esses comandos.
+ * para formar uma lista de comandos. Finalmente, processa (executa) comandos.
  * Gerencia a liberação de memória para tokens e comandos.
  *
  * @param input A linha de entrada a ser processada.
@@ -72,14 +78,18 @@ static int	lex_token(char *input)
  * @brief Tokeniza a string de entrada em uma lista de tokens.
  *
  * Percorre a string de entrada, identificando diferentes tipos de elementos
- * como espaços, aspas (simples/duplas), variáveis, operadores, escapes e palavras.
- * Para cada elemento, chama a função `handle_*` apropriada para criar e adicionar
- * um token à lista.
+ * como espaços, aspas (simples/duplas), variáveis, operadores, escapes
+ * e palavras.
+ * Para cada elemento, chama a função `handle_*` apropriada para criar e
+ * adicionar um token à lista.
  *
  * @param input A string de entrada a ser tokenizada.
  * @param token_lst Um ponteiro para a lista de tokens (será preenchida).
- * @return 0 em caso de sucesso na tokenização, ou 1 em caso de erro (e.g., aspas não fechadas).
+ * @return 0 em caso de sucesso na tokenização, ou 1 em caso de erro
+ *         (e.g., aspas não fechadas).
  */
+
+//norminette:+25 lines needs to be chopped
 static int	tokenize_input(char *input, t_token **token_lst)
 {
 	int	i;
@@ -105,10 +115,15 @@ static int	tokenize_input(char *input, t_token **token_lst)
 			i += handle_var(input, token_lst, i);
 		else if (ft_isop(input[i]))
 			i += handle_op(input, token_lst, i);
-		else if (input[i] == '\\')
-			i += handle_escape(input, token_lst, i);
+		/* else if (input[i] == '\\')
+			i += handle_escape(input, token_lst, i); */
 		else
-			i += handle_word(input, token_lst, i);
+		{
+			if (is_assignment_with_quotes(input, i))
+				i += handle_attribution_w_quote(input, token_lst, i);
+			else
+				i += handle_word(input, token_lst, i);
+		}
 	}
 	return (0);
 }
@@ -120,9 +135,10 @@ static int	tokenize_input(char *input, t_token **token_lst)
  * Para cada comando, ela realiza a expansão de variáveis e, em seguida,
  * chama a função de execução de comando apropriada.
  *
- * @param commands O primeiro ponteiro para a lista de `t_command` a ser processada.
- * @return 0 em caso de sucesso, ou 1 se houver um erro durante a expansão de variáveis.
+ * @param commands O primeiro ptr para a lista de `t_command` a ser processada.
+ * @return 0 em caso de sucesso, ou 1 se houver erro durante a exp de vars.
  */
+
 static int	process_commands(t_command *commands)
 {
 	t_command	*current_cmd;
@@ -152,6 +168,8 @@ static int	process_commands(t_command *commands)
  * @param i O índice atual na string de entrada onde o operador foi encontrado.
  * @return O número de caracteres do operador processados (1 ou 2).
  */
+
+//norminette:+25 lines needs to be chopped
 static int	handle_op(char *input, t_token **token_lst, int i)
 {
 	if (input[i] == '|')
@@ -214,3 +232,49 @@ static int	handle_word(char *input, t_token **token_lst, int i)
 	return (len);
 }
 
+//norminette:+25 lines needs to be chopped
+int	handle_attribution_w_quote(char *input, t_token **token_lst, int i)
+{
+	int		start;
+	int		j;
+	char	*full_word;
+	int		len;
+	char	quote_char;
+
+	start = i;
+	j = i;
+	while (input[j] && !ft_isspace(input[j]) && !ft_isop(input[j])
+		&& input[j] != '$')
+	{
+		if (input[j] == '\'' || input[j] == '"')
+		{
+			quote_char = input[j];
+			j++;
+			while (input[j] && input[j] != quote_char)
+				j++;
+			if (input[j] == quote_char)
+				j++;
+		}
+		else
+			j++;
+	}
+	len = j - start;
+	full_word = ft_substr(input, start, len);
+	if (!full_word)
+		return (len);
+	add_token(token_lst, full_word, WORD);
+	free(full_word);
+	return (len);
+}
+
+int	is_assignment_with_quotes(char *input, int start)
+{
+	int	i;
+
+	i = start;
+	while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
+		i++;
+	if (input[i] == '=' && (input[i + 1] == '"' || input[i + 1] == '\''))
+		return (1);
+	return (0);
+}

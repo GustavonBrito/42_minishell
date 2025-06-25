@@ -3,35 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/22 20:50:02 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/24 16:44:33 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
+
+void	cd(t_command *cmd);
+
 /**
  * @brief Implementa o comando 'cd'.
  *
  * Esta função muda o diretório de trabalho atual do shell.
- * Se nenhum argumento for fornecido, tenta mudar para o diretório HOME do usuário.
+ * Se nenhum arg for fornecido, tenta mudar para o diretório HOME do usuário.
  * Se um argumento for fornecido, tenta mudar para o diretório especificado.
  * Em caso de sucesso, atualiza a variável de ambiente PWD.
- * Reporta erros se o diretório HOME não estiver definido ou se o diretório de destino
+ * Reporta erros se o dir HOME não estiver definido ou se o diretório de dest
  * não existir ou não puder ser acessado.
  *
- * @param argv Um array de strings, onde argv é "cd" e argv (se existir)
- *             é o caminho para o diretório de destino.
+ * @param cmd Estrutura contendo os argumentos e informações do comando 'cd'.
  */
-void	cd(char **argv)
+
+//norminette:+25 lines needs to be chopped
+void	cd(t_command *cmd)
 {
 	char	*home;
-	char	*actual_directory;
 	char	*target_dir;
 
-	if (!argv[1])
+	if (!cmd->args[1])
 	{
 		home = getenv("HOME");
 		if (!home)
@@ -40,18 +44,16 @@ void	cd(char **argv)
 			return ;
 		}
 		chdir(home);
-		return;
+		return ;
 	}
 	else
-		target_dir = argv[1];
-	if (chdir(argv[1]) == -1)
 	{
-		ft_printf("No such file or directory: %s\n", target_dir);
-		return ;
+		target_dir = cmd->args[1];
+		if (chdir(target_dir) == -1)
+		{
+			ft_printf("No such file or directory: %s\n", target_dir);
+			return ;
+		}
 	}
-	actual_directory = getcwd(NULL, 0);
-	if (!actual_directory)
-		return ;
-	setenv("PWD", actual_directory, 1);
-	free(actual_directory);
+	update_pwd();
 }

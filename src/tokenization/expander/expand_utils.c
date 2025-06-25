@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/22 21:13:23 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/24 01:43:04 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,16 @@ char	*append_char(char *dest, char c);
 int		handle_regular_char(const char *str, char **res, int i);
 
 /**
- * @brief Concatena uma string de origem a uma string de destino, realocando conforme necessário.
+ * @brief Concatena uma string de origem a uma string de destino, realocando
+ * conforme necessário.
  *
  * Esta função cria uma nova string que é a concatenação de `dest` e `src`.
  * A memória da string `dest` original é liberada.
  *
  * @param dest A string de destino (será liberada).
  * @param src A string de origem a ser anexada.
- * @return Uma nova string com o conteúdo concatenado, ou NULL em caso de erro de alocação.
+ * @return Uma nova string com o conteúdo concatenado, ou NULL em caso de erro
+ *         de alocação.
  */
 char	*append_str(char *dest, const char *src)
 {
@@ -54,7 +56,7 @@ char	*append_str(char *dest, const char *src)
  *
  * @param var_name O nome da variável de ambiente.
  * @return Uma nova string contendo o valor da variável, ou uma string vazia
- *         se a variável não for definida. Retorna NULL em caso de erro de alocação.
+ *         se a var não for definida. Retorna NULL em caso de erro de alocação.
  */
 char	*get_env_val(const char *var_name)
 {
@@ -67,14 +69,14 @@ char	*get_env_val(const char *var_name)
 }
 
 /**
- * @brief Anexa um único caractere a uma string, realocando conforme necessário.
+ * @brief Anexa um único char a uma string, realocando conforme necessário.
  *
  * Esta função cria uma nova string que contém o conteúdo original de `dest`
  * seguido pelo caractere `c`. A memória da string `dest` original é liberada.
  *
  * @param dest A string de destino (será liberada).
  * @param c O caractere a ser anexado.
- * @return Uma nova string com o caractere anexado, ou NULL em caso de erro de alocação.
+ * @return Uma nova string com o char anexado, ou NULL em caso de erro.
  */
 char	*append_char(char *dest, char c)
 {
@@ -98,12 +100,12 @@ char	*append_char(char *dest, char c)
 /**
  * @brief Lida com caracteres que não são parte de uma expansão de variável.
  *
- * Simplesmente anexa o caractere atual da string de entrada à string de resultado.
+ * Simplesmente anexa o char atual da string de entrada à string de resultado.
  *
  * @param str A string de entrada.
- * @param res Um ponteiro para a string de resultado onde o caractere será anexado.
+ * @param res Um ponteiro para a string de resultado onde o char será anexado.
  * @param i O índice do caractere atual em `str`.
- * @return 1 se o caractere foi anexado com sucesso, 0 em caso de falha de alocação.
+ * @return 1 se o caractere foi anexado com sucesso, 0 em caso de falha.
  */
 int	handle_regular_char(const char *str, char **res, int i)
 {

@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 00:45:31 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 15:58:08 by luiza            ###   ########.fr       */
+/*   Created: 2025/06/23 22:59:26 by luiza             #+#    #+#             */
+/*   Updated: 2025/06/24 17:40:09 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_exit_status;
-int	main(void);
+void		update_pwd(void);
 
 /**
- * @brief A função principal do programa minishell.
+ * @brief Atualiza a variável de ambiente PWD.
  *
- * Inicializa o status de saída global (`g_exit_status`) e, em seguida,
- * entra no loop principal do shell (`shell_loop`) para começar a processar
- * comandos.
- *
- * @return 0 ao sair do programa.
+ * Obtém o diretório de trabalho atual via getcwd e atualiza a variável
+ * de ambiente PWD com esse valor usando setenv. Libera a memória alocada
+ * após a atualização.
  */
-int	main(void)
+
+void	update_pwd(void)
 {
-	g_exit_status = 0;
-	shell_loop();
-	return (0);
+	char	*actual_directory;
+
+	actual_directory = getcwd(NULL, 0);
+	if (!actual_directory)
+		return ;
+	setenv("PWD", actual_directory, 1);
+	free(actual_directory);
 }

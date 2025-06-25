@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lex_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
+<<<<<<< HEAD:src/parsing/lexer/lex_utils.c
 /*   Updated: 2025/06/24 00:28:15 by gustavo-lin      ###   ########.fr       */
+=======
+/*   Updated: 2025/06/24 22:08:44 by luiza            ###   ########.fr       */
+>>>>>>> develop:src/tokenization/lexer/lex_utils.c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +88,7 @@ void	add_token(t_token **head, char *input, t_token_type type)
 	temp->next = new;
 }
 
-int		handle_escape(char *input, t_token **token_lst, int i)
+/* int	handle_escape(char *input, t_token **token_lst, int i)
 {
 	char	*word_escaped;
 	int j;
@@ -119,6 +123,7 @@ int		handle_escape(char *input, t_token **token_lst, int i)
  *
  * @param head O ponteiro para o início da lista de tokens a ser liberada.
  */
+
 void	free_tokens(t_token *head)
 {
 	t_token	*temp;
