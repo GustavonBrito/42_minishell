@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 17:46:47 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/26 22:51:48 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 //FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
 
 int		execute_command(t_command *cmd);
-int		execute_builtin_with_redirections(t_command *cmd);
+int		execute_builtin(t_command *cmd);
 int		execute_external_command(t_command *cmd);
 void	handle_command_execution(t_command *cmd);
-int		check_builtin(char *cmd);
+int		check_builtin(t_command *cmd);
 
 /**
  * @brief Executa um único comando.
@@ -27,7 +27,7 @@ int		check_builtin(char *cmd);
  * 1. Salva os descritores de arquivo padrão (stdin, stdout).
  * 2. Configura quaisquer redirecionamentos associados ao comando.
  * 3. Determina se o comando é um built-in ou um comando externo.
- * 4. Chama a função de execução apropriada (`execute_builtin_with_redirections`
+ * 4. Chama a função de execução apropriada (`execute_builtin`
  *    ou `execute_external_command`).
  * 5. Restaura os descritores de arquivo padrão.
  *
@@ -51,8 +51,8 @@ int	execute_command(t_command *cmd)
 		restore_std_fds(saved_stdin, saved_stdout);
 		return (redir_result);
 	}
-	if (check_builtin(cmd->args[0]))
-		exec_result = execute_builtin_with_redirections(cmd);
+	if (check_builtin(cmd))
+		exec_result = execute_builtin(cmd);
 	else
 		exec_result = execute_external_command(cmd);
 	restore_std_fds(saved_stdin, saved_stdout);
@@ -71,7 +71,7 @@ int	execute_command(t_command *cmd)
  * @return 0 em caso de sucesso na execução, ou 1 se o comando ou seus argumentos
  *         forem inválidos.
  */
-int	execute_builtin_with_redirections(t_command *cmd)
+int	execute_builtin(t_command *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (1);
@@ -80,10 +80,10 @@ int	execute_builtin_with_redirections(t_command *cmd)
 }
 
 /**
- * @brief Executa um comando externo (não built-in).
+ * @brief Executa um comando externo (não built-in) usando execve.
  *
  * Esta função cria um novo processo filho usando `fork()`.
- * No processo filho, tenta executar o comando usando `execvp()`.
+ * No processo filho, tenta executar o comando usando `execve()`.
  * No processo pai, espera pelo processo filho e captura seu status de saída.
  * Reporta erros de `fork` ou "comando não encontrado".
  *
@@ -96,33 +96,46 @@ int	execute_builtin_with_redirections(t_command *cmd)
 //norminette: +25 lines: needs to be chopped
 int	execute_external_command(t_command *cmd)
 {
-	pid_t	pid;
-	int		status;
+	extern char	**environ;
+	pid_t		pid;
+	char		*cmd_path;
 
-	(void) cmd;
+	if (!cmd || !cmd->args || !cmd->args[0])
+	{
+		g_exit_status = 1;
+		return (g_exit_status);
+	}
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("minishell: fork");
-		return (1);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
 	else if (pid == 0)
 	{
-		if (execvp(cmd->args[0], cmd->args) == -1)
+		cmd_path = find_command_path(cmd->args[0]);
+		if (!cmd_path)
 		{
 			ft_printf("minishell: %s: command not found\n", cmd->args[0]);
 			exit(127);
 		}
+		if (execve(cmd_path, cmd->args, environ) == -1)
+		{
+			perror("minishell: execve");
+			free(cmd_path);
+			exit(126);
+		}
 	}
 	else
 	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			return (WEXITSTATUS(status));
-		else if (WIFSIGNALED(status))
-			return (128 + WTERMSIG(status));
+		waitpid(pid, &g_exit_status, 0);
+		if (WIFEXITED(g_exit_status))
+			return (WEXITSTATUS(g_exit_status));
+		else if (WIFSIGNALED(g_exit_status))
+			return (128 + WTERMSIG(g_exit_status));
 	}
-	return (0);
+	return (g_exit_status);
 }
 
 /**
@@ -154,28 +167,16 @@ void	handle_command_execution(t_command *cmd)
 		g_exit_status = execute_command(current);
 }
 
-int	check_builtin(char *cmd)
+int	check_builtin(t_command *cmd)
 {
-	char	*trimmed;
-	int		result;
-
-	trimmed = ft_strtrim(cmd, " ");
-	if (!trimmed)
+	if (ft_strncmp(cmd->args[0], "echo", 4) == 0
+	|| ft_strncmp(cmd->args[0], "cd", 2) == 0
+	|| ft_strncmp(cmd->args[0], "pwd", 3) == 0
+	|| ft_strncmp(cmd->args[0], "export", 6) == 0
+	|| ft_strncmp(cmd->args[0], "unset", 5) == 0
+	|| ft_strncmp(cmd->args[0], "env", 3) == 0
+	|| ft_strncmp(cmd->args[0], "exit", 4) == 0)
+		return (1);
+	else
 		return (0);
-	result = (ft_strncmp(trimmed, "echo", 4) == 0 && (trimmed[4] == ' '
-				|| trimmed[4] == '\0'))
-		|| (ft_strncmp(trimmed, "cd", 2) == 0 && (trimmed[2] == ' '
-				|| trimmed[2] == '\0'))
-		|| (ft_strncmp(trimmed, "pwd", 3) == 0 && (trimmed[3] == ' '
-				|| trimmed[3] == '\0'))
-		|| (ft_strncmp(trimmed, "export", 6) == 0 && (trimmed[6] == ' '
-				|| trimmed[6] == '\0'))
-		|| (ft_strncmp(trimmed, "unset", 5) == 0 && (trimmed[5] == ' '
-				|| trimmed[5] == '\0'))
-		|| (ft_strncmp(trimmed, "env", 3) == 0 && (trimmed[3] == ' '
-				|| trimmed[3] == '\0'))
-		|| (ft_strncmp(trimmed, "exit", 4) == 0 && (trimmed[4] == ' '
-				|| trimmed[4] == '\0'));
-	free(trimmed);
-	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 17:57:31 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/26 22:53:09 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ static int	exec_pip_cmd(t_command *cmd, int **pipes, int cmd_i, int cmd_count)
 		close_all_pipes(pipes, cmd_count - 1);
 		if (setup_redirections(cmd) != 0)
 			exit(1);
-		if (check_builtin(cmd->args[0]))
+		if (check_builtin(cmd))
 		{
 			is_builtin(cmd);
 			exit(g_exit_status);
