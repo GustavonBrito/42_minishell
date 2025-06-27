@@ -6,13 +6,11 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/27 02:55:01 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/27 03:03:22 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
 
 void		shell_loop(void);
 static char	*create_prompt(void);
@@ -38,8 +36,8 @@ void	shell_loop(void)
 	char		*buffer_received;
 	char		*prompt;
 
-	signal(SIGINT, signal_handler); // Lida com CTRL + C
-	signal(SIGQUIT, SIG_IGN); // Lida com CTRL + '\'
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		prompt = create_prompt();
@@ -47,7 +45,7 @@ void	shell_loop(void)
 			return ;
 		buffer_received = readline(prompt);
 		free(prompt);
-		check_exit_condition(buffer_received); // Lida com CTRL + D
+		check_exit_condition(buffer_received);
 		if (*buffer_received)
 		{
 			add_history(buffer_received);
@@ -106,7 +104,7 @@ static char	*create_prompt(void)
  *
  * @param current_dir Caminho absoluto atual obtido por getcwd().
  * @param home_dir Diretório HOME do usuário obtido por getenv("HOME").
- * @return Uma nova string alocada com o caminho formatado ou o próprio current_dir.
+ * @return String alocada com o caminho formatado ou o próprio current_dir.
  *         Se retornar uma nova string, ela deve ser liberada pelo chamador.
  *         Se retornar current_dir, o chamador não deve liberar.
  */

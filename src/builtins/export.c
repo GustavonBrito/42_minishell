@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/26 23:36:10 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/27 03:08:03 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	export(t_command *cmd)
 				key = cmd->args[i];
 				value = equal_sign + 1;
 				if ((value[0] == '"' && value[ft_strlen(value) - 1] == '"')
-					|| (value[0] == '\'' && value[ft_strlen(value) - 1] == '\''))
+					|| (value[0] == '\''
+						&& value[ft_strlen(value) - 1] == '\''))
 				{
 					value[ft_strlen(value) - 1] = '\0';
 					value++;
