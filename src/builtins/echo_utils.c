@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 19:43:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/25 01:19:33 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/26 23:34:28 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	verify_flag(char *arg);
  *
  * Esta função analisa o primeiro argumento do comando `echo` para determinar
  * se ele é a flag `-n` (que suprime a nova linha).
- * A flag é reconhecida se for "-n" seguido de espaço, 'n' ou fim de string.
+ * Flag é validada se = -n, permitindo reps de 'n' (ex:`-nnn`, `-nnnnn`, etc).
  *
  * @param arg A string do argumento a ser verificada.
  * @return 1 se for uma flag '-n' válida, 0 caso contrário.

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/26 22:51:48 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/26 23:29:53 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ int	execute_builtin(t_command *cmd)
  * @brief Executa um comando externo (não built-in) usando execve.
  *
  * Esta função cria um novo processo filho usando `fork()`.
- * No processo filho, tenta executar o comando usando `execve()`.
+ * No processo filho, resolve o path do comando usando `find_command_path()` e
+ * chama execve().
  * No processo pai, espera pelo processo filho e captura seu status de saída.
  * Reporta erros de `fork` ou "comando não encontrado".
  *
- * @param cmd Um ponteiro para a estrutura `t_command` representando o comando
- *        externo.
+ * @param cmd Um ponteiro para a estrutura `t_command` representando o comando.
  * @return O status de saída do comando externo (0 para sucesso, 127 para comando
  *         não encontrado, outros valores para erros ou sinais).
  */
@@ -166,6 +166,15 @@ void	handle_command_execution(t_command *cmd)
 	else
 		g_exit_status = execute_command(current);
 }
+
+/**
+ * @brief Verifica se um comando é um built-in suportado.
+ *
+ * Compara cmd->args[0] com os nomes dos comandos built-in válidos.
+ *
+ * @param cmd Estrutura contendo os argumentos e informações do comando.
+ * @return 1 se for um built-in, 0 se não.
+ */
 
 int	check_builtin(t_command *cmd)
 {

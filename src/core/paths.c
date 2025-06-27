@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:59:26 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/26 22:50:26 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/26 23:25:42 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,16 @@ char	*find_command_path(char *command)
 	free_array(path_dirs);
 	return (NULL);
 }
+
+
+/**
+ * @brief Libera um array de strings e o array principal.
+ *
+ * Percorre o array de strings e libera cada elemento individualmente,
+ * depois libera o próprio array.
+ *
+ * @param path_dirs O array de strings a ser liberado.
+ */
 
 void	free_array(char **path_dirs)
 {
