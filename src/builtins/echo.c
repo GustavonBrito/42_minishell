@@ -6,13 +6,13 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:54:36 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 15:56:30 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/25 01:32:53 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	echo(char **argv);
+void	echo(t_command *cmd);
 
 /**
  * @brief Implementa o comando 'echo'.
@@ -22,33 +22,35 @@ void	echo(char **argv);
  * Se nenhum argumento for fornecido, imprime uma nova linha.
  * Suporta a flag '-n' para suprimir a nova linha final.
  *
- * @param argv Um array de strings representando os args do comando 'echo',
- *             onde argv é "echo" e os elementos subsequentes são os argumentos
- *             a serem impressos.
+ * @param cmd Estrutura contendo os argumentos e informações do comando 'echp'.
  */
-void	echo(char **argv)
+void	echo(t_command *cmd)
 {
 	int	i;
 	int	flag;
 
-	i = 0;
-	flag = 0;
-	if (argv[1] == NULL)
+
+	if (!cmd || !cmd->args)
+		return ;
+	if (cmd->args[1] == NULL)
 	{
 		ft_printf("\n");
 		return ;
 	}
-	verify_flag(argv[1], &flag);
-	if (flag)
-		printf_without_n(argv);
-	else
+	i = 1;
+	flag = 0;
+	while (cmd->args[i] && verify_flag(cmd->args[i]))
 	{
-		while (argv[++i])
-		{
-			if (i > 1)
-				ft_printf(" ");
-			ft_printf("%s", argv[i]);
-		}
-		ft_printf("\n");
+		flag = 1;
+		i++;
 	}
+	while (cmd->args[i])
+	{
+		ft_printf("%s", cmd->args[i]);
+		i++;
+		if (cmd->args[i])
+			ft_printf(" ");
+	}
+	if (!flag)
+		ft_printf("\n");
 }

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 22:07:20 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/26 22:52:17 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,13 @@ void		signal_handler(int signal);
 
 //paths
 void		update_pwd(void);
+char		*find_command_path(char *command);
+void		free_array(char **path_dirs);
 
 //buitins
 void		is_builtin(t_command *cmd);//Verifica qual builtin foi passado como argumento
-void		echo(char **argv); // Funcao para implementar a funcao echo
-void		verify_flag(char *argv_splited, int *flag);// Verifica se a flag é valida
-void		printf_without_n(char **buffer);// Funcao para printar echo quando tem flag
+void		echo(t_command *cmd); // Funcao para implementar a funcao echo
+int			verify_flag(char *arg);// Verifica se a flag é valida
 void		cd(t_command *cmd); // Funcao para alterar o diretorio.
 void		env(int is_export);
 void		exit_minishell(void);
@@ -167,11 +168,11 @@ void		restore_std_fds(int saved_stdin, int saved_stdout);
 
 //exec
 int			execute_command(t_command *cmd);
-int			execute_builtin_with_redirections(t_command *cmd);
+int			execute_builtin(t_command *cmd);
 int			execute_external_command(t_command *cmd);
 void		handle_command_execution(t_command *cmd);
 void		handle_command_execution(t_command *cmd);
-int			check_builtin(char *cmd);
+int			check_builtin(t_command *cmd);
 
 //pipes
 int			has_pipes(t_command *cmd);

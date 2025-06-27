@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 16:53:34 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/26 23:36:10 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	export(t_command *cmd);
  * retornando env(1), ou seja, exibindo todas as vars de ambiente formatadas
  * com "declare -x".
  * Se argumentos forem fornecidos, verifica se cada argumento é do tipo
- * WORD (nó cmd->t_token_types é do tipo t_token_type, ou seja
- * a enum q quarda essa info) e se contém um sinal '=', criando ou atualizando
- * a variável de ambiente correspondente e removendo aspas se necessário.
+ * WORD (definido pela tokenização em `cmd->token_types`) e se contém um '=',
+ * criando ou atualizando a variável de ambiente correspondente e
+ * removendo aspas se necessário.
  *
  * @param cmd Estrutura contendo os argumentos e informações do comando.
  */
