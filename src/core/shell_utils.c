@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 17:37:20 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/27 02:57:27 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	check_exit_condition(char *buffer_received);
 void	signal_handler(int signal);
+char	*obtain_current_directory(void);
+char	*get_env_or_cleanup(const char *var, char *to_free);
 
 /**
  * @brief Verifica a condição de saída do shell.
@@ -51,4 +53,27 @@ void	signal_handler(int signal)
 	rl_replace_line("", 0);
 	rl_redisplay();
 	g_exit_status = 130;
+}
+
+char	*obtain_current_directory(void)
+{
+	char	*dir;
+
+	dir = getcwd(NULL, 0);
+	if (!dir)
+		return (NULL);
+	return (dir);
+}
+
+char	*get_env_or_cleanup(const char *var, char *to_free)
+{
+	char	*value;
+
+	value = getenv(var);
+	if (!value)
+	{
+		free(to_free);
+		return (NULL);
+	}
+	return (value);
 }
