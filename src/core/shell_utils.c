@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/27 02:57:27 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/27 03:18:33 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,15 @@ void	signal_handler(int signal)
 	g_exit_status = 130;
 }
 
+/**
+ * @brief Obtém o diretório de trabalho atual.
+ *
+ * Usa getcwd() para obter o caminho absoluto do diretório corrente.
+ *
+ * @return String alocada com o diretório atual, que deve ser liberada pelo chamador.
+ *         Retorna NULL em caso de erro.
+ */
+
 char	*obtain_current_directory(void)
 {
 	char	*dir;
@@ -64,6 +73,17 @@ char	*obtain_current_directory(void)
 		return (NULL);
 	return (dir);
 }
+
+/**
+ * @brief Obtém o valor de uma variável de ambiente ou libera memória auxiliar.
+ *
+ * Tenta obter o valor da variável de ambiente `var` usando getenv().
+ * Se não for encontrada, libera a string `to_free` e retorna NULL.
+ *
+ * @param var Nome da variável de ambiente a ser buscada.
+ * @param to_free String a ser liberada caso a variável não seja encontrada.
+ * @return Valor da variável se encontrado, ou NULL se não.
+ */
 
 char	*get_env_or_cleanup(const char *var, char *to_free)
 {

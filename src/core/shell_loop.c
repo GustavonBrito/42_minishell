@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/27 03:03:22 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/27 03:18:03 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,9 @@ void	shell_loop(void)
  * Monta o prompt customizado no formato:
  * "usuario@minishell:<diretorio_atual>$ "
  *
- * Obtém o diretório atual com getcwd() e o nome de usuário via getenv("USER").
- * Se o diretório estiver dentro do $HOME, substitui essa parte por '~'.
+ * Obtém o diretório atual com obtain_current_directory() e
+ * o nome de usuário via get_env_or_cleanup(). Se o diretório
+ * estiver dentro do $HOME, substitui essa parte por '~'.
  *
  * @return String alocada com o prompt, que deve ser liberada pelo chamador.
  *         Retorna NULL em caso de erro.
