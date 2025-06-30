@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 23:30:24 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/25 11:41:29 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ static int	tokenize_input(char *input, t_token **token_lst)
 			i += handle_var(input, token_lst, i);
 		else if (ft_isop(input[i]))
 			i += handle_op(input, token_lst, i);
-		/* else if (input[i] == '\\')
-			i += handle_escape(input, token_lst, i); */
+		// else if (input[i] == '\\')
+		// 	i += handle_escape(input, token_lst, i);
 		else
 		{
 			if (is_assignment_with_quotes(input, i))
@@ -221,8 +221,13 @@ static int	handle_word(char *input, t_token **token_lst, int i)
 
 	start = i;
 	while (input[i] && !ft_isspace(input[i]) && !ft_isop(input[i])
-		&& input[i] != '\'' && input[i] != '"' && input[i] != '$')
+		&& input[i] != '\'' && input[i] != '"' && input[i] != '$' && input[i] != '\\')
 		i++;
+	if (input[i] == '\\')
+	{
+		handle_escape(input, token_lst, i);
+		return (ft_strlen(input));
+	}
 	len = i - start;
 	word = ft_substr(input, start, len);
 	if (!word)

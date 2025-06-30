@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-<<<<<<< HEAD:src/parsing/lexer/lex_utils.c
-/*   Updated: 2025/06/24 00:28:15 by gustavo-lin      ###   ########.fr       */
-=======
-/*   Updated: 2025/06/24 22:08:44 by luiza            ###   ########.fr       */
->>>>>>> develop:src/tokenization/lexer/lex_utils.c
+/*   Updated: 2025/06/25 11:46:27 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,33 +84,47 @@ void	add_token(t_token **head, char *input, t_token_type type)
 	temp->next = new;
 }
 
-/* int	handle_escape(char *input, t_token **token_lst, int i)
+int	handle_escape(char *input, t_token **token_lst, int i)
 {
 	char	*word_escaped;
-	int j;
-	int actual_final_len;
-	int actual_init_len;
-	t_token_type	token;
+	int 	j;
+	int 	a;
+	int		final_escape_index;
+	int 	first_escape_index;
+	int		flag;
+	size_t  size;
+	char *new_word;
 
 	j = -1;
-	actual_final_len = 0;
-	actual_init_len = 0;
+	first_escape_index = 0;
+	flag = 0;
 	while (input[++j])
 	{
-		if (ft_isspace(input[j]) && ft_isalnum(input[j + 1]))
+		if (ft_isspace(input[j]) && (ft_isalnum(input[j + 1]) || (unsigned char)input[j + 1] > 127) && flag == 0)
 		{
 			j++;
-			actual_init_len = j;
-		}
-		if (input[j] == '\\' && ft_isspace(input[j + 1]))
-		{
-			actual_final_len = j;
+			flag = 1;
+			first_escape_index = j;
 		}
 	}
-	word_escaped = ft_substr(input,actual_init_len, actual_final_len);
-	add_token(token_lst, word_escaped, ESCAPE);
-}//Tem que implementar a logica apos pegar o indice comeco e o indice final depois de '\'
-
+	final_escape_index = j;
+	word_escaped = ft_substr(input, first_escape_index, first_escape_index - final_escape_index);
+	size = ft_strlen(word_escaped);
+	new_word = malloc(sizeof(char) * (size + 1));
+	j = -1;
+	a = 0;
+	while(word_escaped[++j])
+	{
+		if (word_escaped[j] != '\\' && word_escaped[j] != '/')
+		{
+			new_word[a] = word_escaped[j];
+			a++;
+		}
+	}
+	new_word[a] = '\0';
+	add_token(token_lst, new_word, DOUBLE_QUOTE);
+	return (0);
+}
 /**
  * @brief Libera toda a memória alocada para uma lista encadeada de tokens.
  *
