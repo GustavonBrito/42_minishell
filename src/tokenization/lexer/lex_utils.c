@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/25 11:46:27 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/02 00:44:40 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		ft_isspace(char c);
 int		ft_isop(char c);
 void	add_token(t_token **head, char *input, t_token_type type);
-int		handle_escape(char *input, t_token **token_lst, int i);
+int		handle_escape(char *input, t_token **token_lst);
 void	free_tokens(t_token *head);
 
 /**
@@ -84,7 +84,7 @@ void	add_token(t_token **head, char *input, t_token_type type)
 	temp->next = new;
 }
 
-int	handle_escape(char *input, t_token **token_lst, int i)
+int	handle_escape(char *input, t_token **token_lst)
 {
 	char	*word_escaped;
 	int 	j;

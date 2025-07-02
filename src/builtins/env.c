@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 16:42:31 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/02 01:32:12 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 void	env(int is_export);
 void	print_export(void);
+
 
 /**
  * @brief Implementa o comando 'env'.
@@ -96,4 +97,6 @@ void	print_export(void)
 				ft_printf("declare -x %s=\"%s\"\n", buffer[0], buffer[1]);
 		}
 	}
+	ft_free_split(buffer);
+	free(temp);
 }

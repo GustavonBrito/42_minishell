@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/27 02:57:51 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/02 01:32:20 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void		exit_minishell(void);
 void		export(t_command *cmd);
 void		pwd(void);
 void		unset(t_command *cmd);
+void	ft_free_split(char **array);
 
 //lexing
 int			process_input(char *input);
@@ -131,7 +132,7 @@ void		free_tokens(t_token *head);
 int			handle_quotes(char *input, t_token **token_lst, int i);
 int			handle_var(char *input, t_token **token_lst, int i);
 int			handle_attribution_w_quote(char *input, t_token **token_lst, int i);
-int			handle_escape(char *input, t_token **token_lst, int i);
+int			handle_escape(char *input, t_token **token_lst);
 
 //parsing
 t_command	*parse_tokens(t_token *tokens);
