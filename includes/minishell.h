@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/26 22:52:17 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/27 02:57:51 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ extern int	g_exit_status;
 void		shell_loop(void);
 void		check_exit_condition(char *buffer_received);
 void		signal_handler(int signal);
+char		*obtain_current_directory(void);
+char		*get_env_or_cleanup(const char *var, char *to_free);
 
 //paths
 void		update_pwd(void);

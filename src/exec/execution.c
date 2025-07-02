@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/26 23:29:53 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/27 03:01:29 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,12 +179,12 @@ void	handle_command_execution(t_command *cmd)
 int	check_builtin(t_command *cmd)
 {
 	if (ft_strncmp(cmd->args[0], "echo", 4) == 0
-	|| ft_strncmp(cmd->args[0], "cd", 2) == 0
-	|| ft_strncmp(cmd->args[0], "pwd", 3) == 0
-	|| ft_strncmp(cmd->args[0], "export", 6) == 0
-	|| ft_strncmp(cmd->args[0], "unset", 5) == 0
-	|| ft_strncmp(cmd->args[0], "env", 3) == 0
-	|| ft_strncmp(cmd->args[0], "exit", 4) == 0)
+		|| ft_strncmp(cmd->args[0], "cd", 2) == 0
+		|| ft_strncmp(cmd->args[0], "pwd", 3) == 0
+		|| ft_strncmp(cmd->args[0], "export", 6) == 0
+		|| ft_strncmp(cmd->args[0], "unset", 5) == 0
+		|| ft_strncmp(cmd->args[0], "env", 3) == 0
+		|| ft_strncmp(cmd->args[0], "exit", 4) == 0)
 		return (1);
 	else
 		return (0);

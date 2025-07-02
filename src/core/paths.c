@@ -6,11 +6,13 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:59:26 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/26 23:25:42 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/27 03:04:26 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
 
 void	update_pwd(void);
 char	*find_command_path(char *command);
@@ -45,6 +47,8 @@ void	update_pwd(void)
  * @return O caminho completo do comando se encontrado, ou NULL caso contrário.
  *         O ponteiro retornado deve ser liberado com free().
  */
+
+//norminette: +25 lines: needs to be chopped
 char	*find_command_path(char *command)
 {
 	char	*path_env;
@@ -79,7 +83,6 @@ char	*find_command_path(char *command)
 	free_array(path_dirs);
 	return (NULL);
 }
-
 
 /**
  * @brief Libera um array de strings e o array principal.

@@ -6,11 +6,13 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:54:36 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/25 01:32:53 by luiza            ###   ########.fr       */
+/*   Updated: 2025/06/27 03:07:20 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
 
 void	echo(t_command *cmd);
 
@@ -24,11 +26,12 @@ void	echo(t_command *cmd);
  *
  * @param cmd Estrutura contendo os argumentos e informações do comando 'echp'.
  */
+
+//norminette:+25 lines needs to be chopped
 void	echo(t_command *cmd)
 {
 	int	i;
 	int	flag;
-
 
 	if (!cmd || !cmd->args)
 		return ;
