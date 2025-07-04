@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/26 22:53:09 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/04 20:26:50 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 
 int			has_pipes(t_command *cmd);
 int			execute_pipeline(t_command *cmd);
-static int	exec_pip_cmd(t_command *cmd, int **pipes, int cmd_i, int cmd_count);
-static void	setup_pipe_fds(int **pipes, int cmd_index, int cmd_count);
+static int	exec_pip_cmd(t_command *cmd, t_pipe *pipes);
 
 /**
  * @brief Verifica se há mais de um comando encadeado.
@@ -37,11 +36,12 @@ int	has_pipes(t_command *cmd)
 }
 
 /**
- * @brief Executa uma sequência de comandos conectados por pipes.
+ * @brief Executa o pipeline de comandos
  *
- * Cria os pipes necessários, executa cada comando em um processo separado,
- * conecta suas saídas e entradas, e espera o término de todos os processos.
- * Atualiza a variável global `g_exit_status` com o status do último comando.
+ * Itera sobre a lista de comandos, criando os pipes necessários
+ * e processos filhos via fork. Configura redirecionamentos,
+ * executa built-ins ou comandos externos, e aguarda o término
+ * do último processo.
  *
  * @param cmd Ponteiro para a lista de comandos encadeados.
  * @return Código de status do último comando executado.
@@ -50,61 +50,61 @@ int	has_pipes(t_command *cmd)
 //norminette: many vars and +25 lines: needs to be chopped
 int	execute_pipeline(t_command *cmd)
 {
-	int			cmd_count;
-	int			**pipes;
-	pid_t		*pids;
-	int			i;
+	pid_t		pid;
+	pid_t		last_pid;
 	int			status;
 	t_command	*current;
+	t_pipe		pipes;
 
 	if (!cmd)
 		return (0);
-	cmd_count = count_commands(cmd);
-	if (cmd_count == 1)
+	if (!cmd->next)
 		return (execute_command(cmd));
-	pipes = create_pipes(cmd_count);
-	if (!pipes && cmd_count > 1)
-	{
-		perror("minishell: pipeline creation failed");
-		return (1);
-	}
-	pids = malloc(sizeof(pid_t) * cmd_count);
-	if (!pids)
-	{
-		free_pipes(pipes, cmd_count - 1);
-		return (1);
-	}
+	pipes.prev_pipe_read = -1;
+	pipes.cmd_index = 0;
+	pipes.total_commands = count_commands(cmd);
+	last_pid = -1;
 	current = cmd;
-	i = 0;
-	while (current && i < cmd_count)
+	while (current)
 	{
-		pids[i] = exec_pip_cmd(current, pipes, i, cmd_count);
-		if (pids[i] == 1)
+		if (current->next)
 		{
-			free(pids);
-			close_all_pipes(pipes, cmd_count - 1);
-			free_pipes(pipes, cmd_count - 1);
+			if (pipe(pipes.curr_pipe) == -1)
+			{
+				perror("minishell: pipeline creation failed");
+				if (pipes.prev_pipe_read != -1)
+					close(pipes.prev_pipe_read);
+				return (1);
+			}
+		}
+		pid = exec_pip_cmd(current, &pipes);
+		if (pid == -1)
+		{
+			close_child(&pipes);
 			return (1);
 		}
-		current = current->next;
-		i++;
-	}
-	close_all_pipes(pipes, cmd_count - 1);
-	i = 0;
-	while (i < cmd_count)
-	{
-		waitpid(pids[i], &status, 0);
-		if (i == cmd_count - 1)
+		if (!current->next)
+			last_pid = pid;
+		if (pipes.prev_pipe_read != -1)
+			close(pipes.prev_pipe_read);
+		if (current->next)
 		{
-			if (WIFEXITED(status))
-				g_exit_status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				g_exit_status = 128 + WTERMSIG(status);
+			close(pipes.curr_pipe[1]);
+			pipes.prev_pipe_read = pipes.curr_pipe[0];
 		}
-		i++;
+		current = current->next;
+		pipes.cmd_index++;
 	}
-	free(pids);
-	free_pipes(pipes, cmd_count - 1);
+	if (pipes.prev_pipe_read != -1)
+		close(pipes.prev_pipe_read);
+	if (last_pid != -1)
+	{
+		waitpid(last_pid, &status, 0);
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_exit_status = 128 + WTERMSIG(status);
+	}
 	return (g_exit_status);
 }
 
@@ -117,29 +117,36 @@ int	execute_pipeline(t_command *cmd)
  * - Executa o comando (built-in ou externo via `execvp()`).
  *
  * @param cmd Ponteiro para o comando a ser executado.
- * @param pipes Array de pipes abertos.
- * @param cmd_i Índice do comando atual.
- * @param cmd_count Quantidade total de comandos na pipeline.
+ * @param pipes Estrutura de controle de pipes e índices.
  * @return PID do processo filho ou 1 em erro.
  */
 
 //norminette:+25 lines needs to be chopped
-static int	exec_pip_cmd(t_command *cmd, int **pipes, int cmd_i, int cmd_count)
+static int	exec_pip_cmd(t_command *cmd, t_pipe *pipes)
 {
 	pid_t	pid;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
-		return (1);
+		return (-1);
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("minishell: error with fork");
-		return (1);
+		return (-1);
 	}
 	else if (pid == 0)
 	{
-		setup_pipe_fds(pipes, cmd_i, cmd_count);
-		close_all_pipes(pipes, cmd_count - 1);
+		if (pipes->prev_pipe_read != -1)
+		{
+			dup2(pipes->prev_pipe_read, STDIN_FILENO);
+			close(pipes->prev_pipe_read);
+		}
+		if (pipes->cmd_index < pipes->total_commands - 1)
+		{
+			dup2(pipes->curr_pipe[1], STDOUT_FILENO);
+			close(pipes->curr_pipe[1]);
+			close(pipes->curr_pipe[0]);
+		}
 		if (setup_redirections(cmd) != 0)
 			exit(1);
 		if (check_builtin(cmd))
@@ -157,29 +164,4 @@ static int	exec_pip_cmd(t_command *cmd, int **pipes, int cmd_i, int cmd_count)
 		}
 	}
 	return (pid);
-}
-
-/**
- * @brief Configura os descritores de arquivo padrão para um comando da pipeline.
- *
- * Redireciona a entrada e/ou saída padrão do processo conforme sua posição
- * na pipeline:
- * - Entrada recebe o lado de leitura do pipe anterior, se houver.
- * - Saída recebe o lado de escrita do próximo pipe, se houver.
- *
- * @param pipes Array de pipes abertos.
- * @param cmd_index Índice do comando atual.
- * @param cmd_count Quantidade total de comandos na pipeline.
- */
-
-static void	setup_pipe_fds(int **pipes, int cmd_index, int cmd_count)
-{
-	if (cmd_index > 0)
-	{
-		dup2(pipes[cmd_index - 1][0], STDIN_FILENO);
-	}
-	if (cmd_index < cmd_count - 1)
-	{
-		dup2(pipes[cmd_index][1], STDOUT_FILENO);
-	}
 }

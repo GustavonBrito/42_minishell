@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/25 11:41:29 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/04 19:56:27 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,7 @@ static int	handle_word(char *input, t_token **token_lst, int i)
 		i++;
 	if (input[i] == '\\')
 	{
-		handle_escape(input, token_lst, i);
+		handle_escape(input, token_lst);
 		return (ft_strlen(input));
 	}
 	len = i - start;

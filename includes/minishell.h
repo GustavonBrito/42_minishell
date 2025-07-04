@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/02 01:32:20 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/04 20:11:33 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,20 @@ typedef struct s_command
 	struct s_command	*next;			/**< Próximo comando (pipe). */
 }	t_command;
 
+/**
+ * @brief Estrutura para controle de pipeline
+ *
+ * usada para gerenciar os pipes e o controle
+ * de execução entre múltiplos comandos encadeados via pipe no shell.
+ * Guarda FDs de leitura/escrita dos pipes e índices de controle.
+ */
+typedef struct s_pipe {
+    int     prev_pipe_read;     /* FD de leitura do pipe anterior */
+    int     curr_pipe[2];       /* Pipe atual [read, write] */
+    int     cmd_index;          /* Índice do comando atual */
+    int     total_commands;     /* Total de comandos no pipeline */
+} t_pipe;
+
 //core
 extern int	g_exit_status;
 void		shell_loop(void);
@@ -181,9 +195,7 @@ int			check_builtin(t_command *cmd);
 int			has_pipes(t_command *cmd);
 int			execute_pipeline(t_command *cmd);
 int			count_commands(t_command *cmd);
-int			**create_pipes(int cmd_count);
-void		close_all_pipes(int **pipes, int pipe_count);
-void		free_pipes(int **pipes, int pipe_count);
+void		close_child(t_pipe *pipes);
 
 //error handling
 int			report_error(const char *msg, int exit_code);
