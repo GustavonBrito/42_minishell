@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/04 20:11:33 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/05 16:02:07 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,8 +194,13 @@ int			check_builtin(t_command *cmd);
 //pipes
 int			has_pipes(t_command *cmd);
 int			execute_pipeline(t_command *cmd);
+void		init_pipeline(t_pipe *pipes, t_command *cmd);
 int			count_commands(t_command *cmd);
+int			create_pipe(t_pipe *pipes);
 void		close_child(t_pipe *pipes);
+void		setup_child_pipes(t_pipe *pipes);
+void		update_pipes(t_pipe *pipes, t_command *current);
+void		execute_child_command(t_command *cmd);
 
 //error handling
 int			report_error(const char *msg, int exit_code);
