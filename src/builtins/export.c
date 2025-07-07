@@ -29,7 +29,9 @@ void	export(char **argv)
 	t_env	*s_env;
 	char	**buffer_input;
 	char	**buffer_from_env;
+	int		i;
 
+	i = 0;
 	if (argv[1] == NULL)
 		env(1);
 	else
@@ -39,12 +41,23 @@ void	export(char **argv)
 		while(s_env)
 		{
 			buffer_from_env = ft_split(s_env->env_data, '=');
-			if (ft_strncmp(buffer_from_env[0], buffer_input[0], ft_strlen(buffer_input[0])))
+			if (ft_strncmp(buffer_from_env[0], buffer_input[0], ft_strlen(buffer_input[0])) == 0)
+			{
 				s_env->env_data = ft_strdup(argv[1]);
-			else if()
+				return ;
+			}
+			if (s_env->next == NULL)
+			{
+				ft_printf("%s\n", argv[++i]);
+				while (argv[++i])
+				{
+					s_env->next = malloc(sizeof(t_env));
+					s_env = s_env->next;
+					s_env->env_data = ft_strdup(argv[i]);
+					s_env->next = NULL;
+				}
+			}
 			s_env = s_env->next;
 		}
-		setenv(buffer_input[0], buffer_input[1], 1);
-		ft_printf("Created env %s\n", getenv(buffer_input[0]));
 	}
 }
