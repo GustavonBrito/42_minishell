@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/22 21:21:23 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/06 23:30:28 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int		ft_isspace(char c);
 int		ft_isop(char c);
 void	add_token(t_token **head, char *input, t_token_type type);
 void	free_tokens(t_token *head);
+int		handle_escape(char *input, t_token **token_lst);
 
 /**
  * @brief Verifica se um caractere é um espaço em branco.
@@ -35,7 +36,7 @@ int	ft_isspace(char c)
  * @brief Verifica se um caractere é um operador de shell.
  *
  * @param c O caractere a ser verificado.
- * @return 1 se o caractere for '|', '<' ou '>', 0 caso contrário.
+ * @return 1 se o cint	handle_escape(char *input, t_token **token_lst)aractere for '|', '<' ou '>', 0 caso contrário.
  */
 int	ft_isop(char c)
 {
@@ -83,6 +84,49 @@ void	add_token(t_token **head, char *input, t_token_type type)
 	temp->next = new;
 }
 
+int	handle_escape(char *input, t_token **token_lst)
+{
+	char	*word_escaped;
+	int 	j;
+	int 	a;
+	int		final_escape_index;
+	int 	first_escape_index;
+	int		flag;
+	size_t  size;
+	char *new_word;
+
+	j = -1;
+	first_escape_index = 0;
+	flag = 0;
+	while (input[++j])
+	{
+		if (ft_isspace(input[j]) && (ft_isalnum(input[j + 1]) || (unsigned char)input[j + 1] > 127) && flag == 0)
+		{
+			j++;
+			flag = 1;
+			first_escape_index = j;
+		}
+	}
+	final_escape_index = j;
+	word_escaped = ft_substr(input, first_escape_index, first_escape_index - final_escape_index);
+	size = ft_strlen(word_escaped);
+	new_word = malloc(sizeof(char) * (size + 1));
+	j = -1;
+	a = 0;
+	while(word_escaped[++j])
+	{
+		if (word_escaped[j] != '\\' && word_escaped[j] != '/')
+		{
+			new_word[a] = word_escaped[j];
+			a++;
+		}
+	}
+	new_word[a] = '\0';
+	add_token(token_lst, new_word, DOUBLE_QUOTE);
+	free(word_escaped);
+	free(new_word);
+	return (0);
+}
 /**
  * @brief Libera toda a memória alocada para uma lista encadeada de tokens.
  *

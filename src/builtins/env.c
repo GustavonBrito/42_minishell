@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/22 20:51:21 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/06 23:50:40 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,17 @@ void	print_export(void)
  */
 void	env(int is_export)
 {
-	extern char	**environ;
-	int			i;
+	t_env		*env;
 
-	i = -1;
 	if (is_export == 1)
 		print_export();
 	else
 	{
-		while (environ[++i])
-			ft_printf("%s\n", environ[i]);
+		env = get_t_env();
+		while(env)
+		{
+			ft_printf("%s\n", env->env_data);
+			env = env->next;
+		}
 	}
 }

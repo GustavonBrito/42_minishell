@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/22 21:47:25 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/06 23:15:45 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,11 @@ static int	handle_word(char *input, t_token **token_lst, int i)
 	while (input[i] && !ft_isspace(input[i]) && !ft_isop(input[i])
 		&& input[i] != '\'' && input[i] != '"' && input[i] != '$')
 		i++;
+	if (input[i] == '\\')
+	{
+		handle_escape(input, token_lst);
+		return (ft_strlen(input));
+	}
 	len = i - start;
 	word = ft_substr(input, start, len);
 	if (!word)

@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/20 00:59:45 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/06 23:35:04 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,15 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
+typedef struct s_env
+{
+	char			*env_data;			/**< Array de varaveis de ambiente. */
+	struct s_env	*next;			/**< Próximo nó. */
+}	t_env;
+
+//utils "global" struct
+t_env		*get_t_env(void);
+
 //core
 extern int	g_exit_status;
 void		shell_loop(void);
@@ -75,10 +84,13 @@ void		verify_flag(char *argv_splited, int *flag);// Verifica se a flag é valida
 void		printf_without_n(char **buffer);// Funcao para printar echo quando tem flag
 void		cd(char **argv); // Funcao para alterar o diretorio.
 void		env(int is_export);
+void		handle_store_env(char **system_env);
+int			handle_escape(char *input, t_token **token_lst);
 void		exit_minishell(void);
 void		export(char **argv);
 void		pwd(void);
 void		unset(char **argv);
+void		ft_free_split(char **array);
 
 //lexing
 int			process_input(char *input);
