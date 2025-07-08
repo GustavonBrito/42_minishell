@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/07 00:56:41 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/07 21:42:51 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	export(char **argv)
 			}
 			if (s_env->next == NULL)
 			{
-				ft_printf("%s\n", argv[++i]);
 				while (argv[++i])
 				{
 					s_env->next = malloc(sizeof(t_env));
