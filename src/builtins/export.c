@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/07 21:42:51 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/07 21:54:20 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
  * de ambiente correspondente.
  *
  * @param argv Um array de strings, onde argv é "export" e argv (se existir)
- *             é a variável de ambiente a ser exportada no formato "CHAVE=VALOR".
+
+	* é a variável de ambiente a ser exportada no formato "CHAVE=VALOR".
  */
 void	export(char **argv)
 {
@@ -38,10 +39,11 @@ void	export(char **argv)
 	{
 		buffer_input = ft_split(argv[1], '=');
 		s_env = get_t_env();
-		while(s_env)
+		while (s_env)
 		{
 			buffer_from_env = ft_split(s_env->env_data, '=');
-			if (ft_strncmp(buffer_from_env[0], buffer_input[0], ft_strlen(buffer_input[0])) == 0)
+			if (ft_strncmp(buffer_from_env[0], buffer_input[0],
+					ft_strlen(buffer_input[0])) == 0)
 			{
 				s_env->env_data = ft_strdup(argv[1]);
 				return ;

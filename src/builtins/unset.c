@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/06 23:34:49 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/07 23:25:43 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,37 @@
  */
 void	unset(char **argv)
 {
-	int	i;
+	t_env	*tmp;
+	t_env	*env;
+	t_env	*new_env;
+	//int	i;
+	int	flag_var_already_exists;
 
-	i = 1;
-	while (argv[i])
-		unsetenv(argv[i++]);
+	//i = 1;
+	flag_var_already_exists = 0;
+	env = get_t_env();
+	tmp = env;
+	new_env = env;
+	while(env)
+	{
+		if (ft_strncmp(env->env_data, argv[1], ft_strlen(argv[1])) == 0)
+		{
+			flag_var_already_exists	= 1;
+			return;
+		}
+		env = env->next;
+	}
+	if (flag_var_already_exists == 1)
+	{
+		while(tmp)
+		{
+			if (ft_strncmp(tmp->env_data, argv[1], ft_strlen(argv[1])) != 0)
+			{
+				ft_printf("entrei\n");
+				new_env->env_data = ft_strdup(tmp->env_data);
+				new_env->next = malloc(sizeof(t_env));
+			}
+			tmp = tmp->next;
+		}
+	}
 }
