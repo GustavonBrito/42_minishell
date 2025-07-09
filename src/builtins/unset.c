@@ -24,37 +24,32 @@
  */
 void	unset(char **argv)
 {
-	t_env	*tmp;
+	//t_env	*tmp;
 	t_env	*env;
 	t_env	*new_env;
-	//int	i;
-	int	flag_var_already_exists;
+	int	i;
+	//int	flag_var_already_exists;
 
-	//i = 1;
-	flag_var_already_exists = 0;
+	i = 1;
+	//flag_var_already_exists = 0;
 	env = get_t_env();
-	tmp = env;
-	new_env = env;
+	//tmp = env;
+	new_env = NULL;
+	new_env = malloc(sizeof(t_env));
 	while(env)
 	{
-		if (ft_strncmp(env->env_data, argv[1], ft_strlen(argv[1])) == 0)
+		if (ft_strncmp(env->env_data, argv[i], ft_strlen(argv[i])) == 0 && argv[i])
 		{
-			flag_var_already_exists	= 1;
-			return;
+			env = env->next;
+			i++;
+			continue;
 		}
+		new_env->env_data = ft_strdup(env->env_data);
+		new_env->next = malloc(sizeof(t_env));
+		if (!new_env->next)
+			free(new_env);
 		env = env->next;
-	}
-	if (flag_var_already_exists == 1)
-	{
-		while(tmp)
-		{
-			if (ft_strncmp(tmp->env_data, argv[1], ft_strlen(argv[1])) != 0)
-			{
-				ft_printf("entrei\n");
-				new_env->env_data = ft_strdup(tmp->env_data);
-				new_env->next = malloc(sizeof(t_env));
-			}
-			tmp = tmp->next;
-		}
+		new_env = new_env->next;
+		new_env->next = NULL;
 	}
 }
