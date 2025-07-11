@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/06 23:35:04 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/11 12:55:30 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void		export(char **argv);
 void		pwd(void);
 void		unset(char **argv);
 void		ft_free_split(char **array);
+int			verify_remove_env(char **argv, t_env *s_env);
 
 //lexing
 int			process_input(char *input);
