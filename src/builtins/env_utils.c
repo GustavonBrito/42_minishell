@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 01:09:14 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/06 23:46:08 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/11 12:59:05 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	*handle_t_env(t_env *head)
 {
 	static t_env	env;
 
-	(void)head;
 	if (head != NULL)
 	{
 		env = *head;
