@@ -84,7 +84,7 @@ void	env(int is_export)
 		print_export();
 	else
 	{
-		env = get_t_env();
+		env = handle_t_env(NULL);
 		while(env)
 		{
 			ft_printf("%s\n", env->env_data);

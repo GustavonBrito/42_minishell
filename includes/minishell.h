@@ -69,7 +69,7 @@ typedef struct s_env
 }	t_env;
 
 //utils "global" struct
-t_env		*get_t_env(void);
+void	*handle_t_env(t_env *head);
 
 //core
 extern int	g_exit_status;

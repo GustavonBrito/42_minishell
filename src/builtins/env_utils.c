@@ -25,22 +25,31 @@ void	ft_free_split(char **array)
 	free(array);
 }
 
-t_env *get_t_env(void)
+void	*handle_t_env(t_env *head)
 {
-	static t_env env;
-	return(&env);
+	static t_env	env;
+
+	(void)head;
+	if (head != NULL)
+	{
+		env = *head;
+		return NULL;
+	}
+	else
+		return (&env);
 }
 
 void	handle_store_env(char **system_env)
 {
-	int i;
-	t_env *env_struct;
-	t_env *head;
+	int		i;
+	t_env	*env_struct;
+	t_env	*head;
+	t_env	*tmp;
 
 	i = -1;
-	env_struct = get_t_env();
+	env_struct = handle_t_env(NULL);
 	head = NULL;
-	while(system_env[++i])
+	while (system_env[++i])
 	{
 		env_struct->env_data = ft_strdup(system_env[i]);
 		if (!env_struct->env_data)
@@ -52,7 +61,6 @@ void	handle_store_env(char **system_env)
 			env_struct->next = malloc(sizeof(t_env));
 			if (!env_struct->next)
 			{
-				t_env *tmp;
 				while (head)
 				{
 					tmp = head->next;
@@ -66,7 +74,7 @@ void	handle_store_env(char **system_env)
 		}
 		else
 		{
-			env_struct->next = NULL; // último nó
+			env_struct->next = NULL;
 		}
 	}
 }

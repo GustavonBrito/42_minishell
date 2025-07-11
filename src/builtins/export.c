@@ -38,7 +38,7 @@ void	export(char **argv)
 	else
 	{
 		buffer_input = ft_split(argv[1], '=');
-		s_env = get_t_env();
+		s_env = handle_t_env(NULL);
 		while (s_env)
 		{
 			buffer_from_env = ft_split(s_env->env_data, '=');

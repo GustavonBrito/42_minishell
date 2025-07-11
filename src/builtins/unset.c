@@ -24,41 +24,50 @@
  */
 void	unset(char **argv)
 {
-	//t_env	*tmp;
-	t_env	*env;
+	t_env	*s_env;
 	t_env	*new_env;
 	t_env	*head;
-	t_env	*tmp;	
-	int	i;
-	int skip;
-	//int	flag_var_already_exists;
+	t_env	*last;
+	char	**buffer;
+	int		i;
+	int		skip;
 
-	//flag_var_already_exists = 0;
-	env = get_t_env();
-	//tmp = env;
-	new_env = NULL;
+	s_env = handle_t_env(NULL);
 	head = NULL;
-	skip = 0;
-	//head = malloc(sizeof(t_env));
-	while(env)
+	last = NULL;
+	
+	while(s_env)
 	{
+		skip = 0;
 		i = 1;
 		while (argv[i])
 		{
-			if (ft_strncmp(env->env_data, argv[i], ft_strlen(argv[i])) == 0 && argv[i])
+			//Verificar uma funcao na lib que filtra a palavra inteira para comparar com o argumento
+			//buffer = ft_split(s_env->env_data, '=');
+
+			if (ft_strncmp(buffer[0], argv[i], ft_strlen(buffer[0])) == 0 && argv[i])
 			{
+				printf("Test %s %s\n", s_env->env_data, argv[i]);
 				skip = 1;
 				break;
 			}
 			i++;
 		}
-		new_env = malloc(sizeof(t_env));
-		new_env->env_data = ft_strdup(env->env_data);
-		new_env->next = NULL;
-		if (!head)
-			head = new_env;
-		env = env->next;
-		new_env = new_env->next;
+		if (!skip)
+		{
+			new_env = malloc(sizeof(t_env));
+			new_env->env_data = ft_strdup(s_env->env_data);
+			new_env->next = NULL;
+			
+			if (!head)
+				head = new_env;
+			else
+				last->next = new_env;
+			
+			last = new_env;
+		}
+		
+		s_env = s_env->next;
 	}
-	env = head;
+	handle_t_env(head);
 }
