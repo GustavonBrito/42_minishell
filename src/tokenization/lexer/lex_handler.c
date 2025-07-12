@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/25 11:42:51 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/12 00:06:52 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 int			handle_quotes(char *input, t_token **token_lst, int i);
 int			handle_var(char *input, t_token **token_lst, int i);
-static int	process_quote(char *input, t_token **token_lst, int start,
-				char quote_type);
+//static int	process_quote(char *input, t_token **token_lst, int start,
+//				char quote_type);
 static int	process_var_name(char *input, t_token **token_lst, int start);
 static int	handle_special_vars(char *input, t_token **token_lst, int i);
+int			handle_word_with_quotes(char *input, t_token **token_lst, int i);
 
 /**
  * @brief Lida com a tokenização de strings entre aspas.
@@ -37,20 +38,31 @@ static int	handle_special_vars(char *input, t_token **token_lst, int i);
  */
 int	handle_quotes(char *input, t_token **token_lst, int i)
 {
-	char	quote_type;
+	char	quote_char;
 	int		start;
+	int		j;
+	char	*quoted_content;
+	int		len;
 
-	quote_type = input[i];
-	start = i + 1;
-	i++;
-	while (input[i] && input[i] != quote_type)
-		i++;
-	if (!input[i])
-	{
-		ft_printf("minishell: syntax error: unclosed quote\n");
+	quote_char = input[i];
+	start = i;
+	j = i + 1;
+	while (input[j] && input[j] != quote_char)
+		j++;
+
+	if (input[j] != quote_char)
 		return (1);
-	}
-	return (process_quote(input, token_lst, start, quote_type));
+	j++;
+	len = j - start;
+	quoted_content = ft_substr(input, start, len);
+	if (!quoted_content)
+		return (len);
+	if (quote_char == '\'')
+		add_token(token_lst, quoted_content, SINGLE_QUOTE);
+	else
+		add_token(token_lst, quoted_content, DOUBLE_QUOTE);
+	free(quoted_content);
+	return (len);
 }
 
 /**
@@ -97,7 +109,7 @@ int	handle_var(char *input, t_token **token_lst, int i)
  * @param quote_type O caractere da aspa ('\'' ou '"').
  * @return O número de caracteres processados, incluindo as aspas.
  */
-static int	process_quote(char *input, t_token **token_lst, int start
+/* static int	process_quote(char *input, t_token **token_lst, int start
 	, char quote_type)
 {
 	int		i;
@@ -121,7 +133,7 @@ static int	process_quote(char *input, t_token **token_lst, int start
 	}
 	free(content);
 	return (len + 2);
-}
+} */
 
 /**
  * @brief Processa o nome de uma variável de ambiente.
@@ -177,4 +189,38 @@ static int	handle_special_vars(char *input, t_token **token_lst, int i)
 		return (2);
 	}
 	return (1);
+}
+
+int	handle_word_with_quotes(char *input, t_token **token_lst, int i)
+{
+	int		start;
+	int		j;
+	char	*full_word;
+	int		len;
+	char	quote_char;
+
+	start = i;
+	j = i;
+	while (input[j] && !ft_isspace(input[j]) && !ft_isop(input[j]) && input[j] != '$')
+	{
+		if (input[j] == '\'' || input[j] == '"')
+		{
+			quote_char = input[j];
+			j++;
+			while (input[j] && input[j] != quote_char)
+				j++;
+			if (input[j] == quote_char)
+				j++;
+		}
+		else
+			j++;
+	}
+	len = j - start;
+	full_word = ft_substr(input, start, len);
+	if (!full_word)
+		return (len);
+
+	add_token(token_lst, full_word, WORD);
+	free(full_word);
+	return (len);
 }

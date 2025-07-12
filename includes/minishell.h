@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/11 21:45:14 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/12 02:08:36 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void		cd(t_command *cmd); // Funcao para alterar o diretorio.
 void		env(int is_export);
 void		handle_store_env(char **system_env);
 int			handle_escape(char *input, t_token **token_lst);
-void		exit_minishell(void);
+void		exit_minishell(t_command *cmd);
 void		export(t_command *cmd);
 void		pwd(void);
 void		unset(t_command *cmd);
@@ -159,6 +159,7 @@ int			handle_quotes(char *input, t_token **token_lst, int i);
 int			handle_var(char *input, t_token **token_lst, int i);
 int			handle_attribution_w_quote(char *input, t_token **token_lst, int i);
 int			handle_escape(char *input, t_token **token_lst);
+int			handle_word_with_quotes(char *input, t_token **token_lst, int i);
 
 //parsing
 t_command	*parse_tokens(t_token *tokens);

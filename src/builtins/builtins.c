@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:04:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/11 21:56:35 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/12 02:46:42 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,5 @@ void	is_builtin(t_command *cmd)
 	else if (ft_strncmp(cmd->args[0], "env", 4) == 0 && ft_strlen(cmd->args[0]) == 3)
 		env(0);
 	else if (ft_strncmp(cmd->args[0], "exit", 5) == 0 && ft_strlen(cmd->args[0]) == 4)
-		exit_minishell();
+		exit_minishell(cmd);
 }
