@@ -6,7 +6,7 @@
 /*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/11 12:57:18 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/11 17:58:23 by gustavo-lin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 void	unset(char **argv)
 {
 	t_env	*s_env;
-	t_env	*new_env;
+	t_env	*tmp;
 	t_env	*head;
 	t_env	*last;
 
@@ -37,14 +37,14 @@ void	unset(char **argv)
 	{
 		if (!verify_remove_env(argv, s_env))
 		{
-			new_env = malloc(sizeof(t_env));
-			new_env->env_data = ft_strdup(s_env->env_data);
-			new_env->next = NULL;
+			tmp = malloc(sizeof(t_env));
+			tmp->env_data = ft_strdup(s_env->env_data);
+			tmp->next = NULL;
 			if (!head)
-				head = new_env;
+				head = tmp;
 			else
-				last->next = new_env;
-			last = new_env;
+				last->next = tmp;
+			last = tmp;
 		}
 		s_env = s_env->next;
 	}
