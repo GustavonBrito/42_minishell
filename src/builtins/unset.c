@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 22:21:44 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/11 22:02:35 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,28 @@ void	unset(t_command *cmd);
  */
 void	unset(t_command *cmd)
 {
-	int	i;
+	t_env	*s_env;
+	t_env	*new_env;
+	t_env	*head;
+	t_env	*last;
 
-	i = 1;
-	while (cmd->args[i])
-		unsetenv(cmd->args[i++]);
+	s_env = *handle_t_env(NULL);
+	head = NULL;
+	last = NULL;
+	while (s_env)
+	{
+		if (!verify_remove_env(cmd->args, s_env))
+		{
+			new_env = malloc(sizeof(t_env));
+			new_env->env_data = ft_strdup(s_env->env_data);
+			new_env->next = NULL;
+			if (!head)
+				head = new_env;
+			else
+				last->next = new_env;
+			last = new_env;
+		}
+		s_env = s_env->next;
+	}
+	handle_t_env(head);
 }

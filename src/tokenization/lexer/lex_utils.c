@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/02 00:44:40 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/11 20:50:05 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int		ft_isop(char c);
 void	add_token(t_token **head, char *input, t_token_type type);
 int		handle_escape(char *input, t_token **token_lst);
 void	free_tokens(t_token *head);
+int		handle_escape(char *input, t_token **token_lst);
 
 /**
  * @brief Verifica se um caractere é um espaço em branco.
@@ -36,7 +37,7 @@ int	ft_isspace(char c)
  * @brief Verifica se um caractere é um operador de shell.
  *
  * @param c O caractere a ser verificado.
- * @return 1 se o caractere for '|', '<' ou '>', 0 caso contrário.
+ * @return 1 se o cint	handle_escape(char *input, t_token **token_lst)aractere for '|', '<' ou '>', 0 caso contrário.
  */
 int	ft_isop(char c)
 {
@@ -92,8 +93,8 @@ int	handle_escape(char *input, t_token **token_lst)
 	int		final_escape_index;
 	int 	first_escape_index;
 	int		flag;
-	size_t  size;
-	char *new_word;
+	size_t	size;
+	char	*new_word;
 
 	j = -1;
 	first_escape_index = 0;
@@ -123,6 +124,8 @@ int	handle_escape(char *input, t_token **token_lst)
 	}
 	new_word[a] = '\0';
 	add_token(token_lst, new_word, DOUBLE_QUOTE);
+	free(word_escaped);
+	free(new_word);
 	return (0);
 }
 /**

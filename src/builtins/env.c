@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/02 01:32:12 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/11 22:02:04 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,20 @@ void	print_export(void);
  */
 void	env(int is_export)
 {
-	extern char	**environ;
-	int			i;
+	t_env	**env_ptr;
+	t_env	*env;
 
-	i = -1;
 	if (is_export == 1)
 		print_export();
 	else
 	{
-		while (environ[++i])
-			ft_printf("%s\n", environ[i]);
+		env_ptr = handle_t_env(NULL);
+		env = *env_ptr;
+		while(env)
+		{
+			ft_printf("%s\n", env->env_data);
+			env = env->next;
+		}
 	}
 }
 
@@ -58,45 +62,18 @@ void	env(int is_export)
 //norminette: many vars and +25 lines: needs to be chopped
 void	print_export(void)
 {
-	extern char	**environ;
+	t_env		*env;
 	char		**buffer;
-	int			i;
-	int			is_upper_char;
-	int			is_lower_char;
-	char		*temp;
 
-	temp = malloc(sizeof(char) * 2);
-	is_upper_char = 64;
-	is_lower_char = 96;
-	while (++is_upper_char <= 90 && ++is_lower_char <= 122)
+	env = *handle_t_env(NULL);
+	while (env)
 	{
-		i = -1;
-		while (environ[++i])
-		{
-			ft_strlcpy(temp, environ[i], 2);
-			if (temp[0] == is_upper_char || temp[0] == is_lower_char)
-			{
-				buffer = ft_split(environ[i], '=');
-				if (buffer[1] == NULL)
-					ft_printf("declare -x %s\n", buffer[0]);
-				else
-					ft_printf("declare -x %s=\"%s\"\n", buffer[0], buffer[1]);
-			}
-		}
+		buffer = ft_split(env->env_data, '=');
+		if (buffer[1] == NULL)
+			ft_printf("declare -x %s\n", buffer[0]);
+		else
+			ft_printf("declare -x %s=\"%s\"\n", buffer[0], buffer[1]);
+		ft_free_split(buffer);
+		env = env->next;
 	}
-	i = -1;
-	while (environ[++i])
-	{
-		ft_strlcpy(temp, environ[i], 2);
-		if (ft_isalpha(temp[0]) == 0)
-		{
-			buffer = ft_split(environ[i], '=');
-			if (buffer[1] == NULL)
-				ft_printf("declare -x %s\n", buffer[0]);
-			else
-				ft_printf("declare -x %s=\"%s\"\n", buffer[0], buffer[1]);
-		}
-	}
-	ft_free_split(buffer);
-	free(temp);
 }

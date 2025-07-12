@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/05 16:02:07 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/11 21:45:14 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,15 @@ typedef struct s_pipe {
     int     total_commands;     /* Total de comandos no pipeline */
 } t_pipe;
 
+typedef struct s_env
+{
+	char			*env_data;			/**< Array de varaveis de ambiente. */
+	struct s_env	*next;			/**< Próximo nó. */
+}	t_env;
+
+//utils "global" struct
+t_env	**handle_t_env(t_env *head);
+
 //core
 extern int	g_exit_status;
 void		shell_loop(void);
@@ -129,11 +138,14 @@ void		echo(t_command *cmd); // Funcao para implementar a funcao echo
 int			verify_flag(char *arg);// Verifica se a flag é valida
 void		cd(t_command *cmd); // Funcao para alterar o diretorio.
 void		env(int is_export);
+void		handle_store_env(char **system_env);
+int			handle_escape(char *input, t_token **token_lst);
 void		exit_minishell(void);
 void		export(t_command *cmd);
 void		pwd(void);
 void		unset(t_command *cmd);
-void	ft_free_split(char **array);
+void		ft_free_split(char **array);
+int			verify_remove_env(char **argv, t_env *s_env);
 
 //lexing
 int			process_input(char *input);

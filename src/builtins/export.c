@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/27 03:08:03 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/11 22:02:24 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 //FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
 
 void	export(t_command *cmd);
+char	*ft_strjoin_free(char *s1, char *s2);
 
 /**
  * @brief Implementa o comando 'export'.
@@ -35,9 +36,9 @@ void	export(t_command *cmd);
 void	export(t_command *cmd)
 {
 	int		i;
-	char	*key;
-	char	*value;
 	char	*equal_sign;
+	t_env	*s_env;
+	t_env	*new_var;
 
 	if (!cmd->args[1])
 	{
@@ -53,20 +54,46 @@ void	export(t_command *cmd)
 			if (equal_sign)
 			{
 				*equal_sign = '\0';
-				key = cmd->args[i];
-				value = equal_sign + 1;
-				if ((value[0] == '"' && value[ft_strlen(value) - 1] == '"')
-					|| (value[0] == '\''
-						&& value[ft_strlen(value) - 1] == '\''))
+				s_env = *handle_t_env(NULL);
+				while (s_env)
 				{
-					value[ft_strlen(value) - 1] = '\0';
-					value++;
+					if (ft_strncmp(s_env->env_data, cmd->args[i],
+							ft_strlen(cmd->args[i])) == 0
+						&& s_env->env_data[ft_strlen(cmd->args[i])] == '=')
+					{
+						free(s_env->env_data);
+						s_env->env_data = ft_strdup(cmd->args[i]); // key
+						s_env->env_data = ft_strjoin_free(s_env->env_data, "=");
+						s_env->env_data = ft_strjoin_free(s_env->env_data, equal_sign + 1);
+						*equal_sign = '=';
+						break ;
+					}
+					if (!s_env->next)
+						break ;
+					s_env = s_env->next;
 				}
-				setenv(key, value, 1);
-				ft_printf("Created env %s\n", getenv(key));
+				if (!s_env || (s_env && s_env->next == NULL))
+				{
+					new_var = malloc(sizeof(t_env));
+					new_var->env_data = ft_strdup(cmd->args[i]);
+					new_var->env_data = ft_strjoin_free(new_var->env_data, "=");
+					new_var->env_data = ft_strjoin_free(new_var->env_data, equal_sign + 1);
+					new_var->next = NULL;
+					if (s_env)
+						s_env->next = new_var;
+					else
+						handle_t_env(new_var);
+				}
 				*equal_sign = '=';
 			}
 		}
 		i++;
 	}
+}
+
+char	*ft_strjoin_free(char *s1, char *s2)
+{
+	char *joined = ft_strjoin(s1, s2);
+	free(s1);
+	return (joined);
 }

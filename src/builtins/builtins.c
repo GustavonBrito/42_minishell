@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:04:27 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/25 01:30:34 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/11 21:56:35 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,22 @@ void	is_builtin(t_command *cmd);
  * @param cmd Estrutura contendo os argumentos e informações do comando.
  */
 
-//norminette:+25 lines needs to be chopped
 void	is_builtin(t_command *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return ;
-	if (ft_strncmp(cmd->args[0], "echo", 4) == 0)
+	if (ft_strncmp(cmd->args[0], "echo", 5) == 0 && ft_strlen(cmd->args[0]) == 4)
 		echo(cmd);
-	else if (ft_strncmp(cmd->args[0], "cd", 2) == 0)
+	else if (ft_strncmp(cmd->args[0], "cd", 3) == 0 && ft_strlen(cmd->args[0]) == 2)
 		cd(cmd);
-	else if (ft_strncmp(cmd->args[0], "pwd", 3) == 0)
+	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0 && ft_strlen(cmd->args[0]) == 3)
 		pwd();
-	else if (ft_strncmp(cmd->args[0], "export", 6) == 0)
+	else if (ft_strncmp(cmd->args[0], "export", 7) == 0 && ft_strlen(cmd->args[0]) == 6)
 		export(cmd);
-	else if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
+	else if (ft_strncmp(cmd->args[0], "unset", 6) == 0 && ft_strlen(cmd->args[0]) == 5)
 		unset(cmd);
-	else if (ft_strncmp(cmd->args[0], "env", 3) == 0)
+	else if (ft_strncmp(cmd->args[0], "env", 4) == 0 && ft_strlen(cmd->args[0]) == 3)
 		env(0);
-	else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)
+	else if (ft_strncmp(cmd->args[0], "exit", 5) == 0 && ft_strlen(cmd->args[0]) == 4)
 		exit_minishell();
-	else
-		return ;
 }
