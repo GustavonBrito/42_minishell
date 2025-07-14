@@ -36,14 +36,16 @@ val_leaks: all
 
 clean:
 	@make -C $(LIBFT_DIR) clean
-	rm -f $(OBJS)
+	rm -rf $(OBJ_DIR)
 
 fclean:
 	@make -C $(LIBFT_DIR) fclean
-	rm -f $(OBJS) $(NAME)
+	rm -f $(NAME)
 
 re:
 	@$(MAKE) fclean
 	@$(MAKE) all
 
 .PHONY: all clean fclean re val_leaks
+
+#valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell

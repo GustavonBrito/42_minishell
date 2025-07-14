@@ -3,62 +3,97 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/07 21:54:20 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/11 22:02:24 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
+
+void	export(t_command *cmd);
+char	*ft_strjoin_free(char *s1, char *s2);
 
 /**
  * @brief Implementa o comando 'export'.
  *
  * Esta função manipula variáveis de ambiente.
  * Se chamada sem argumentos, comporta-se como `env` com o modo de exportação,
- * exibindo todas as variáveis de ambiente formatadas com "declare -x".
- * Se um argumento `CHAVE=VALOR` for fornecido, cria ou atualiza a variável
- * de ambiente correspondente.
+ * retornando env(1), ou seja, exibindo todas as vars de ambiente formatadas
+ * com "declare -x".
+ * Se argumentos forem fornecidos, verifica se cada argumento é do tipo
+ * WORD (definido pela tokenização em `cmd->token_types`) e se contém um '=',
+ * criando ou atualizando a variável de ambiente correspondente e
+ * removendo aspas se necessário.
  *
- * @param argv Um array de strings, onde argv é "export" e argv (se existir)
-
-	* é a variável de ambiente a ser exportada no formato "CHAVE=VALOR".
+ * @param cmd Estrutura contendo os argumentos e informações do comando.
  */
-void	export(char **argv)
-{
-	t_env	*s_env;
-	char	**buffer_input;
-	char	**buffer_from_env;
-	int		i;
 
-	i = 0;
-	if (argv[1] == NULL)
-		env(1);
-	else
+//norminette:+25 lines needs to be chopped
+void	export(t_command *cmd)
+{
+	int		i;
+	char	*equal_sign;
+	t_env	*s_env;
+	t_env	*new_var;
+
+	if (!cmd->args[1])
 	{
-		buffer_input = ft_split(argv[1], '=');
-		s_env = handle_t_env(NULL);
-		while (s_env)
-		{
-			buffer_from_env = ft_split(s_env->env_data, '=');
-			if (ft_strncmp(buffer_from_env[0], buffer_input[0],
-					ft_strlen(buffer_input[0])) == 0)
-			{
-				s_env->env_data = ft_strdup(argv[1]);
-				return ;
-			}
-			if (s_env->next == NULL)
-			{
-				while (argv[++i])
-				{
-					s_env->next = malloc(sizeof(t_env));
-					s_env = s_env->next;
-					s_env->env_data = ft_strdup(argv[i]);
-					s_env->next = NULL;
-				}
-			}
-			s_env = s_env->next;
-		}
+		env(1);
+		return ;
 	}
+	i = 1;
+	while (cmd->args[i])
+	{
+		if (cmd->token_types[i] == WORD)
+		{
+			equal_sign = ft_strchr(cmd->args[i], '=');
+			if (equal_sign)
+			{
+				*equal_sign = '\0';
+				s_env = *handle_t_env(NULL);
+				while (s_env)
+				{
+					if (ft_strncmp(s_env->env_data, cmd->args[i],
+							ft_strlen(cmd->args[i])) == 0
+						&& s_env->env_data[ft_strlen(cmd->args[i])] == '=')
+					{
+						free(s_env->env_data);
+						s_env->env_data = ft_strdup(cmd->args[i]); // key
+						s_env->env_data = ft_strjoin_free(s_env->env_data, "=");
+						s_env->env_data = ft_strjoin_free(s_env->env_data, equal_sign + 1);
+						*equal_sign = '=';
+						break ;
+					}
+					if (!s_env->next)
+						break ;
+					s_env = s_env->next;
+				}
+				if (!s_env || (s_env && s_env->next == NULL))
+				{
+					new_var = malloc(sizeof(t_env));
+					new_var->env_data = ft_strdup(cmd->args[i]);
+					new_var->env_data = ft_strjoin_free(new_var->env_data, "=");
+					new_var->env_data = ft_strjoin_free(new_var->env_data, equal_sign + 1);
+					new_var->next = NULL;
+					if (s_env)
+						s_env->next = new_var;
+					else
+						handle_t_env(new_var);
+				}
+				*equal_sign = '=';
+			}
+		}
+		i++;
+	}
+}
+
+char	*ft_strjoin_free(char *s1, char *s2)
+{
+	char *joined = ft_strjoin(s1, s2);
+	free(s1);
+	return (joined);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 23:14:39 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/22 21:22:39 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/24 01:16:01 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ int	handle_heredoc(t_redir *redir);
 /**
  * @brief Configura os redirecionamentos para um comando.
  *
- * Esta função percorre a lista de redirecionamentos de um comando (`cmd->redirs`)
+ * Esta função percorre a lista de redirecionamentos de um
+ * comando (`cmd->redirs`)
  * e chama a função de tratamento específica para cada tipo de redirecionamento
  * (entrada, saída, append, heredoc). Se algum redirecionamento falhar, retorna
  * imediatamente o código de erro.
  *
- * @param cmd Um ponteiro para a estrutura `t_command` contendo os redirecionamentos.
+ * @param cmd Um ponteiro para a estrutura `t_command` contendo os redirs.
  * @return 0 em caso de sucesso (todos os redirecionamentos configurados),
- *         ou um código de erro (geralmente 1) se algum redirecionamento falhar.
+ *         ou um código de erro (geralmente 1) se algum redirecionamento falhar
  */
 int	setup_redirections(t_command *cmd)
 {
@@ -64,7 +65,7 @@ int	setup_redirections(t_command *cmd)
  * padrão (STDIN) para ele usando `dup2`. Reporta erros de abertura de arquivo
  * ou de `dup2`.
  *
- * @param redir Um ponteiro para a estrutura `t_redir` contendo o nome do arquivo
+ * @param redir ponteiro para a estrutura `t_redir` contendo o nome do arquivo
  *              para redirecionamento de entrada.
  * @return 0 em caso de sucesso, 1 em caso de erro.
  */
@@ -92,10 +93,11 @@ int	handle_input_redirection(t_redir *redir)
 /**
  * @brief Lida com redirecionamento de saída (`>`).
  *
- * Abre (ou cria) o arquivo especificado em modo de escrita, truncando-o se já existir,
- * e redireciona a saída padrão (STDOUT) para ele usando `dup2`. Reporta erros.
+ * Abre (ou cria) o arquivo especificado em modo de escrita, truncando-o se já
+ * existir, e redireciona a saída padrão (STDOUT) para ele usando `dup2`.
+ * Reporta erros.
  *
- * @param redir Um ponteiro para a estrutura `t_redir` contendo o nome do arquivo
+ * @param redir ponteiro para a estrutura `t_redir` contendo o nome do arquivo
  *              para redirecionamento de saída.
  * @return 0 em caso de sucesso, 1 em caso de erro.
  */
@@ -127,8 +129,8 @@ int	handle_output_redirection(t_redir *redir)
  * se já existir, e redireciona a saída padrão (STDOUT) para ele usando `dup2`.
  * Reporta erros.
  *
- * @param redir Um ponteiro para a estrutura `t_redir` contendo o nome do arquivo
- *              para redirecionamento de append.
+ * @param redir Um ponteiro para a estrutura `t_redir` contendo o nome do
+ *        arquivo para redirecionamento de append.
  * @return 0 em caso de sucesso, 1 em caso de erro.
  */
 int	handle_append_redirection(t_redir *redir)
@@ -156,7 +158,7 @@ int	handle_append_redirection(t_redir *redir)
  * @brief Lida com redirecionamento de heredoc (`<<`).
  *
  * Cria um arquivo temporário (ou pipe) para o conteúdo do heredoc, solicita a
- * entrada do usuário até encontrar o delimitador, e então redireciona a entrada
+ * entrada do usuário até encontrar o delimitador, e então redireciona entrada
  * padrão (STDIN) para esse arquivo/pipe.
  *
  * @param redir Um ponteiro para a estrutura `t_redir` contendo o delimitador

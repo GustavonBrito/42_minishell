@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:31 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/22 20:50:40 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/24 15:57:50 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	pwd(void);
 
 /**
  * @brief Implementa o comando 'pwd'.

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/06 23:30:28 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/11 20:50:05 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int		ft_isspace(char c);
 int		ft_isop(char c);
 void	add_token(t_token **head, char *input, t_token_type type);
+int		handle_escape(char *input, t_token **token_lst);
 void	free_tokens(t_token *head);
 int		handle_escape(char *input, t_token **token_lst);
 
@@ -92,8 +93,8 @@ int	handle_escape(char *input, t_token **token_lst)
 	int		final_escape_index;
 	int 	first_escape_index;
 	int		flag;
-	size_t  size;
-	char *new_word;
+	size_t	size;
+	char	*new_word;
 
 	j = -1;
 	first_escape_index = 0;
@@ -135,6 +136,7 @@ int	handle_escape(char *input, t_token **token_lst)
  *
  * @param head O ponteiro para o início da lista de tokens a ser liberada.
  */
+
 void	free_tokens(t_token *head)
 {
 	t_token	*temp;

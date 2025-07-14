@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:35:32 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/22 20:54:58 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/06/24 01:32:04 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
+
 t_command			*parse_tokens(t_token *tokens);
 static t_command	*parse_command(t_token **current);
-static t_command	*init_command(void);
 static int			count_args(t_token *start);
 
 /**
@@ -28,6 +29,8 @@ static int			count_args(t_token *start);
  * @return Um ponteiro para a primeira estrutura `t_command` na lista de comandos
  *         analisados, ou NULL em caso de erro de alocação ou sintaxe.
  */
+
+//norminette:+25 lines needs to be chopped
 t_command	*parse_tokens(t_token *tokens)
 {
 	t_command	*first_command;
@@ -106,7 +109,7 @@ static t_command	*parse_command(t_token **current)
  * @return Um ponteiro para a nova estrutura `t_command` alocada,
  *         ou NULL se a alocação de memória falhar.
  */
-static t_command	*init_command(void)
+t_command	*init_command(void)
 {
 	t_command	*cmd;
 

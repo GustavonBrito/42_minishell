@@ -3,66 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo-linux <gustavo-linux@student.42    +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/06 23:50:40 by gustavo-lin      ###   ########.fr       */
+/*   Updated: 2025/07/11 22:02:04 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Imprime as variáveis de ambiente formatadas para o comando 'export' sem argumentos.
- *
- * Esta função itera sobre o array global `environ` e imprime cada variável
- * de ambiente no formato `declare -x CHAVE="VALOR"`. Variáveis sem valor
- * são impressas como `declare -x CHAVE`.
- * A lógica tenta ordenar as variáveis com base no primeiro caractere (letras maiúsculas e minúsculas)
- * antes de imprimir aquelas que não começam com letras.
- */
-void	print_export(void)
-{
-	extern char	**environ;
-	char		**buffer;
-	int			i;
-	int			is_upper_char;
-	int			is_lower_char;
-	char		*temp;
+//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
 
-	temp = malloc(sizeof(char) * 2);
-	is_upper_char = 64;
-	is_lower_char = 96;
-	while (++is_upper_char <= 90 && ++is_lower_char <= 122)
-	{
-		i = -1;
-		while (environ[++i])
-		{
-			ft_strlcpy(temp, environ[i], 2);
-			if (temp[0] == is_upper_char || temp[0] == is_lower_char)
-			{
-				buffer = ft_split(environ[i], '=');
-				if (buffer[1] == NULL)
-					ft_printf("declare -x %s\n", buffer[0]);
-				else
-					ft_printf("declare -x %s=\"%s\"\n", buffer[0], buffer[1]);
-			}
-		}
-	}
-	i = -1;
-	while (environ[++i])
-	{
-		ft_strlcpy(temp, environ[i], 2);
-		if (ft_isalpha(temp[0]) == 0)
-		{
-			buffer = ft_split(environ[i], '=');
-			if (buffer[1] == NULL)
-				ft_printf("declare -x %s\n", buffer[0]);
-			else
-				ft_printf("declare -x %s=\"%s\"\n", buffer[0], buffer[1]);
-		}
-	}
-}
+void	env(int is_export);
+void	print_export(void);
+
 
 /**
  * @brief Implementa o comando 'env'.
@@ -78,17 +32,48 @@ void	print_export(void)
  */
 void	env(int is_export)
 {
-	t_env		*env;
+	t_env	**env_ptr;
+	t_env	*env;
 
 	if (is_export == 1)
 		print_export();
 	else
 	{
-		env = handle_t_env(NULL);
+		env_ptr = handle_t_env(NULL);
+		env = *env_ptr;
 		while(env)
 		{
 			ft_printf("%s\n", env->env_data);
 			env = env->next;
 		}
+	}
+}
+
+/**
+ * @brief Imprime as vars de ambiente formatadas para o cmd 'export' sem args.
+ *
+ * Esta função itera sobre o array global `environ` e imprime cada variável
+ * de ambiente no formato `declare -x CHAVE="VALOR"`. Variáveis sem valor
+ * são impressas como `declare -x CHAVE`.
+ * A função percorre e imprime as variáveis que começam com:
+ * 1) letras maiúsculas; 2) letras minúsculas; 3)antes de imprimir as demais.
+ */
+
+//norminette: many vars and +25 lines: needs to be chopped
+void	print_export(void)
+{
+	t_env		*env;
+	char		**buffer;
+
+	env = *handle_t_env(NULL);
+	while (env)
+	{
+		buffer = ft_split(env->env_data, '=');
+		if (buffer[1] == NULL)
+			ft_printf("declare -x %s\n", buffer[0]);
+		else
+			ft_printf("declare -x %s=\"%s\"\n", buffer[0], buffer[1]);
+		ft_free_split(buffer);
+		env = env->next;
 	}
 }
