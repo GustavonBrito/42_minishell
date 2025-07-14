@@ -16,7 +16,6 @@
 
 t_command			*parse_tokens(t_token *tokens);
 static t_command	*parse_command(t_token **current);
-static t_command	*init_command(void);
 static int			count_args(t_token *start);
 
 /**
@@ -110,7 +109,7 @@ static t_command	*parse_command(t_token **current)
  * @return Um ponteiro para a nova estrutura `t_command` alocada,
  *         ou NULL se a alocação de memória falhar.
  */
-static t_command	*init_command(void)
+t_command	*init_command(void)
 {
 	t_command	*cmd;
 

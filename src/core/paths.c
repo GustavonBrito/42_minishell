@@ -28,13 +28,21 @@ void	free_array(char **path_dirs);
 
 void	update_pwd(void)
 {
+	t_command	*cmd;
+	char	*new_dir;
 	char	*actual_directory;
 
 	actual_directory = getcwd(NULL, 0);
 	if (!actual_directory)
 		return ;
-	setenv("PWD", actual_directory, 1);
+	cmd = init_command();
+	allocate_command_arrays(cmd, 1);
+	new_dir = ft_strjoin("PWD=",actual_directory);
+	cmd->args[1] = ft_strdup(new_dir);
+	export(cmd);
 	free(actual_directory);
+	free(new_dir);
+	free(cmd);
 }
 
 /**
