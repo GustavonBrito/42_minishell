@@ -42,6 +42,29 @@ void	setup_child_pipes(t_pipe *pipes)
  */
 void	execute_child_command(t_command *cmd)
 {
+	char	**actual_env_var;
+	t_env	*environ;
+	t_env	*tmp;
+	char	*cmd_path;
+	int		env_length;
+	int		i;		
+
+	environ = *handle_t_env(NULL);
+	tmp = environ;
+	i = 0;
+	while (environ)
+	{
+		env_length++;
+		environ = environ->next;
+	}
+	actual_env_var = malloc(sizeof(char *) * (env_length + 1));
+	while(tmp)
+	{
+		actual_env_var[i] = ft_strdup(tmp->env_data);
+		tmp = tmp->next;
+		i++;
+	}
+	actual_env_var[i] = NULL;
 	if (check_builtin(cmd))
 	{
 		is_builtin(cmd);
@@ -49,7 +72,13 @@ void	execute_child_command(t_command *cmd)
 	}
 	else
 	{
-		if (execvp(cmd->args[0], cmd->args) == -1)
+		cmd_path = find_command_path(cmd->args[0]);
+		if (!cmd_path)
+		{
+			ft_printf("minishell: %s: command not found\n", cmd->args[0]);
+			exit(127);
+		}
+		if (execve(cmd_path, cmd->args, actual_env_var) == -1)
 		{
 			ft_printf("minishell: %s: command not found\n", cmd->args[0]);
 			exit(127);
