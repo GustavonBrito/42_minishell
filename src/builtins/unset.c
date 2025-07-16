@@ -26,7 +26,7 @@ void	unset(t_command *cmd);
 void	unset(t_command *cmd)
 {
 	t_env	*s_env;
-	t_env	*new_env;
+	t_env	*tmp;
 	t_env	*head;
 	t_env	*last;
 
@@ -37,14 +37,14 @@ void	unset(t_command *cmd)
 	{
 		if (!verify_remove_env(cmd->args, s_env))
 		{
-			new_env = malloc(sizeof(t_env));
-			new_env->env_data = ft_strdup(s_env->env_data);
-			new_env->next = NULL;
+			tmp = malloc(sizeof(t_env));
+			tmp->env_data = ft_strdup(s_env->env_data);
+			tmp->next = NULL;
 			if (!head)
-				head = new_env;
+				head = tmp;
 			else
-				last->next = new_env;
-			last = new_env;
+				last->next = tmp;
+			last = tmp;
 		}
 		s_env = s_env->next;
 	}
