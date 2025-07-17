@@ -140,7 +140,7 @@ void		cd(t_command *cmd); // Funcao para alterar o diretorio.
 void		env(int is_export);
 void		handle_store_env(char **system_env);
 int			handle_escape(char *input, t_token **token_lst);
-void		exit_minishell(void);
+void		exit_minishell(char *exit_code);
 void		export(t_command *cmd);
 void		pwd(void);
 void		unset(t_command *cmd);

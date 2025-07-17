@@ -45,6 +45,6 @@ void	is_builtin(t_command *cmd)
 		unset(cmd);
 	else if (ft_strncmp(cmd->args[0], "env", 4) == 0 && ft_strlen(cmd->args[0]) == 3)
 		env(0);
-	else if (ft_strncmp(cmd->args[0], "exit", 5) == 0 && ft_strlen(cmd->args[0]) == 4)
-		exit_minishell();
+	else if (ft_strncmp(cmd->args[0], "exit", 5) == 0 && ft_strlen(cmd->args[0]) == 4 && cmd->args[1])
+		exit_minishell(cmd->args[1]);
 }

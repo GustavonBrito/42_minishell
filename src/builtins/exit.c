@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	exit_minishell(void);
+void	exit_minishell(char *exit_code);
 
 /**
  * @brief Implementa o comando 'exit'.
@@ -20,7 +20,12 @@ void	exit_minishell(void);
  * Esta função encerra a execução do programa minishell.
  * Atualmente, sempre sai com o status de sucesso (0).
  */
-void	exit_minishell(void)
+void	exit_minishell(char *exit_code)
 {
-	exit(0);
+	int exit_code_converted;
+	
+	exit_code_converted = ft_atoi(exit_code);
+	if (exit_code_converted == 0)
+		ft_printf("%s", exit_code);
+	exit(exit_code_converted);
 }

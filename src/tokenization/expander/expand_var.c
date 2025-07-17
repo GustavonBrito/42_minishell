@@ -94,7 +94,23 @@ int	expand_process_id(char **res)
  */
 char	*itoa_process_id(void)
 {
-	return (ft_itoa(getpid()));
+	int		fd;
+	size_t	read_return;
+	int		buffer_length;
+	char	buffer[8];
+	char	**buffer_splitted;
+
+	
+	fd = open("/proc/self/stat", O_RDONLY);
+	if (!fd)
+		return NULL;
+	read_return = read(fd, buffer, 8);
+	if (!read_return)
+		return NULL;
+	buffer_splitted = ft_split(buffer, ' ');
+	buffer_length = ft_strlen(buffer_splitted[0]);
+	buffer_splitted[0][buffer_length] = '\0';
+	return (buffer_splitted[0]);
 }
 
 /**
