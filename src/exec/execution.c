@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/27 03:01:29 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/17 20:54:44 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,7 @@ int	execute_builtin(t_command *cmd)
 //norminette: +25 lines: needs to be chopped
 int	execute_external_command(t_command *cmd)
 {
-	extern char	**environ;
-	pid_t		pid;
-	char		*cmd_path;
+	pid_t	pid;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
 	{
@@ -113,20 +111,7 @@ int	execute_external_command(t_command *cmd)
 		return (g_exit_status);
 	}
 	else if (pid == 0)
-	{
-		cmd_path = find_command_path(cmd->args[0]);
-		if (!cmd_path)
-		{
-			ft_printf("minishell: %s: command not found\n", cmd->args[0]);
-			exit(127);
-		}
-		if (execve(cmd_path, cmd->args, environ) == -1)
-		{
-			perror("minishell: execve");
-			free(cmd_path);
-			exit(126);
-		}
-	}
+		exit(execute_with_execve(cmd));
 	else
 	{
 		waitpid(pid, &g_exit_status, 0);

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/05 16:11:26 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/17 21:12:57 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,13 @@ void	setup_child_pipes(t_pipe *pipes)
  */
 void	execute_child_command(t_command *cmd)
 {
+	int	exit_code;
+
 	if (check_builtin(cmd))
 	{
 		is_builtin(cmd);
 		exit(g_exit_status);
 	}
-	else
-	{
-		if (execvp(cmd->args[0], cmd->args) == -1)
-		{
-			ft_printf("minishell: %s: command not found\n", cmd->args[0]);
-			exit(127);
-		}
-	}
+	exit_code = execute_with_execve(cmd);
+	exit(exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/12 02:08:36 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/17 20:56:06 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,7 @@ int			execute_external_command(t_command *cmd);
 void		handle_command_execution(t_command *cmd);
 void		handle_command_execution(t_command *cmd);
 int			check_builtin(t_command *cmd);
+int			execute_with_execve(t_command *cmd);
 
 //pipes
 int			has_pipes(t_command *cmd);
