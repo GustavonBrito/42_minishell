@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:59:26 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/27 03:04:26 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/18 00:03:26 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,34 @@ void	free_array(char **path_dirs);
 
 void	update_pwd(void)
 {
-	char	*actual_directory;
+	t_command	*cmd;
+	char		*new_dir;
+	char		*actual_directory;
 
 	actual_directory = getcwd(NULL, 0);
 	if (!actual_directory)
 		return ;
-	setenv("PWD", actual_directory, 1);
+	cmd = init_command();
+	if (!cmd || !allocate_command_arrays(cmd, 1))
+	{
+		free(actual_directory);
+		if (cmd)
+			free(cmd);
+		return ;
+	}
+	new_dir = ft_strjoin("PWD=",actual_directory);
+	if (!new_dir)
+	{
+		free(actual_directory);
+		free_commands(cmd);
+		return ;
+	}
+	cmd->args[1] = ft_strdup(new_dir);
+	if (cmd->args[1])
+		export(cmd);
 	free(actual_directory);
+	free(new_dir);
+	free_commands(cmd);
 }
 
 /**

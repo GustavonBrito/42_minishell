@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/17 20:56:06 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/17 23:52:31 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ int			handle_word_with_quotes(char *input, t_token **token_lst, int i);
 
 //parsing
 t_command	*parse_tokens(t_token *tokens);
+t_command	*init_command(void);
 int			allocate_command_arrays(t_command *cmd, int arg_count);
 int			fill_command_data(t_command *cmd, t_token **current, int arg_count);
 void		free_commands(t_command *cmd);
