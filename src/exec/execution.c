@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/17 20:54:44 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/19 02:39:28 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ int	execute_command(t_command *cmd)
 	int	exec_result;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
+	{
+		g_exit_status = 1;
 		return (0);
+	}
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
 	redir_result = setup_redirections(cmd);
@@ -74,7 +77,10 @@ int	execute_command(t_command *cmd)
 int	execute_builtin(t_command *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
-		return (1);
+	{
+		g_exit_status = 1;
+		return (g_exit_status);
+	}
 	is_builtin(cmd);
 	return (0);
 }
@@ -139,7 +145,10 @@ void	handle_command_execution(t_command *cmd)
 	t_command	*current;
 
 	if (!cmd)
+	{
+		g_exit_status = 1;
 		return ;
+	}
 	current = cmd;
 	if (cmd->token_types[0] == VAR)
 	{
@@ -163,13 +172,18 @@ void	handle_command_execution(t_command *cmd)
 
 int	check_builtin(t_command *cmd)
 {
-	if (ft_strncmp(cmd->args[0], "echo", 4) == 0
-		|| ft_strncmp(cmd->args[0], "cd", 2) == 0
-		|| ft_strncmp(cmd->args[0], "pwd", 3) == 0
-		|| ft_strncmp(cmd->args[0], "export", 6) == 0
-		|| ft_strncmp(cmd->args[0], "unset", 5) == 0
-		|| ft_strncmp(cmd->args[0], "env", 3) == 0
-		|| ft_strncmp(cmd->args[0], "exit", 4) == 0)
+	if (!cmd || !cmd->args || !cmd->args[0])
+	{
+		g_exit_status = 1;
+		return (0);
+	}
+	if ((ft_strncmp(cmd->args[0], "echo", 4) == 0 && ft_strlen(cmd->args[0]) == 4)
+		|| (ft_strncmp(cmd->args[0], "cd", 2) == 0 && ft_strlen(cmd->args[0]) == 2)
+		|| (ft_strncmp(cmd->args[0], "pwd", 3) == 0 && ft_strlen(cmd->args[0]) == 3)
+		|| (ft_strncmp(cmd->args[0], "export", 6) == 0 && ft_strlen(cmd->args[0]) == 6)
+		|| (ft_strncmp(cmd->args[0], "unset", 5) == 0 && ft_strlen(cmd->args[0]) == 5)
+		|| (ft_strncmp(cmd->args[0], "env", 3) == 0 && ft_strlen(cmd->args[0]) == 3)
+		|| (ft_strncmp(cmd->args[0], "exit", 4) == 0 && ft_strlen(cmd->args[0]) == 4))
 		return (1);
 	else
 		return (0);

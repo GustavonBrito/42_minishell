@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/17 23:52:31 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/18 22:43:51 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,16 +103,16 @@ typedef struct s_command
  * de execução entre múltiplos comandos encadeados via pipe no shell.
  * Guarda FDs de leitura/escrita dos pipes e índices de controle.
  */
-typedef struct s_pipe {
-    int     prev_pipe_read;     /* FD de leitura do pipe anterior */
-    int     curr_pipe[2];       /* Pipe atual [read, write] */
-    int     cmd_index;          /* Índice do comando atual */
-    int     total_commands;     /* Total de comandos no pipeline */
+typedef struct s_pipe
+{
+	int		**pipe_fds;		/* Array de pipes [n-1][2] para n comandos */
+	pid_t	*pids;				/* Array de PIDs dos processos filhos */
+	int		total_commands;		/* Total de comandos no pipeline */
 } t_pipe;
 
 typedef struct s_env
 {
-	char			*env_data;			/**< Array de varaveis de ambiente. */
+	char			*env_data;		/**< Array de varaveis de ambiente. */
 	struct s_env	*next;			/**< Próximo nó. */
 }	t_env;
 
@@ -209,12 +209,11 @@ int			execute_with_execve(t_command *cmd);
 //pipes
 int			has_pipes(t_command *cmd);
 int			execute_pipeline(t_command *cmd);
-void		init_pipeline(t_pipe *pipes, t_command *cmd);
+int			init_pipeline(t_pipe *pipes, t_command *cmd);
 int			count_commands(t_command *cmd);
-int			create_pipe(t_pipe *pipes);
-void		close_child(t_pipe *pipes);
-void		setup_child_pipes(t_pipe *pipes);
-void		update_pipes(t_pipe *pipes, t_command *current);
+int			create_pipe(int pipe_fd[2]);
+void		cleanup_pipeline(t_pipe *pipes);
+void		setup_child_pipes(t_pipe *pipes, int cmd_index);
 void		execute_child_command(t_command *cmd);
 
 //error handling
