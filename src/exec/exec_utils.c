@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 20:54:17 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/19 02:38:38 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/22 20:43:41 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,51 +23,29 @@ int	execute_with_execve(t_command *cmd)
 
 	if (!cmd || !cmd->args || !cmd->args[0])
 	{
-		g_exit_status = 1;
-		return (127);
+		g_exit_status = 127;
+		return (g_exit_status);
 	}
 	env_array = convert_env_to_array();
 	if (!env_array)
 	{
 		g_exit_status = 1;
 		ft_printf("minishell: environment conversion error\n");
-		return (1);
+		return (g_exit_status);
 	}
 	cmd_path = find_command_path(cmd->args[0]);
 	if (!cmd_path)
 	{
-		g_exit_status = 1;
+		g_exit_status = 127;
 		free_env_array(env_array);
 		ft_printf("minishell: %s: command not found\n", cmd->args[0]);
-		return (127);
+		return (g_exit_status);
 	}
-	if (execve(cmd_path, cmd->args, env_array) == -1)
-	{
-		free_env_array(env_array);
-		free(cmd_path);
-		if (access(cmd_path, F_OK) == -1)
-		{
-			g_exit_status = 1;
-			ft_printf("minishell: %s: No such file or directory\n", cmd->args[0]);
-			return (127);
-		}
-		else if (access(cmd_path, X_OK) == -1)
-		{
-			g_exit_status = 1;
-			ft_printf("minishell: %s: Permission denied\n", cmd->args[0]);
-			return (126);
-		}
-		else
-		{
-			g_exit_status = 1;
-			perror("minishell");
-			return (126);
-		}
-		free_env_array(env_array);
-		free(cmd_path);
-	}
-	g_exit_status = 1;
-	return (127);
+	execve(cmd_path, cmd->args, env_array);
+	free_env_array(env_array);
+	free(cmd_path);
+	g_exit_status = 126;
+	exit(g_exit_status);
 }
 
 static char	**convert_env_to_array(void)

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/12 00:06:52 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/22 20:01:15 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,34 @@ int	handle_quotes(char *input, t_token **token_lst, int i)
 	int		j;
 	char	*quoted_content;
 	int		len;
+	int		quote_count;
+	int		temp_j;
 
 	quote_char = input[i];
 	start = i;
 	j = i + 1;
-	while (input[j] && input[j] != quote_char)
+	while (input[j])
+	{
+		if (input[j] == quote_char)
+		{
+			if (quote_char == '"')
+			{
+				quote_count = 1;
+				temp_j = j + 1;
+				while (input[temp_j] && input[temp_j] != ' ' && input[temp_j] != '|')
+				{
+					if (input[temp_j] == '"')
+						quote_count++;
+					temp_j++;
+				}
+				if (quote_count % 2 == 0)
+					break ;
+			}
+			else
+				break ;
+		}
 		j++;
-
+	}
 	if (input[j] != quote_char)
 		return (1);
 	j++;

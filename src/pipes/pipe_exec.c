@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/19 02:34:50 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/22 21:01:01 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,10 +150,14 @@ static int	wait_all_processes(t_pipe *pipes)
 {
 	int	status;
 	int	i;
+	int	exit_status;
 	int	last_exit_status;
+	//int	pipeline_failed;
 
 	i = 0;
 	last_exit_status = 0;
+	exit_status = 0;
+	//pipeline_failed = 0;
 	while (i < pipes->total_commands)
 	{
 		if (pipes->pids[i] != -1)
@@ -161,16 +165,26 @@ static int	wait_all_processes(t_pipe *pipes)
 			waitpid(pipes->pids[i], &status, 0);
 			if (WIFEXITED(status))
 			{
+				exit_status = WEXITSTATUS(status);
 				if (i == (pipes->total_commands - 1))
-					last_exit_status = WEXITSTATUS(status);
+					last_exit_status = exit_status;
+				/* if (exit_status != 0)
+					pipeline_failed = 1; */
 			}
 			else if (WIFSIGNALED(status))
 			{
-				last_exit_status = 128 + WTERMSIG(status);
+				exit_status = 128 + WTERMSIG(status);
+				if (i == (pipes->total_commands - 1))
+					last_exit_status = exit_status;
+				//pipeline_failed = 1;
 			}
 		}
 		i++;
 	}
+	/* if (pipeline_failed && last_exit_status == 0)
+		g_exit_status = 1;
+	else
+		g_exit_status = last_exit_status; */
 	g_exit_status = last_exit_status;
 	cleanup_pipeline(pipes);
 	return (g_exit_status);

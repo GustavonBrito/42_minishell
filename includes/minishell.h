@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/18 22:43:51 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/22 20:56:41 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <termcap.h>
+# include <errno.h>
 # include "../libft/headers/libft.h"
 # include "../libft/headers/get_next_line.h"
 # include "../libft/headers/ft_printf.h"
