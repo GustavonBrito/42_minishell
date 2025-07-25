@@ -1,11 +1,125 @@
 /*
 #include "minishell.h"
 
-void				print_tokens(t_token *head);
-//void				print_commands(t_command *cmd);
-void				print_varsexp(t_command *cmd);
-static const char	*get_token_type_name(t_token_type type);
-void				print_exit_status(void);
+void debug_tokens(t_command *cmd)
+{
+	int i = 0;
+	printf("DEBUG TOKENS - Command: %s\n", cmd->args[0]);
+	while (cmd->args[i])
+	{
+		printf("  arg[%d]: '%s' (len=%zu)\n", i, cmd->args[i], strlen(cmd->args[i]));
+		// Mostrar bytes em hex para caracteres especiais
+		unsigned char *str = (unsigned char *)cmd->args[i];
+		printf("  hex: ");
+		for (int j = 0; str[j]; j++)
+			printf("%02x ", str[j]);
+		printf("\n");
+		i++;
+	}
+	printf("  total args: %d\n", i);
+}
+
+void debug_command_list(t_command *cmd)
+{
+	t_command *current = cmd;
+	int count = 0;
+
+	printf("DEBUG: Command list structure:\n");
+	while (current)
+	{
+		printf("  Command %d: %s\n", count, current->args[0]);
+		if (current->next)
+			printf("    -> has next\n");
+		else
+			printf("    -> no next (last)\n");
+		current = current->next;
+		count++;
+	}
+	printf("DEBUG: Total commands in list: %d\n", count);
+}
+
+// 5. Debug na expansão de variáveis para verificar o argumento do grep
+void debug_variable_expansion(t_command *cmd)
+{
+	printf("DEBUG: Variable expansion for command: %s\n", cmd->args[0]);
+	for (int i = 0; cmd->args[i]; i++)
+	{
+		printf("  Before expansion arg[%d]: '%s'\n", i, cmd->args[i]);
+		// Se você tiver acesso ao valor antes da expansão, mostre também
+	}
+}
+
+// 6. Teste específico para reproduzir o problema
+void test_grep_pattern(void)
+{
+	// Teste se o padrão ");$ " é válido para grep
+	printf("DEBUG: Testing grep pattern validity\n");
+
+	// Criar um processo para testar grep com o padrão
+	pid_t pid = fork();
+	if (pid == 0)
+	{
+		// Redirecionar entrada para /dev/null para evitar que grep espere input
+		int fd = open("/dev/null", O_RDONLY);
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+
+		// Testar execve com grep e o padrão problemático
+		char *args[] = {"grep", ");$ ", NULL};
+		char *env[] = {NULL};
+		execve("/usr/bin/grep", args, env);
+		exit(127);
+	}
+	else if (pid > 0)
+	{
+		int status;
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			printf("DEBUG: grep test exit status: %d\n", WEXITSTATUS(status));
+	}
+}
+
+void test_original_command(void)
+{
+	printf("DEBUG: Testing original failing command\n");
+
+	// Simular: cat minishell.h | grep ");$ "
+	// Primeiro testar cat com arquivo inexistente
+	pid_t pid1 = fork();
+	if (pid1 == 0)
+	{
+		char *args[] = {"cat", "minishell.h", NULL};
+		char *env[] = {NULL};
+		execve("/usr/bin/cat", args, env);
+		exit(127);
+	}
+	else if (pid1 > 0)
+	{
+		int status;
+		waitpid(pid1, &status, 0);
+		if (WIFEXITED(status))
+			printf("DEBUG: cat minishell.h exit status: %d\n", WEXITSTATUS(status));
+	}
+
+	// Testar grep com entrada vazia (pipe quebrado)
+	pid_t pid2 = fork();
+	if (pid2 == 0)
+	{
+		// Simular pipe quebrado - stdin fechado
+		close(STDIN_FILENO);
+		char *args[] = {"grep", ");$ ", NULL};
+		char *env[] = {NULL};
+		execve("/usr/bin/grep", args, env);
+		exit(127);
+	}
+	else if (pid2 > 0)
+	{
+		int status;
+		waitpid(pid2, &status, 0);
+		if (WIFEXITED(status))
+			printf("DEBUG: grep );$  with closed stdin exit status: %d\n", WEXITSTATUS(status));
+	}
+}
 
 void	print_tokens(t_token *head)
 {

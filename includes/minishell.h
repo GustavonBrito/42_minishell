@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/22 20:56:41 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/25 18:44:09 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,11 @@ int			report_error(const char *msg, int exit_code);
 void		critical_error(const char *msg, int exit_code);
 
 // debugs
+//void	debug_tokens(t_command *cmd);
+//void	debug_command_list(t_command *cmd);
+//void	debug_variable_expansion(t_command *cmd);
+//void	test_grep_pattern(void);
+//void	test_original_command(void);
 //void	print_tokens(t_token *head);
 //void	print_commands(t_command *cmd);
 //void	print_varsexp(t_command *cmd);

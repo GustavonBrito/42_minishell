@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 20:54:17 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/22 20:43:41 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/25 18:52:25 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,29 +23,24 @@ int	execute_with_execve(t_command *cmd)
 
 	if (!cmd || !cmd->args || !cmd->args[0])
 	{
-		g_exit_status = 127;
-		return (g_exit_status);
+		exit(127);
 	}
 	env_array = convert_env_to_array();
 	if (!env_array)
 	{
-		g_exit_status = 1;
-		ft_printf("minishell: environment conversion error\n");
-		return (g_exit_status);
+		exit(1);
 	}
 	cmd_path = find_command_path(cmd->args[0]);
 	if (!cmd_path)
 	{
-		g_exit_status = 127;
 		free_env_array(env_array);
-		ft_printf("minishell: %s: command not found\n", cmd->args[0]);
-		return (g_exit_status);
+		exit(127);
 	}
 	execve(cmd_path, cmd->args, env_array);
+	perror("execve");
 	free_env_array(env_array);
 	free(cmd_path);
-	g_exit_status = 126;
-	exit(g_exit_status);
+	exit(127);
 }
 
 static char	**convert_env_to_array(void)

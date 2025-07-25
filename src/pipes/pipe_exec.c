@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/22 21:01:01 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/25 18:52:08 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,11 +131,14 @@ static int	exec_pip_cmd(t_command *cmd, t_pipe *pipes, int cmd_index)
 	}
 	else if (pid == 0)
 	{
-		setup_child_pipes(pipes, cmd_index);
+		 setup_child_pipes(pipes, cmd_index);
 		if (setup_redirections(cmd) != 0)
 			exit(1);
 		execute_child_command(cmd);
+		exit(127);
 	}
+	else
+		pipes->pids[cmd_index] = pid;
 	return (pid);
 }
 
@@ -151,41 +154,31 @@ static int	wait_all_processes(t_pipe *pipes)
 	int	status;
 	int	i;
 	int	exit_status;
-	int	last_exit_status;
-	//int	pipeline_failed;
+	int	final_exit_status;
 
 	i = 0;
-	last_exit_status = 0;
-	exit_status = 0;
-	//pipeline_failed = 0;
+	final_exit_status = 0;
 	while (i < pipes->total_commands)
 	{
-		if (pipes->pids[i] != -1)
+	if (pipes->pids[i] != -1)
+	{
+		waitpid(pipes->pids[i], &status, 0);
+		if (WIFEXITED(status))
 		{
-			waitpid(pipes->pids[i], &status, 0);
-			if (WIFEXITED(status))
-			{
-				exit_status = WEXITSTATUS(status);
-				if (i == (pipes->total_commands - 1))
-					last_exit_status = exit_status;
-				/* if (exit_status != 0)
-					pipeline_failed = 1; */
-			}
-			else if (WIFSIGNALED(status))
-			{
-				exit_status = 128 + WTERMSIG(status);
-				if (i == (pipes->total_commands - 1))
-					last_exit_status = exit_status;
-				//pipeline_failed = 1;
-			}
+			exit_status = WEXITSTATUS(status);
+			if (i == (pipes->total_commands - 1))
+				final_exit_status = exit_status;
 		}
-		i++;
+		else if (WIFSIGNALED(status))
+		{
+			exit_status = 128 + WTERMSIG(status);
+			if (i == (pipes->total_commands - 1))
+				final_exit_status = exit_status;
+		}
 	}
-	/* if (pipeline_failed && last_exit_status == 0)
-		g_exit_status = 1;
-	else
-		g_exit_status = last_exit_status; */
-	g_exit_status = last_exit_status;
+	i++;
+	}
+	g_exit_status = final_exit_status;
 	cleanup_pipeline(pipes);
 	return (g_exit_status);
 }
