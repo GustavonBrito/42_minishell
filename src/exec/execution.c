@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/19 02:39:28 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/25 20:27:31 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	execute_builtin(t_command *cmd)
 		return (g_exit_status);
 	}
 	is_builtin(cmd);
-	return (0);
+	return (g_exit_status);
 }
 
 /**
@@ -143,6 +143,7 @@ int	execute_external_command(t_command *cmd)
 void	handle_command_execution(t_command *cmd)
 {
 	t_command	*current;
+	int		result;
 
 	if (!cmd)
 	{
@@ -150,15 +151,16 @@ void	handle_command_execution(t_command *cmd)
 		return ;
 	}
 	current = cmd;
-	if (cmd->token_types[0] == VAR)
-	{
-		ft_printf("%s\n", current->args[0]);
-		return ;
-	}
 	if (has_pipes(current))
-		g_exit_status = execute_pipeline(current);
+	{
+		result = execute_pipeline(current);
+		g_exit_status = result;
+	}
 	else
-		g_exit_status = execute_command(current);
+	{
+		result = execute_command(current);
+		g_exit_status = result;
+	}
 }
 
 /**

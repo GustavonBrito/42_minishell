@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/25 18:44:09 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/25 20:28:55 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ typedef struct s_env
 }	t_env;
 
 //utils "global" struct
-t_env	**handle_t_env(t_env *head);
+t_env		**handle_t_env(t_env *head);
 
 //core
 extern int	g_exit_status;
@@ -202,7 +202,6 @@ void		restore_std_fds(int saved_stdin, int saved_stdout);
 int			execute_command(t_command *cmd);
 int			execute_builtin(t_command *cmd);
 int			execute_external_command(t_command *cmd);
-void		handle_command_execution(t_command *cmd);
 void		handle_command_execution(t_command *cmd);
 int			check_builtin(t_command *cmd);
 int			execute_with_execve(t_command *cmd);

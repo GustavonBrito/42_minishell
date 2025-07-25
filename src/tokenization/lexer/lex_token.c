@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/12 01:04:06 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/25 20:28:18 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,10 +150,8 @@ static int	process_commands(t_command *commands)
 			return (1);
 		current_cmd = current_cmd->next;
 	}
-	//tester print for debbug
-	//print_varsexp(commands);
 	handle_command_execution(commands);
-	return (0);
+	return (g_exit_status);
 }
 
 /**
