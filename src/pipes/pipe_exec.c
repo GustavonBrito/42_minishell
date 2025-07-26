@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/25 20:25:56 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/25 22:07:10 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,6 @@ static int	exec_pip_cmd(t_command *cmd, t_pipe *pipes, int cmd_index)
 		if (setup_redirections(cmd) != 0)
 			exit(1);
 		execute_child_command(cmd);
-		exit(127);
 	}
 	else
 		pipes->pids[cmd_index] = pid;

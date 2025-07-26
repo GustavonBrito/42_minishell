@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/22 20:01:15 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/25 22:04:00 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ int	handle_word_with_quotes(char *input, t_token **token_lst, int i)
 
 	start = i;
 	j = i;
-	while (input[j] && !ft_isspace(input[j]) && !ft_isop(input[j]) && input[j] != '$')
+	while (input[j] && !ft_isspace(input[j]) && !ft_isop(input[j]))
 	{
 		if (input[j] == '\'' || input[j] == '"')
 		{
@@ -240,7 +240,6 @@ int	handle_word_with_quotes(char *input, t_token **token_lst, int i)
 	full_word = ft_substr(input, start, len);
 	if (!full_word)
 		return (len);
-
 	add_token(token_lst, full_word, WORD);
 	free(full_word);
 	return (len);
