@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:54:36 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/27 03:07:20 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/12 01:47:38 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	echo(t_command *cmd)
 	{
 		ft_printf("%s", cmd->args[i]);
 		i++;
-		if (cmd->args[i])
+		if (cmd->args[i] && cmd->token_types[i - 1] != VAR)
 			ft_printf(" ");
 	}
 	if (!flag)

@@ -6,33 +6,47 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/05 16:11:26 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/25 22:06:15 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		setup_child_pipes(t_pipe *pipes);
+void		setup_child_pipes(t_pipe *pipes, int cmd_index);
 void		execute_child_command(t_command *cmd);
+static int	handle_builtin_in_pipe(t_command *cmd);
+static void	close_unused_pipes(t_pipe *pipes, int cmd_index);
 
 /**
  * @brief Configura pipes no processo filho
  *
  * @param pipes Estrutura de controle de pipes
  */
-void	setup_child_pipes(t_pipe *pipes)
+void setup_child_pipes(t_pipe *pipes, int cmd_index)
 {
-	if (pipes->prev_pipe_read != -1)
+	if (cmd_index > 0)
 	{
-		dup2(pipes->prev_pipe_read, STDIN_FILENO);
-		close(pipes->prev_pipe_read);
+		if (pipes->pipe_fds[cmd_index-1][0] != -1)
+		{
+			if (dup2(pipes->pipe_fds[cmd_index-1][0], STDIN_FILENO) == -1)
+			{
+				perror("DEBUG PIPES: dup2 input failed");
+				exit(1);
+			}
+		}
 	}
-	if (pipes->cmd_index < pipes->total_commands - 1)
+	if (cmd_index < pipes->total_commands - 1)
 	{
-		dup2(pipes->curr_pipe[1], STDOUT_FILENO);
-		close(pipes->curr_pipe[1]);
-		close(pipes->curr_pipe[0]);
+		if (pipes->pipe_fds[cmd_index][1] != -1)
+		{
+			if (dup2(pipes->pipe_fds[cmd_index][1], STDOUT_FILENO) == -1)
+			{
+				perror("DEBUG PIPES: dup2 output failed");
+				exit(1);
+			}
+		}
 	}
+	close_unused_pipes(pipes, cmd_index);
 }
 
 /**
@@ -42,46 +56,50 @@ void	setup_child_pipes(t_pipe *pipes)
  */
 void	execute_child_command(t_command *cmd)
 {
-	char	**actual_env_var;
-	t_env	*environ;
-	t_env	*tmp;
-	char	*cmd_path;
-	int		env_length;
-	int		i;		
-
-	environ = *handle_t_env(NULL);
-	tmp = environ;
-	i = 0;
-	while (environ)
-	{
-		env_length++;
-		environ = environ->next;
-	}
-	actual_env_var = malloc(sizeof(char *) * (env_length + 1));
-	while(tmp)
-	{
-		actual_env_var[i] = ft_strdup(tmp->env_data);
-		tmp = tmp->next;
-		i++;
-	}
-	actual_env_var[i] = NULL;
+	int	exit_code;
+	
+	if (!cmd || !cmd->args || !cmd->args[0])
+		exit(127);
 	if (check_builtin(cmd))
 	{
-		is_builtin(cmd);
-		exit(g_exit_status);
+		exit_code = handle_builtin_in_pipe(cmd);
+		exit(exit_code);
 	}
-	else
+	exit_code = execute_with_execve(cmd);
+	exit(exit_code);
+}
+
+static int	handle_builtin_in_pipe(t_command *cmd)
+{
+	if (!cmd || !cmd->args || !cmd->args[0])
 	{
-		cmd_path = find_command_path(cmd->args[0]);
-		if (!cmd_path)
+		g_exit_status = 1;
+		return (127);
+	}
+	is_builtin(cmd);
+	return (g_exit_status);
+}
+
+static void	close_unused_pipes(t_pipe *pipes, int cmd_index)
+{
+	int	i;
+
+	i = 0;
+	while (i < (pipes->total_commands - 1))
+	{
+		if (i != (cmd_index - 1) && i != cmd_index)
 		{
-			ft_printf("minishell: %s: command not found\n", cmd->args[0]);
-			exit(127);
+			if (pipes->pipe_fds[i][0] != -1)
+			{
+				close(pipes->pipe_fds[i][0]);
+				pipes->pipe_fds[i][0] = -1;
+			}
+			if (pipes->pipe_fds[i][1] != -1)
+			{
+				close(pipes->pipe_fds[i][1]);
+				pipes->pipe_fds[i][1] = -1;
+			}
 		}
-		if (execve(cmd_path, cmd->args, actual_env_var) == -1)
-		{
-			ft_printf("minishell: %s: command not found\n", cmd->args[0]);
-			exit(127);
-		}
+		i++;
 	}
 }

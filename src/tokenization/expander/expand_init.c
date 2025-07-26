@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 01:52:06 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/12 01:30:32 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ int				handle_dollar_expansion(const char *str, char **res,
 					int i_cmd);
 int				handle_tilde_expansion(const char *str, char **res, int i_cmd);
 static int		handle_lone_dollar(char **res);
+static char		*remove_quotes(char *str);
+static int		should_expand_variables(char *str, t_token_type token_type);
+static int		is_single_quoted_only(char *str);
 
 /**
  * @brief Expande variáveis em todos os argumentos de um comando.
@@ -37,18 +40,27 @@ int	expand_variables(t_command *cmd)
 {
 	int		i;
 	char	*expand;
+	char	*final_arg;
 	int		expand_check;
 
 	i = 0;
 	while (cmd->args[i])
 	{
-		expand_check = (cmd->token_types && cmd->token_types[i]
-				!= SINGLE_QUOTE);
+		t_token_type token_type = (cmd->token_types) ? cmd->token_types[i] : WORD;
+		expand_check = should_expand_variables(cmd->args[i], token_type);
 		expand = expand_str(cmd->args[i], expand_check);
 		if (!expand)
 			return (report_error("memory allocation error", 1));
+		final_arg = remove_quotes(expand);
+		if (!final_arg)
+		{
+			free(expand);
+			return (report_error("memory allocation error", 1));
+		}
 		free(cmd->args[i]);
-		cmd->args[i] = expand;
+		cmd->args[i] = final_arg;
+		if (final_arg != expand)
+			free(expand);
 		i++;
 	}
 	return (0);
@@ -180,5 +192,68 @@ static int	handle_lone_dollar(char **res)
 	*res = append_char(*res, '$');
 	if (!*res)
 		return (0);
+	return (1);
+}
+
+static char	*remove_quotes(char *str)
+{
+	int		len;
+	char	*result;
+	int		i;
+	int		j;
+	char	quote_char;
+
+	len = ft_strlen(str);
+	if (!str || len == 0)
+		return (str);
+	result = malloc(len + 1);
+	if (!result)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '"')
+		{
+			quote_char = str[i];
+			i++;
+			while (str[i] && str[i] != quote_char)
+				result[j++] = str[i++];
+			if (str[i] == quote_char)
+				i++;
+		}
+		else
+			result[j++] = str[i++];
+	}
+	result[j] = '\0';
+	return (result);
+}
+
+static int	should_expand_variables(char *str, t_token_type token_type)
+{
+	if (token_type == SINGLE_QUOTE)
+		return (0);
+	if (is_single_quoted_only(str))
+		return (0);
+	return (1);
+}
+
+static int	is_single_quoted_only(char *str)
+{
+	int	len;
+	int	i;
+
+	len = ft_strlen(str);
+	if (len < 2)
+		return (0);
+	if (str[0] != '\'' || str[len - 1] != '\'')
+		return (0);
+	i = 1;
+	while (i < len - 1)
+	{
+		if (str[i] == '\'')
+			return (0);
+		i++;
+	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:35:32 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 01:32:04 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/17 23:52:13 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 t_command			*parse_tokens(t_token *tokens);
 static t_command	*parse_command(t_token **current);
+t_command	*init_command(void);
 static int			count_args(t_token *start);
 
 /**

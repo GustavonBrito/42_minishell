@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 01:40:51 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/18 00:19:31 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,22 +95,25 @@ int	expand_process_id(char **res)
 char	*itoa_process_id(void)
 {
 	int		fd;
-	size_t	read_return;
-	int		buffer_length;
+	ssize_t	read_return;
 	char	buffer[8];
 	char	**buffer_splitted;
+	char	*result;
 
-	
 	fd = open("/proc/self/stat", O_RDONLY);
-	if (!fd)
-		return NULL;
-	read_return = read(fd, buffer, 8);
-	if (!read_return)
-		return NULL;
+	if (fd == -1)
+		return (NULL);
+	read_return = read(fd, buffer, sizeof(buffer) - 1);
+	close(fd);
+	if (read_return == -1)
+		return (NULL);
+	buffer[read_return] = '\0';
 	buffer_splitted = ft_split(buffer, ' ');
-	buffer_length = ft_strlen(buffer_splitted[0]);
-	buffer_splitted[0][buffer_length] = '\0';
-	return (buffer_splitted[0]);
+	if (!buffer_splitted || !buffer_splitted[0])
+		return (NULL);
+	result = ft_strdup(buffer_splitted[0]);
+	ft_free_split(buffer_splitted);
+	return (result);
 }
 
 /**

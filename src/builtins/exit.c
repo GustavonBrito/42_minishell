@@ -6,13 +6,16 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:26 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/24 15:57:26 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/12 02:46:53 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_minishell(char *exit_code);
+void				exit_minishell(t_command *cmd);
+static int			is_valid_number(char *str);
+static int			count_args(char **args);
+static int			ft_atoi_exit(char *str);
 
 /**
  * @brief Implementa o comando 'exit'.
@@ -20,12 +23,123 @@ void	exit_minishell(char *exit_code);
  * Esta função encerra a execução do programa minishell.
  * Atualmente, sempre sai com o status de sucesso (0).
  */
-void	exit_minishell(char *exit_code)
+void	exit_minishell(t_command *cmd)
 {
-	int exit_code_converted;
-	
-	exit_code_converted = ft_atoi(exit_code);
-	if (exit_code_converted == 0)
-		ft_printf("%s", exit_code);
-	exit(exit_code_converted);
+	int	arg_count;
+	int	exit_code;
+	int	final_exit_code;
+
+	ft_printf("exit\n");
+	if (!cmd || !cmd->args)
+	{
+		exit(g_exit_status);
+		return ;
+	}
+	arg_count = count_args(cmd->args);
+	if (arg_count == 1)
+	{
+		exit(g_exit_status);
+		return ;
+	}
+	if (arg_count >= 2)
+	{
+		if (!is_valid_number(cmd->args[1]))
+		{
+			ft_printf("minishell: exit: %s: numeric argument required\n", cmd->args[1]);
+			exit(2);
+			return ;
+		}
+		if (arg_count > 2)
+		{
+			ft_printf("minishell: exit: too many arguments\n");
+			g_exit_status = 1;
+			return ;
+		}
+		exit_code = ft_atoi_exit(cmd->args[1]);
+		final_exit_code = exit_code % 256;
+		if (final_exit_code < 0)
+			final_exit_code += 256;
+		exit(final_exit_code);
+	}
+}
+
+/**
+ * @brief Verifica se uma string é um número válido para o comando exit.
+ *
+ * @param str String a ser verificada
+ * @return 1 se é um número válido, 0 caso contrário
+ */
+static int	is_valid_number(char *str)
+{
+	int	i;
+
+	if (!str || !*str)
+		return (0);
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	if (!str[i])
+		return (0);
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+		{
+			while (str[i] == ' ' || str[i] == '\t')
+				i++;
+			if (str[i] != '\0')
+				return (0);
+			break ;
+		}
+		i++;
+	}
+
+	return (1);
+}
+
+/**
+ * @brief Conta o número de argumentos em cmd->args.
+ *
+ * @param args Array de argumentos
+ * @return Número de argumentos
+ */
+static int	count_args(char **args)
+{
+	int	count;
+
+	count = 0;
+	if (!args)
+		return (0);
+	while (args[count])
+		count++;
+	return (count);
+}
+
+static int	ft_atoi_exit(char *str)
+{
+	int	result;
+	int	sign;
+	int	i;
+
+	if (!str)
+		return (0);
+	result = 0;
+	sign = 1;
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	if (str[i] == '-')
+	{
+		sign = -1;
+		i++;
+	}
+	else if (str[i] == '+')
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = result * 10 + (str[i] - '0');
+		i++;
+	}
+	return (result * sign);
 }

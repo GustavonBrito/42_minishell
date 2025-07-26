@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/11 21:45:14 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/25 20:28:55 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <termcap.h>
+# include <errno.h>
 # include "../libft/headers/libft.h"
 # include "../libft/headers/get_next_line.h"
 # include "../libft/headers/ft_printf.h"
@@ -103,21 +104,21 @@ typedef struct s_command
  * de execução entre múltiplos comandos encadeados via pipe no shell.
  * Guarda FDs de leitura/escrita dos pipes e índices de controle.
  */
-typedef struct s_pipe {
-    int     prev_pipe_read;     /* FD de leitura do pipe anterior */
-    int     curr_pipe[2];       /* Pipe atual [read, write] */
-    int     cmd_index;          /* Índice do comando atual */
-    int     total_commands;     /* Total de comandos no pipeline */
+typedef struct s_pipe
+{
+	int		**pipe_fds;		/* Array de pipes [n-1][2] para n comandos */
+	pid_t	*pids;				/* Array de PIDs dos processos filhos */
+	int		total_commands;		/* Total de comandos no pipeline */
 } t_pipe;
 
 typedef struct s_env
 {
-	char			*env_data;			/**< Array de varaveis de ambiente. */
+	char			*env_data;		/**< Array de varaveis de ambiente. */
 	struct s_env	*next;			/**< Próximo nó. */
 }	t_env;
 
 //utils "global" struct
-t_env	**handle_t_env(t_env *head);
+t_env		**handle_t_env(t_env *head);
 
 //core
 extern int	g_exit_status;
@@ -140,7 +141,7 @@ void		cd(t_command *cmd); // Funcao para alterar o diretorio.
 void		env(int is_export);
 void		handle_store_env(char **system_env);
 int			handle_escape(char *input, t_token **token_lst);
-void		exit_minishell(char *exit_code);
+void		exit_minishell(t_command *cmd);
 void		export(t_command *cmd);
 void		pwd(void);
 void		unset(t_command *cmd);
@@ -159,9 +160,11 @@ int			handle_quotes(char *input, t_token **token_lst, int i);
 int			handle_var(char *input, t_token **token_lst, int i);
 int			handle_attribution_w_quote(char *input, t_token **token_lst, int i);
 int			handle_escape(char *input, t_token **token_lst);
+int			handle_word_with_quotes(char *input, t_token **token_lst, int i);
 
 //parsing
 t_command	*parse_tokens(t_token *tokens);
+t_command	*init_command(void);
 int			allocate_command_arrays(t_command *cmd, int arg_count);
 int			fill_command_data(t_command *cmd, t_token **current, int arg_count);
 void		free_commands(t_command *cmd);
@@ -201,18 +204,17 @@ int			execute_command(t_command *cmd);
 int			execute_builtin(t_command *cmd);
 int			execute_external_command(t_command *cmd);
 void		handle_command_execution(t_command *cmd);
-void		handle_command_execution(t_command *cmd);
 int			check_builtin(t_command *cmd);
+int			execute_with_execve(t_command *cmd);
 
 //pipes
 int			has_pipes(t_command *cmd);
 int			execute_pipeline(t_command *cmd);
-void		init_pipeline(t_pipe *pipes, t_command *cmd);
+int			init_pipeline(t_pipe *pipes, t_command *cmd);
 int			count_commands(t_command *cmd);
-int			create_pipe(t_pipe *pipes);
-void		close_child(t_pipe *pipes);
-void		setup_child_pipes(t_pipe *pipes);
-void		update_pipes(t_pipe *pipes, t_command *current);
+int			create_pipe(int pipe_fd[2]);
+void		cleanup_pipeline(t_pipe *pipes);
+void		setup_child_pipes(t_pipe *pipes, int cmd_index);
 void		execute_child_command(t_command *cmd);
 
 //error handling
@@ -220,6 +222,11 @@ int			report_error(const char *msg, int exit_code);
 void		critical_error(const char *msg, int exit_code);
 
 // debugs
+//void	debug_tokens(t_command *cmd);
+//void	debug_command_list(t_command *cmd);
+//void	debug_variable_expansion(t_command *cmd);
+//void	test_grep_pattern(void);
+//void	test_original_command(void);
 //void	print_tokens(t_token *head);
 //void	print_commands(t_command *cmd);
 //void	print_varsexp(t_command *cmd);
