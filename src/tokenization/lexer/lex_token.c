@@ -228,6 +228,7 @@ static int	handle_op(char *input, t_token **token_lst, int i)
 	}
 	len = i - start;
 	word = ft_substr(input, start, len);
+	ft_printf("%s\n", word);
 	if (!word)
 		return (len);
 	add_token(token_lst, word, WORD);
