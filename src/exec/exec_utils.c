@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 20:54:17 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/25 18:52:25 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/26 19:45:45 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,50 @@ int			execute_with_execve(t_command *cmd);
 static char	**convert_env_to_array(void);
 static void	free_env_array(char **env_array);
 
+void write_on_stderr(char *err_message)
+{
+	int i;
+
+	i = 0;
+	while (err_message[i])
+	{
+		write(2, &err_message[i], 1);
+		i++;
+	}
+}
+
 int	execute_with_execve(t_command *cmd)
 {
 	char	**env_array;
 	char	*cmd_path;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
-	{
 		exit(127);
-	}
 	env_array = convert_env_to_array();
 	if (!env_array)
-	{
 		exit(1);
-	}
 	cmd_path = find_command_path(cmd->args[0]);
-	if (!cmd_path)
+	if (ft_strncmp(cmd->args[0], "", 1) == 0 && cmd->args[1] == NULL)
+		exit(0);
+	else if(!cmd_path && ft_strncmp(cmd->args[0], "", 1) != 0)
 	{
 		free_env_array(env_array);
+		write_on_stderr(cmd->args[0]);
+		write(2, ": command not found\n", 21);
 		exit(127);
 	}
-	execve(cmd_path, cmd->args, env_array);
-	perror("execve");
+	else if(ft_strncmp(cmd->args[0], "", 1) == 0)
+	{
+		cmd_path = find_command_path(cmd->args[1]);
+		execve(cmd_path, &cmd->args[1], env_array);
+	}
+	if (execve(cmd_path, cmd->args, env_array) == -1)
+	{
+		//parei aqui
+	}
 	free_env_array(env_array);
 	free(cmd_path);
-	exit(127);
+	exit(126);
 }
 
 static char	**convert_env_to_array(void)
