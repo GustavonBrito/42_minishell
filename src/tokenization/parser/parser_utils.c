@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:39:52 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 02:05:02 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/25 22:46:16 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,16 +250,18 @@ void	add_redirection(t_command *cmd, t_token_type type, char *file)
 {
 	t_redir	*new_redir;
 	t_redir	*current;
+	char	*clean_file;
 
 	new_redir = malloc(sizeof(t_redir));
 	if (!new_redir)
 		return ;
-	new_redir->file = ft_strdup(file);
-	if (!new_redir->file)
+	clean_file = remove_quotes(file);
+	if (!clean_file)
 	{
 		free(new_redir);
 		return ;
 	}
+	new_redir->file = clean_file;
 	new_redir->type = type;
 	new_redir->next = NULL;
 	if (!cmd->redirs)

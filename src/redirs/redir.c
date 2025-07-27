@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 23:14:39 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 01:16:01 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/26 03:22:07 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ int	setup_redirections(t_command *cmd)
 {
 	t_redir	*current_redir;
 	int		result;
+	int		error_occurred;
 
 	if (!cmd || !cmd->redirs)
 		return (0);
 	current_redir = cmd->redirs;
+	error_occurred = 0;
 	while (current_redir)
 	{
 		if (current_redir->type == REDIR_IN)
@@ -52,10 +54,10 @@ int	setup_redirections(t_command *cmd)
 		else
 			result = 0;
 		if (result != 0)
-			return (result);
+			error_occurred = result;
 		current_redir = current_redir->next;
 	}
-	return (0);
+	return (error_occurred);
 }
 
 /**

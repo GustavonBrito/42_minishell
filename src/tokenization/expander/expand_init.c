@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/12 01:30:32 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/25 22:45:24 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int				handle_dollar_expansion(const char *str, char **res,
 					int i_cmd);
 int				handle_tilde_expansion(const char *str, char **res, int i_cmd);
 static int		handle_lone_dollar(char **res);
-static char		*remove_quotes(char *str);
+char			*remove_quotes(char *str);
 static int		should_expand_variables(char *str, t_token_type token_type);
 static int		is_single_quoted_only(char *str);
 
@@ -195,7 +195,7 @@ static int	handle_lone_dollar(char **res)
 	return (1);
 }
 
-static char	*remove_quotes(char *str)
+char	*remove_quotes(char *str)
 {
 	int		len;
 	char	*result;
