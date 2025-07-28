@@ -174,6 +174,7 @@ int			is_redirection_token(t_token_type type);
 int			handle_redirection_parsing(t_command *cmd, t_token **current);
 void		finalize_command_arrays(t_command *cmd, int arg_count);
 void		add_redirection(t_command *cmd, t_token_type type, char *file);
+t_command	*init_command(void);
 
 //expand vars
 int			expand_variables(t_command *cmd);

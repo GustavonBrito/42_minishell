@@ -22,11 +22,11 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@make -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) -o $@ $(READLINE_FLAG)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) -o $@ $(READLINE_FLAG)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 LEAKS	:=	valgrind --leak-check=full --show-leak-kinds=all\
 		--track-origins=yes --log-file=valgrind-out.txt --track-fds=yes
@@ -36,11 +36,11 @@ val_leaks: all
 
 clean:
 	@make -C $(LIBFT_DIR) clean
-	rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJ_DIR)
 
 fclean:
 	@make -C $(LIBFT_DIR) fclean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re:
 	@$(MAKE) fclean
