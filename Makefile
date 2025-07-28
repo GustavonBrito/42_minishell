@@ -48,4 +48,4 @@ re:
 
 .PHONY: all clean fclean re val_leaks
 
-#valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell
+# valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes

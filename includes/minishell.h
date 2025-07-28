@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/25 20:28:55 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/28 00:15:52 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ char		*append_char(char *dest, char c);
 int			handle_dollar_expansion(const char *str, char **res, int i_cmd);
 int			handle_tilde_expansion(const char *str, char **res, int i_cmd);
 int			handle_regular_char(const char *str, char **res, int i);
+char		*remove_quotes(char *str);
 
 //redirs
 int			setup_redirections(t_command *cmd);
@@ -198,6 +199,8 @@ int			handle_append_redirection(t_redir *redir);
 int			handle_heredoc(t_redir *redir);
 int			create_heredoc_file(char *delimiter);
 void		restore_std_fds(int saved_stdin, int saved_stdout);
+int			validate_redirection(t_redir *redir);
+int			apply_redirection(t_redir *redir);
 
 //exec
 int			execute_command(t_command *cmd);
