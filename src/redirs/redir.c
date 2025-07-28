@@ -79,12 +79,12 @@ int	handle_input_redirection(t_redir *redir)
 	if (fd == -1)
 	{
 		ft_printf("minishell: %s: ", redir->file);
-		perror("");
+		perror(" ");
 		return (1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
-		perror("minishell: dup2");
+		perror("minishell: dup2 ");
 		close(fd);
 		return (1);
 	}
@@ -111,12 +111,12 @@ int	handle_output_redirection(t_redir *redir)
 	if (fd == -1)
 	{
 		ft_printf("minishell: %s: ", redir->file);
-		perror("");
+		perror(" ");
 		return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
-		perror("minishell: dup2");
+		perror("minishell: dup2 ");
 		close(fd);
 		return (1);
 	}
@@ -143,12 +143,12 @@ int	handle_append_redirection(t_redir *redir)
 	if (fd == -1)
 	{
 		ft_printf("minishell: %s: ", redir->file);
-		perror("");
+		perror(" ");
 		return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
-		perror("minishell: dup2");
+		perror("minishell: dup2 ");
 		close(fd);
 		return (1);
 	}
@@ -178,7 +178,7 @@ int	handle_heredoc(t_redir *redir)
 		return (1);
 	if (dup2(heredoc_fd, STDIN_FILENO) == -1)
 	{
-		perror("minishell: dup2");
+		perror("minishell: dup2 ");
 		close(heredoc_fd);
 		return (1);
 	}

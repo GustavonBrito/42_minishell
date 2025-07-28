@@ -45,13 +45,13 @@ void	exit_minishell(t_command *cmd)
 	{
 		if (!is_valid_number(cmd->args[1]))
 		{
-			write(2, " numeric argument required", 26);
+			write(2, "minishell: exit: numeric argument required", 42);
 			exit(2);
 			return ;
 		}
 		if (arg_count > 2)
 		{
-			write(2, " too many arguments", 19);
+			write(2, "minishell: exit: too many arguments\n", 36);
 			g_exit_status = 1;
 			return ;
 		}

@@ -137,7 +137,7 @@ int	create_pipe(int pipe_fd[2])
 	if (pipe(pipe_fd) == -1)
 	{
 		g_exit_status = 1;
-		perror("minishell: pipeline creation failed");
+		perror("minishell: pipeline creation failed ");
 		return (-1);
 	}
 	return (0);

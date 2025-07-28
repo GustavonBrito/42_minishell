@@ -14,6 +14,19 @@
 
 int		report_error(const char *msg, int exit_code);
 void	critical_error(const char *msg, int exit_code);
+void	write_err(const char *msg);
+
+void	write_err(const char *msg)
+{
+	int i;
+
+	i = 0;
+	while(msg[i])
+	{
+		write(2, &msg[i], 1);
+		i++;
+	}
+}
 
 /**
  * @brief Reporta uma mensagem de erro e retorna um código de saída.

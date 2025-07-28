@@ -127,7 +127,7 @@ static int	exec_pip_cmd(t_command *cmd, t_pipe *pipes, int cmd_index)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("minishell: error with fork");
+		perror("minishell: error with fork ");
 		g_exit_status = 1;
 		return (-1);
 	}
