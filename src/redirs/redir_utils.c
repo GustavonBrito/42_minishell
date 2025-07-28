@@ -6,14 +6,16 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:35:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 01:07:56 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/28 00:15:46 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		create_heredoc_file(char *delimiter);
-void	restore_std_fds(int saved_stdin, int saved_stdout);
+int			create_heredoc_file(char *delimiter);
+void		restore_std_fds(int saved_stdin, int saved_stdout);
+int			validate_redirection(t_redir *redir);
+int			apply_redirection(t_redir *redir);
 
 /**
  * @brief Cria um "arquivo" (pipe) para o conteúdo de um heredoc.
@@ -79,4 +81,49 @@ void	restore_std_fds(int saved_stdin, int saved_stdout)
 		dup2(saved_stdout, STDOUT_FILENO);
 		close(saved_stdout);
 	}
+}
+
+int	validate_redirection(t_redir *redir)
+{
+	int	fd;
+
+	if (redir->type == REDIR_IN)
+	{
+		fd = open(redir->file, O_RDONLY);
+		if (fd == -1)
+		{
+			ft_printf("minishell: %s: ", redir->file);
+			perror("");
+			return (1);
+		}
+		close(fd);
+	}
+	else if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
+	{
+		if (redir->type == REDIR_OUT)
+			fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else
+			fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd == -1)
+		{
+			ft_printf("minishell: %s: ", redir->file);
+			perror("");
+			return (1);
+		}
+		close(fd);
+	}
+	return (0);
+}
+
+int	apply_redirection(t_redir *redir)
+{
+	if (redir->type == REDIR_IN)
+		return (handle_input_redirection(redir));
+	else if (redir->type == REDIR_OUT)
+		return (handle_output_redirection(redir));
+	else if (redir->type == REDIR_APPEND)
+		return (handle_append_redirection(redir));
+	else if (redir->type == HEREDOC)
+		return (handle_heredoc(redir));
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 23:14:39 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/26 03:22:07 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/28 00:17:36 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,29 @@ int	setup_redirections(t_command *cmd)
 {
 	t_redir	*current_redir;
 	int		result;
-	int		error_occurred;
 
 	if (!cmd || !cmd->redirs)
 		return (0);
 	current_redir = cmd->redirs;
-	error_occurred = 0;
 	while (current_redir)
 	{
-		if (current_redir->type == REDIR_IN)
-			result = handle_input_redirection(current_redir);
-		else if (current_redir->type == REDIR_OUT)
-			result = handle_output_redirection(current_redir);
-		else if (current_redir->type == REDIR_APPEND)
-			result = handle_append_redirection(current_redir);
-		else if (current_redir->type == HEREDOC)
-			result = handle_heredoc(current_redir);
-		else
-			result = 0;
-		if (result != 0)
-			error_occurred = result;
+		if (current_redir->type != HEREDOC)
+		{
+			result = validate_redirection(current_redir);
+			if (result != 0)
+				return (result);
+		}
 		current_redir = current_redir->next;
 	}
-	return (error_occurred);
+	current_redir = cmd->redirs;
+	while (current_redir)
+	{
+		result = apply_redirection(current_redir);
+		if (result != 0)
+			return (result);
+		current_redir = current_redir->next;
+	}
+	return (0);
 }
 
 /**
