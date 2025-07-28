@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/11 22:02:04 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/27 23:57:42 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 void	env(int is_export);
 void	print_export(void);
-
 
 /**
  * @brief Implementa o comando 'env'.

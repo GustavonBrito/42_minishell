@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:26 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/12 02:46:53 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/27 23:58:37 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ void	exit_minishell(t_command *cmd)
 	{
 		if (!is_valid_number(cmd->args[1]))
 		{
-			ft_printf("minishell: exit: %s: numeric argument required\n", cmd->args[1]);
+			write(2, " numeric argument required", 26);
 			exit(2);
 			return ;
 		}
 		if (arg_count > 2)
 		{
-			ft_printf("minishell: exit: too many arguments\n");
+			write(2, " too many arguments", 19);
 			g_exit_status = 1;
 			return ;
 		}

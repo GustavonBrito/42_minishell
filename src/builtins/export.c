@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/11 22:02:24 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/27 23:59:09 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ char	*ft_strjoin_free(char *s1, char *s2);
 void	export(t_command *cmd)
 {
 	int		i;
+	int		j;
+	int		equal_sign_passed;
+	int		first_num_passed;
 	char	*equal_sign;
+	char	*verify_valid_var;
 	t_env	*s_env;
 	t_env	*new_var;
 
@@ -46,11 +50,32 @@ void	export(t_command *cmd)
 		return ;
 	}
 	i = 1;
+	equal_sign_passed = 0;
+	first_num_passed = 0;
 	while (cmd->args[i])
 	{
+		j = 0;
 		if (cmd->token_types[i] == WORD)
 		{
 			equal_sign = ft_strchr(cmd->args[i], '=');
+			verify_valid_var = ft_strdup(cmd->args[i]);
+			while (verify_valid_var[j] && equal_sign_passed == 0)
+			{
+				if (ft_isalnum(verify_valid_var[j]) == 4 && first_num_passed == 0)
+				{
+					write(2, " not a valid identifier", 23);
+					exit(1);
+				}
+				if (verify_valid_var[j] == '=')
+					equal_sign_passed = 1;
+				if (ft_isalnum(verify_valid_var[j]) == 0 && (verify_valid_var[j] != '=' || verify_valid_var[j + 1] == '\0'))
+				{
+					write(2, " not a valid identifier", 23);
+					exit(1);
+				}
+				j++;
+				first_num_passed = 1;
+			}
 			if (equal_sign)
 			{
 				*equal_sign = '\0';

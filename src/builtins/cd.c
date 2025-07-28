@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/11 21:54:54 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/27 23:55:49 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ void	cd(t_command *cmd)
 	char	*home;
 	char	*target_dir;
 
+	if (cmd->args[2] != NULL)
+	{
+		write(2, " too many arguments", 19);
+		exit(1);
+	}
 	if (!cmd->args[1])
 	{
 		home = getenv("HOME");
@@ -50,7 +55,8 @@ void	cd(t_command *cmd)
 	target_dir = cmd->args[1];
 	if (chdir(target_dir) == -1)
 	{
-		ft_printf("No such file or directory: %s\n", target_dir);
+		write(2," No such file or directory", 26);
+		exit(1);
 		return ;
 	}
 	update_pwd();

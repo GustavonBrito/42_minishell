@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/25 22:06:15 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/27 23:46:00 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void setup_child_pipes(t_pipe *pipes, int cmd_index)
 void	execute_child_command(t_command *cmd)
 {
 	int	exit_code;
-	
+
 	if (!cmd || !cmd->args || !cmd->args[0])
 		exit(127);
 	if (check_builtin(cmd))
@@ -87,13 +87,16 @@ static void	close_unused_pipes(t_pipe *pipes, int cmd_index)
 	i = 0;
 	while (i < (pipes->total_commands - 1))
 	{
-		if (i != (cmd_index - 1) && i != cmd_index)
+		if (i != (cmd_index - 1))
 		{
 			if (pipes->pipe_fds[i][0] != -1)
 			{
 				close(pipes->pipe_fds[i][0]);
 				pipes->pipe_fds[i][0] = -1;
 			}
+		}
+		if (i != cmd_index)
+		{
 			if (pipes->pipe_fds[i][1] != -1)
 			{
 				close(pipes->pipe_fds[i][1]);
