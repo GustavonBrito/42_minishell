@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 19:20:07 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/29 20:54:55 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,11 @@ void		handle_store_env(char **system_env);
 int			handle_escape(char *input, t_token **token_lst);
 void		exit_minishell(t_command *cmd);
 void		export(t_command *cmd);
+int			validate_identifier(char *arg);
+t_env		*find_env_var(char *var_name);
+void		update_env_var(t_env *env, char *var_name, char *value);
+char		*ft_strjoin_free(char *s1, char *s2);
+void		create_new_var(t_env *last_env, char *var_name, char *value);
 void		pwd(void);
 void		unset(t_command *cmd);
 void		ft_free_split(char **array);
