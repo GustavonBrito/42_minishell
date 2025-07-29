@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 18:34:38 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/29 19:20:07 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void		check_exit_condition(char *buffer_received);
 void		signal_handler(int signal);
 char		*obtain_current_directory(void);
 char		*get_env_or_cleanup(const char *var, char *to_free);
-t_env		**handle_t_env(t_env *head);
 
 //paths
 void		update_pwd(void);
@@ -97,6 +96,7 @@ void		echo(t_command *cmd);
 int			verify_flag(char *arg);
 void		cd(t_command *cmd);
 void		env(int is_export);
+t_env		**handle_t_env(t_env *head);
 void		handle_store_env(char **system_env);
 int			handle_escape(char *input, t_token **token_lst);
 void		exit_minishell(t_command *cmd);

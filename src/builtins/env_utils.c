@@ -6,11 +6,84 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 01:09:14 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/27 23:58:05 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/29 19:22:39 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void			handle_store_env(char **system_env);
+static t_env	*create_env_node(char *env_data);
+t_env			**handle_t_env(t_env *head);
+static void		free_env_list(t_env *head);
+void			ft_free_split(char **array);
+
+void	handle_store_env(char **system_env)
+{
+	int		i;
+	t_env	*head;
+	t_env	*current;
+
+	if (!system_env || !system_env[0])
+		return ;
+	head = create_env_node(system_env[0]);
+	if (!head)
+		return ;
+	*handle_t_env(head) = head;
+	current = head;
+	i = 0;
+	while (system_env[++i])
+	{
+		current->next = create_env_node(system_env[i]);
+		if (!current->next)
+		{
+			free_env_list(head);
+			return ;
+		}
+		current = current->next;
+	}
+}
+
+static t_env	*create_env_node(char *env_data)
+{
+	t_env	*new_node;
+
+	new_node = malloc(sizeof(t_env));
+	if (!new_node)
+		return (NULL);
+	new_node->env_data = ft_strdup(env_data);
+	if (!new_node->env_data)
+	{
+		free(new_node);
+		return (NULL);
+	}
+	new_node->next = NULL;
+	return (new_node);
+}
+
+t_env	**handle_t_env(t_env *head)
+{
+	static t_env	*env;
+
+	if (head != NULL)
+		env = head;
+	return (&env);
+}
+
+static void	free_env_list(t_env *head)
+{
+	t_env	*tmp;
+	t_env	*next;
+
+	tmp = head;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp->env_data);
+		free(tmp);
+		tmp = next;
+	}
+}
 
 void	ft_free_split(char **array)
 {
@@ -23,55 +96,4 @@ void	ft_free_split(char **array)
 		i++;
 	}
 	free(array);
-}
-
-t_env	**handle_t_env(t_env *head)
-{
-	static t_env	*env;
-
-	if (head != NULL)
-		env = head;
-	return (&env);
-}
-
-void	handle_store_env(char **system_env)
-{
-	int		i;
-	t_env	*env_struct;
-	t_env	*head;
-	t_env	*tmp;
-	t_env	*next;
-
-	i = -1;
-	head = malloc(sizeof(t_env));
-	if (!head)
-		return ;
-	*handle_t_env(head) = head;
-	env_struct = head;
-	while (system_env[++i])
-	{
-		env_struct->env_data = ft_strdup(system_env[i]);
-		if (!env_struct->env_data)
-			return ;
-		if (system_env[i + 1])
-		{
-			env_struct->next = malloc(sizeof(t_env));
-			if (!env_struct->next)
-			{
-				tmp = head;
-				while (tmp)
-				{
-					next = tmp->next;
-					free(tmp->env_data);
-					free(tmp);
-					tmp = next;
-				}
-				return ;
-			}
-			env_struct = env_struct->next;
-			env_struct->next = NULL;
-		}
-		else
-			env_struct->next = NULL;
-	}
 }
