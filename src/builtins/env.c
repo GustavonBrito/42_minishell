@@ -6,29 +6,15 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/27 23:57:42 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/29 20:27:42 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
-
 void	env(int is_export);
 void	print_export(void);
 
-/**
- * @brief Implementa o comando 'env'.
- *
- * Esta função exibe as variáveis de ambiente.
- * Se `is_export` for 1, chama `print_export` para um formato detalhado
- * (usado pelo comando 'export' sem argumentos). Caso contrário, imprime
- * cada variável de ambiente em uma nova linha.
- *
- * @param is_export Um flag booleano (0 ou 1) que determina o formato de saída.
- *                  1 para o formato `declare -x` (como 'export' sem args),
- *                  0 para o formato padrão do 'env'.
- */
 void	env(int is_export)
 {
 	t_env	**env_ptr;
@@ -40,7 +26,7 @@ void	env(int is_export)
 	{
 		env_ptr = handle_t_env(NULL);
 		env = *env_ptr;
-		while(env)
+		while (env)
 		{
 			ft_printf("%s\n", env->env_data);
 			env = env->next;
@@ -48,17 +34,6 @@ void	env(int is_export)
 	}
 }
 
-/**
- * @brief Imprime as vars de ambiente formatadas para o cmd 'export' sem args.
- *
- * Esta função itera sobre o array global `environ` e imprime cada variável
- * de ambiente no formato `declare -x CHAVE="VALOR"`. Variáveis sem valor
- * são impressas como `declare -x CHAVE`.
- * A função percorre e imprime as variáveis que começam com:
- * 1) letras maiúsculas; 2) letras minúsculas; 3)antes de imprimir as demais.
- */
-
-//norminette: many vars and +25 lines: needs to be chopped
 void	print_export(void)
 {
 	t_env		*env;
