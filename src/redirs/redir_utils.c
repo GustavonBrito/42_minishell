@@ -37,7 +37,7 @@ int	create_heredoc_file(char *delimiter)
 
 	if (pipe(pipe_fd) == -1)
 	{
-		perror("minishell: pipe");
+		perror("minishell: pipe ");
 		return (-1);
 	}
 	ft_printf("> ");
@@ -92,8 +92,7 @@ int	validate_redirection(t_redir *redir)
 		fd = open(redir->file, O_RDONLY);
 		if (fd == -1)
 		{
-			ft_printf("minishell: %s: ", redir->file);
-			perror("");
+			perror(" ");
 			return (1);
 		}
 		close(fd);
@@ -106,8 +105,7 @@ int	validate_redirection(t_redir *redir)
 			fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
 		{
-			ft_printf("minishell: %s: ", redir->file);
-			perror("");
+			perror(" ");
 			return (1);
 		}
 		close(fd);

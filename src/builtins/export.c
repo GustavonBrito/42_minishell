@@ -63,14 +63,14 @@ void	export(t_command *cmd)
 			{
 				if (ft_isalnum(verify_valid_var[j]) == 4 && first_num_passed == 0)
 				{
-					write(2, " not a valid identifier", 23);
+					write(2, "minishell: export: not a valid identifier", 41);
 					exit(1);
 				}
 				if (verify_valid_var[j] == '=')
 					equal_sign_passed = 1;
 				if (ft_isalnum(verify_valid_var[j]) == 0 && (verify_valid_var[j] != '=' || verify_valid_var[j + 1] == '\0'))
 				{
-					write(2, " not a valid identifier", 23);
+					write(2, "minishell: export: not a valid identifier", 41);
 					exit(1);
 				}
 				j++;

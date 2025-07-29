@@ -112,7 +112,7 @@ int	execute_external_command(t_command *cmd)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("minishell: fork");
+		perror("minishell: fork ");
 		g_exit_status = 1;
 		return (g_exit_status);
 	}

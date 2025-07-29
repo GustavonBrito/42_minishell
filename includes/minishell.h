@@ -223,6 +223,7 @@ void		execute_child_command(t_command *cmd);
 //error handling
 int			report_error(const char *msg, int exit_code);
 void		critical_error(const char *msg, int exit_code);
+void		write_err(const char *msg);
 
 // debugs
 //void	debug_tokens(t_command *cmd);
