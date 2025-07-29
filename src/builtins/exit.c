@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:26 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/28 00:29:00 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/29 19:05:49 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,38 +16,23 @@ void				exit_minishell(t_command *cmd);
 static int			is_valid_number(char *str);
 static int			count_args(char **args);
 static int			ft_atoi_exit(char *str);
+static int			calculate_exit_code(int code);
 
-/**
- * @brief Implementa o comando 'exit'.
- *
- * Esta função encerra a execução do programa minishell.
- * Atualmente, sempre sai com o status de sucesso (0).
- */
 void	exit_minishell(t_command *cmd)
 {
 	int	arg_count;
 	int	exit_code;
-	int	final_exit_code;
 
 	ft_printf("exit\n");
-	if (!cmd || !cmd->args)
-	{
-		exit(g_exit_status);
-		return ;
-	}
 	arg_count = count_args(cmd->args);
-	if (arg_count == 1)
-	{
+	if (!cmd || !cmd->args || arg_count == 1)
 		exit(g_exit_status);
-		return ;
-	}
 	if (arg_count >= 2)
 	{
 		if (!is_valid_number(cmd->args[1]))
 		{
 			write(2, "minishell: exit: numeric argument required", 42);
 			exit(2);
-			return ;
 		}
 		if (arg_count > 2)
 		{
@@ -56,19 +41,10 @@ void	exit_minishell(t_command *cmd)
 			return ;
 		}
 		exit_code = ft_atoi_exit(cmd->args[1]);
-		final_exit_code = exit_code % 256;
-		if (final_exit_code < 0)
-			final_exit_code += 256;
-		exit(final_exit_code);
+		exit(calculate_exit_code(exit_code));
 	}
 }
 
-/**
- * @brief Verifica se uma string é um número válido para o comando exit.
- *
- * @param str String a ser verificada
- * @return 1 se é um número válido, 0 caso contrário
- */
 static int	is_valid_number(char *str)
 {
 	int	i;
@@ -94,16 +70,9 @@ static int	is_valid_number(char *str)
 		}
 		i++;
 	}
-
 	return (1);
 }
 
-/**
- * @brief Conta o número de argumentos em cmd->args.
- *
- * @param args Array de argumentos
- * @return Número de argumentos
- */
 static int	count_args(char **args)
 {
 	int	count;
@@ -142,4 +111,14 @@ static int	ft_atoi_exit(char *str)
 		i++;
 	}
 	return (result * sign);
+}
+
+static int	calculate_exit_code(int code)
+{
+	int	final_code;
+
+	final_code = code % 256;
+	if (final_code < 0)
+		final_code += 256;
+	return (final_code);
 }
