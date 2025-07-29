@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 20:54:17 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/26 19:45:45 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/07/28 22:25:55 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ int	execute_with_execve(t_command *cmd)
 	else if(!cmd_path && ft_strncmp(cmd->args[0], "", 1) != 0)
 	{
 		free_env_array(env_array);
-		write_on_stderr(cmd->args[0]);
-		write(2, ": command not found\n", 21);
+		perror(" ");
+		//write_on_stderr(cmd->args[0]);
+		//write(2, " command not found\n", 20);
 		exit(127);
 	}
 	else if(ft_strncmp(cmd->args[0], "", 1) == 0)
@@ -55,7 +56,7 @@ int	execute_with_execve(t_command *cmd)
 	}
 	if (execve(cmd_path, cmd->args, env_array) == -1)
 	{
-		//parei aqui
+		perror(" ");
 	}
 	free_env_array(env_array);
 	free(cmd_path);
