@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:39:52 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/30 16:44:45 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/07/30 16:55:16 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,14 @@ int	allocate_command_arrays(t_command *cmd, int arg_count)
 	if (!cmd->args || !cmd->quote_removed || !cmd->token_types)
 		return (0);
 	i = 0;
-	while (i <= arg_count)
+	while (i <= count_env)
 	{
 		cmd->args[i] = NULL;
+		i++;
+	}
+	i = 0;
+	while (i <= arg_count)
+	{
 		cmd->quote_removed[i] = 0;
 		cmd->token_types[i] = WORD;
 		i++;
