@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/28 00:29:07 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:34:29 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	export(t_command *cmd)
 						&& s_env->env_data[ft_strlen(cmd->args[i])] == '=')
 					{
 						free(s_env->env_data);
-						s_env->env_data = ft_strdup(cmd->args[i]); // key
+						s_env->env_data = ft_strdup(cmd->args[i]);
 						s_env->env_data = ft_strjoin_free(s_env->env_data, "=");
 						s_env->env_data = ft_strjoin_free(s_env->env_data, equal_sign + 1);
 						*equal_sign = '=';
@@ -119,6 +119,8 @@ void	export(t_command *cmd)
 char	*ft_strjoin_free(char *s1, char *s2)
 {
 	char *joined = ft_strjoin(s1, s2);
+	if (joined == ((void *)0))
+		return (((void *)0));
 	free(s1);
 	return (joined);
 }

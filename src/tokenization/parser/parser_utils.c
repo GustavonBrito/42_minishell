@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:39:52 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/25 22:46:16 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:44:45 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,18 @@ void	add_redirection(t_command *cmd, t_token_type type, char *file);
  */
 int	allocate_command_arrays(t_command *cmd, int arg_count)
 {
+	t_env	*env;
+	int count_env;
 	int	i;
 
-	cmd->args = malloc(sizeof(char *) * (arg_count + 1));
+	count_env = -1;
+	env = *handle_t_env(NULL);
+	while(env)
+	{
+		env = env->next;
+		count_env++;
+	}
+	cmd->args = malloc(sizeof(char *) * (count_env + 1));
 	cmd->quote_removed = malloc(sizeof(int) * (arg_count + 1));
 	cmd->token_types = malloc(sizeof(t_token_type) * (arg_count + 1));
 	if (!cmd->args || !cmd->quote_removed || !cmd->token_types)

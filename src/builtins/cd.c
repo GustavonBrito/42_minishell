@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/28 00:28:54 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/29 19:20:07 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	cd(t_command *cmd)
 
 	if (cmd->args[2] != NULL)
 	{
-		write(2, " too many arguments", 19);
+		write(2, "minishell: cd: too many arguments\n", 34);
 		exit(1);
 	}
 	if (!cmd->args[1])
@@ -55,7 +55,7 @@ void	cd(t_command *cmd)
 	target_dir = cmd->args[1];
 	if (chdir(target_dir) == -1)
 	{
-		write(2," No such file or directory", 26);
+		write(2,"minishell: cd: No such file or directory\n", 41);
 		exit(1);
 		return ;
 	}
