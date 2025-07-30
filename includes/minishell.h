@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 21:02:25 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/29 21:22:53 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ char		*get_env_or_cleanup(const char *var, char *to_free);
 //paths
 void		update_pwd(void);
 char		*find_command_path(char *command);
-void		free_array(char **path_dirs);
 
 //buitins
 void		is_builtin(t_command *cmd);
