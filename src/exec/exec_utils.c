@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 20:54:17 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/28 22:25:55 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/07/30 17:19:33 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ int	execute_with_execve(t_command *cmd)
 	{
 		free_env_array(env_array);
 		perror(" ");
-		//write_on_stderr(cmd->args[0]);
-		//write(2, " command not found\n", 20);
 		exit(127);
 	}
 	else if(ft_strncmp(cmd->args[0], "", 1) == 0)

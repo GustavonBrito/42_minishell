@@ -6,13 +6,11 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/25 20:27:31 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/30 17:19:14 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
 
 int		execute_command(t_command *cmd);
 int		execute_builtin(t_command *cmd);
@@ -20,20 +18,6 @@ int		execute_external_command(t_command *cmd);
 void	handle_command_execution(t_command *cmd);
 int		check_builtin(t_command *cmd);
 
-/**
- * @brief Executa um único comando.
- *
- * Esta é a função central para a execução de um comando individual. Ela:
- * 1. Salva os descritores de arquivo padrão (stdin, stdout).
- * 2. Configura quaisquer redirecionamentos associados ao comando.
- * 3. Determina se o comando é um built-in ou um comando externo.
- * 4. Chama a função de execução apropriada (`execute_builtin`
- *    ou `execute_external_command`).
- * 5. Restaura os descritores de arquivo padrão.
- *
- * @param cmd Um ponteiro para a estrutura `t_command` a ser executada.
- * @return O status de saída do comando executado.
- */
 int	execute_command(t_command *cmd)
 {
 	int	saved_stdin;
@@ -62,18 +46,6 @@ int	execute_command(t_command *cmd)
 	return (exec_result);
 }
 
-/**
- * @brief Executa um comando built-in após a configuração de redirecionamentos.
- *
- * Esta função é um wrapper para `is_builtin`, garantindo que um comando built-in
- * seja chamado com seus argumentos apropriados *depois* que os redirecionamentos
- * de E/S tenham sido configurados pelo `execute_command`.
- *
- * @param cmd Um ponteiro para a estrutura `t_command` representando o built-in a
- *        ser executado.
- * @return 0 em caso de sucesso na execução, ou 1 se o comando ou seus argumentos
- *         forem inválidos.
- */
 int	execute_builtin(t_command *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
@@ -85,21 +57,6 @@ int	execute_builtin(t_command *cmd)
 	return (g_exit_status);
 }
 
-/**
- * @brief Executa um comando externo (não built-in) usando execve.
- *
- * Esta função cria um novo processo filho usando `fork()`.
- * No processo filho, resolve o path do comando usando `find_command_path()` e
- * chama execve().
- * No processo pai, espera pelo processo filho e captura seu status de saída.
- * Reporta erros de `fork` ou "comando não encontrado".
- *
- * @param cmd Um ponteiro para a estrutura `t_command` representando o comando.
- * @return O status de saída do comando externo (0 para sucesso, 127 para comando
- *         não encontrado, outros valores para erros ou sinais).
- */
-
-//norminette: +25 lines: needs to be chopped
 int	execute_external_command(t_command *cmd)
 {
 	pid_t	pid;
@@ -129,17 +86,6 @@ int	execute_external_command(t_command *cmd)
 	return (g_exit_status);
 }
 
-/**
- * @brief Gerencia a execução de uma lista de comandos.
- *
- * Itera sobre a lista de comandos e executa:
- * 1. Se o primeiro comando for uma variável (token VAR), imprime seu conteúdo.
- * 2. Se houver pipes, executa a pipeline.
- * 3. Caso contrário, executa o comando individual.
- * O status de saída do último comando executado é armazenado em `g_exit_status`.
- *
- * @param cmd O primeiro ponteiro para a lista de `t_command` a ser executada.
- */
 void	handle_command_execution(t_command *cmd)
 {
 	t_command	*current;
@@ -162,15 +108,6 @@ void	handle_command_execution(t_command *cmd)
 		g_exit_status = result;
 	}
 }
-
-/**
- * @brief Verifica se um comando é um built-in suportado.
- *
- * Compara cmd->args[0] com os nomes dos comandos built-in válidos.
- *
- * @param cmd Estrutura contendo os argumentos e informações do comando.
- * @return 1 se for um built-in, 0 se não.
- */
 
 int	check_builtin(t_command *cmd)
 {
