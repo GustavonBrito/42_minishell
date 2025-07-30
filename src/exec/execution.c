@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/30 17:19:14 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/30 17:22:54 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	execute_external_command(t_command *cmd)
 void	handle_command_execution(t_command *cmd)
 {
 	t_command	*current;
-	int		result;
+	int			result;
 
 	if (!cmd)
 	{
@@ -116,13 +116,20 @@ int	check_builtin(t_command *cmd)
 		g_exit_status = 1;
 		return (0);
 	}
-	if ((ft_strncmp(cmd->args[0], "echo", 4) == 0 && ft_strlen(cmd->args[0]) == 4)
-		|| (ft_strncmp(cmd->args[0], "cd", 2) == 0 && ft_strlen(cmd->args[0]) == 2)
-		|| (ft_strncmp(cmd->args[0], "pwd", 3) == 0 && ft_strlen(cmd->args[0]) == 3)
-		|| (ft_strncmp(cmd->args[0], "export", 6) == 0 && ft_strlen(cmd->args[0]) == 6)
-		|| (ft_strncmp(cmd->args[0], "unset", 5) == 0 && ft_strlen(cmd->args[0]) == 5)
-		|| (ft_strncmp(cmd->args[0], "env", 3) == 0 && ft_strlen(cmd->args[0]) == 3)
-		|| (ft_strncmp(cmd->args[0], "exit", 4) == 0 && ft_strlen(cmd->args[0]) == 4))
+	if ((ft_strncmp(cmd->args[0], "echo", 4) == 0
+			&& ft_strlen(cmd->args[0]) == 4)
+		|| (ft_strncmp(cmd->args[0], "cd", 2) == 0
+			&& ft_strlen(cmd->args[0]) == 2)
+		|| (ft_strncmp(cmd->args[0], "pwd", 3) == 0
+			&& ft_strlen(cmd->args[0]) == 3)
+		|| (ft_strncmp(cmd->args[0], "export", 6) == 0
+			&& ft_strlen(cmd->args[0]) == 6)
+		|| (ft_strncmp(cmd->args[0], "unset", 5) == 0
+			&& ft_strlen(cmd->args[0]) == 5)
+		|| (ft_strncmp(cmd->args[0], "env", 3) == 0
+			&& ft_strlen(cmd->args[0]) == 3)
+		|| (ft_strncmp(cmd->args[0], "exit", 4) == 0
+			&& ft_strlen(cmd->args[0]) == 4))
 		return (1);
 	else
 		return (0);
