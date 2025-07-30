@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/27 03:18:03 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/29 21:10:33 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,6 @@ static char	*create_prompt(void);
 static char	*format_path(char *current_dir, char *home_dir);
 static char	*build_prompt(char *username, char *display_path);
 
-/**
- * @brief O loop principal do shell.
- *
- * Esta função implementa o loop interativo do minishell. Ela continuamente:
- * 1. Obtém o diretório de trabalho atual para exibir no prompt.
- * 2. Define os manipuladores de sinal (Ctrl+C e Ctrl+\).
- * 3. Lê a entrada do usuário usando `readline`.
- * 4. Verifica a condição de saída (Ctrl+D).
- * 5. Adiciona a entrada ao histórico do readline.
- * 6. Processa a entrada (lex, parse, expand, execute).
- * 7. Libera a memória alocada para o buffer de entrada e o diretório atual.
- *
- * Permanece em execução até o programa ser encerrado.
- */
 void	shell_loop(void)
 {
 	char		*buffer_received;
@@ -54,20 +40,6 @@ void	shell_loop(void)
 		free(buffer_received);
 	}
 }
-
-/**
- * @brief Cria o prompt do minishell para exibir no readline.
- *
- * Monta o prompt customizado no formato:
- * "usuario@minishell:<diretorio_atual>$ "
- *
- * Obtém o diretório atual com obtain_current_directory() e
- * o nome de usuário via get_env_or_cleanup(). Se o diretório
- * estiver dentro do $HOME, substitui essa parte por '~'.
- *
- * @return String alocada com o prompt, que deve ser liberada pelo chamador.
- *         Retorna NULL em caso de erro.
- */
 
 static char	*create_prompt(void)
 {
@@ -97,19 +69,6 @@ static char	*create_prompt(void)
 	return (prompt);
 }
 
-/**
- * @brief Formata o caminho do diretório atual para exibição no prompt.
- *
- * Se o diretório atual estiver dentro do diretório HOME, substitui a parte do
- * caminho equivalente ao HOME por '~'. Caso contrário, retorna o caminho atual.
- *
- * @param current_dir Caminho absoluto atual obtido por getcwd().
- * @param home_dir Diretório HOME do usuário obtido por getenv("HOME").
- * @return String alocada com o caminho formatado ou o próprio current_dir.
- *         Se retornar uma nova string, ela deve ser liberada pelo chamador.
- *         Se retornar current_dir, o chamador não deve liberar.
- */
-
 static char	*format_path(char *current_dir, char *home_dir)
 {
 	char	*relative_path;
@@ -131,17 +90,6 @@ static char	*format_path(char *current_dir, char *home_dir)
 	}
 	return (current_dir);
 }
-
-/**
- * @brief Monta a string final do prompt do minishell.
- *
- * Concatena o nome de usuário, o prefixo "@minishell:", o caminho atual ou '~'
- * e o caractere "$ " para formar o prompt exibido no readline.
- *
- * @param username Nome de usuário obtido de getenv("USER").
- * @param display_path Caminho formatado do diretório atual.
- * @return String alocada com o prompt completo. Deve ser liberada pelo chamador.
- */
 
 static char	*build_prompt(char *username, char *display_path)
 {

@@ -6,25 +6,15 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:59:26 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/22 20:51:09 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/29 21:10:01 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//FILE HAS NORMINETTE ERRORS -> NOTES B4 FTS WITH ERRORS
-
 void	update_pwd(void);
 char	*find_command_path(char *command);
 void	free_array(char **path_dirs);
-
-/**
- * @brief Atualiza a variável de ambiente PWD.
- *
- * Obtém o diretório de trabalho atual via getcwd e atualiza a variável
- * de ambiente PWD com esse valor usando setenv. Libera a memória alocada
- * após a atualização.
- */
 
 void	update_pwd(void)
 {
@@ -58,18 +48,6 @@ void	update_pwd(void)
 	free_commands(cmd);
 }
 
-/**
- * @brief Encontra o caminho completo de um comando usando a variável PATH.
- *
- * Esta função procura por um comando executável nos diretórios listados
- * na variável de ambiente PATH.
- *
- * @param command O nome do comando a ser procurado.
- * @return O caminho completo do comando se encontrado, ou NULL caso contrário.
- *         O ponteiro retornado deve ser liberado com free().
- */
-
-//norminette: +25 lines: needs to be chopped
 char	*find_command_path(char *command)
 {
 	char	*path_env;
@@ -124,15 +102,6 @@ char	*find_command_path(char *command)
 	free_array(path_dirs);
 	return (NULL);
 }
-
-/**
- * @brief Libera um array de strings e o array principal.
- *
- * Percorre o array de strings e libera cada elemento individualmente,
- * depois libera o próprio array.
- *
- * @param path_dirs O array de strings a ser liberado.
- */
 
 void	free_array(char **path_dirs)
 {
