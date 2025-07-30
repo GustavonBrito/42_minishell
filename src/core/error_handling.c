@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 06:28:59 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/29 21:09:08 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/30 17:15:38 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	write_err(const char *msg);
 
 void	write_err(const char *msg)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(msg[i])
+	while (msg[i])
 	{
 		write(2, &msg[i], 1);
 		i++;
