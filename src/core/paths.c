@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:59:26 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/22 20:51:09 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/30 16:43:19 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	update_pwd(void)
 		return ;
 	}
 	cmd->args[1] = ft_strdup(new_dir);
-	if (cmd->args[1])
+	if (cmd->args[1]) // o problema esta aqui
 		export(cmd);
 	free(actual_directory);
 	free(new_dir);
