@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 20:54:55 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/29 21:02:25 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void		free_array(char **path_dirs);
 //buitins
 void		is_builtin(t_command *cmd);
 void		echo(t_command *cmd);
-int			verify_flag(char *arg);
 void		cd(t_command *cmd);
 void		env(int is_export);
 t_env		**handle_t_env(t_env *head);
@@ -109,7 +108,6 @@ void		create_new_var(t_env *last_env, char *var_name, char *value);
 void		pwd(void);
 void		unset(t_command *cmd);
 void		ft_free_split(char **array);
-int			verify_remove_env(char **argv, t_env *s_env);
 
 //lexing
 int			process_input(char *input);

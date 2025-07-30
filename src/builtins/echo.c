@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:54:36 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 20:24:40 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/29 20:59:55 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void		echo(t_command *cmd);
 static int	process_flags(char **args);
+static int	verify_flag(char *arg);
 static void	print_args(t_command *cmd, int start);
 
 void	echo(t_command *cmd)
@@ -50,6 +51,18 @@ static int	process_flags(char **args)
 	if (flag)
 		return (i);
 	return (1);
+}
+
+static int	verify_flag(char *arg)
+{
+	int	i;
+
+	if (!arg || arg[0] != '-' || arg[1] != 'n')
+		return (0);
+	i = 1;
+	while (arg[i] == 'n')
+		i++;
+	return (arg[i] == '\0');
 }
 
 static void	print_args(t_command *cmd, int start)

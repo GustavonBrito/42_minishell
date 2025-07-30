@@ -6,23 +6,15 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/28 00:00:58 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/29 21:01:51 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	unset(t_command *cmd);
+void		unset(t_command *cmd);
+static int	verify_remove_env(char **argv, t_env *s_env);
 
-/**
- * @brief Implementa o comando 'unset'.
- *
- * Esta função remove variáveis de ambiente do ambiente atual do shell.
- * Percorre a estrutura `t_command`, e para cada um, tenta remover a variável
- * de ambiente correspondente usando `unsetenv`.
- *
- * @param cmd Estrutura contendo os argumentos e informações do comando 'unset'.
- */
 void	unset(t_command *cmd)
 {
 	t_env	*s_env;
@@ -49,4 +41,26 @@ void	unset(t_command *cmd)
 		s_env = s_env->next;
 	}
 	handle_t_env(head);
+}
+
+static int	verify_remove_env(char **argv, t_env *s_env)
+{
+	char	**buffer;
+	int		skip_flag;
+	int		i;
+
+	skip_flag = 0;
+	i = 0;
+	while (argv[i])
+	{
+		buffer = ft_split(s_env->env_data, '=');
+		if (ft_strncmp(buffer[0], argv[i], ft_strlen(argv[i])) == 0 && argv[i]
+			&& buffer[0][ft_strlen(argv[i])] == '\0')
+		{
+			skip_flag = 1;
+			break ;
+		}
+		i++;
+	}
+	return (skip_flag);
 }
