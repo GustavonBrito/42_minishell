@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 20:54:17 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/30 17:19:33 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/30 17:26:33 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int			execute_with_execve(t_command *cmd);
 static char	**convert_env_to_array(void);
 static void	free_env_array(char **env_array);
 
-void write_on_stderr(char *err_message)
+void	write_on_stderr(char *err_message)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (err_message[i])
@@ -41,21 +41,19 @@ int	execute_with_execve(t_command *cmd)
 	cmd_path = find_command_path(cmd->args[0]);
 	if (ft_strncmp(cmd->args[0], "", 1) == 0 && cmd->args[1] == NULL)
 		exit(0);
-	else if(!cmd_path && ft_strncmp(cmd->args[0], "", 1) != 0)
+	else if (!cmd_path && ft_strncmp(cmd->args[0], "", 1) != 0)
 	{
 		free_env_array(env_array);
 		perror(" ");
 		exit(127);
 	}
-	else if(ft_strncmp(cmd->args[0], "", 1) == 0)
+	else if (ft_strncmp(cmd->args[0], "", 1) == 0)
 	{
 		cmd_path = find_command_path(cmd->args[1]);
 		execve(cmd_path, &cmd->args[1], env_array);
 	}
 	if (execve(cmd_path, cmd->args, env_array) == -1)
-	{
 		perror(" ");
-	}
 	free_env_array(env_array);
 	free(cmd_path);
 	exit(126);
