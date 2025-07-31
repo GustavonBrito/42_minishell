@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 20:54:18 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/30 22:32:06 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	char	*joined;
 
 	joined = ft_strjoin(s1, s2);
+	if (joined == ((void *)0))
+		return (((void *)0));
 	free(s1);
 	return (joined);
 }

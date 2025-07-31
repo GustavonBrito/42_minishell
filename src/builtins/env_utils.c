@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 01:09:14 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 19:22:39 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/30 23:16:34 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	handle_store_env(char **system_env)
 {
 	int		i;
 	t_env	*head;
-	t_env	*current;
+	t_env	*env_struct;
 
 	if (!system_env || !system_env[0])
 		return ;
@@ -30,17 +30,17 @@ void	handle_store_env(char **system_env)
 	if (!head)
 		return ;
 	*handle_t_env(head) = head;
-	current = head;
+	env_struct = head;
 	i = 0;
 	while (system_env[++i])
 	{
-		current->next = create_env_node(system_env[i]);
-		if (!current->next)
+		env_struct->next = create_env_node(system_env[i]);
+		if (!env_struct->next)
 		{
 			free_env_list(head);
 			return ;
 		}
-		current = current->next;
+		env_struct = env_struct->next;
 	}
 }
 

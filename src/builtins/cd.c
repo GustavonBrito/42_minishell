@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 20:32:01 by luiza            ###   ########.fr       */
+/*   Updated: 2025/07/30 23:29:17 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	cd(t_command *cmd)
 {
 	if (cmd->args[2] != NULL)
 	{
-		write(2, " too many arguments", 19);
+		write(2, "minishell: cd: too many arguments\n", 34);
 		exit(1);
 	}
 	if (!cmd->args[1])
@@ -49,7 +49,7 @@ static void	cd_to_target(char *target_dir)
 {
 	if (chdir(target_dir) == -1)
 	{
-		write(2, " No such file or directory", 26);
+		write(2, "minishell: cd: No such file or directory\n", 41);
 		exit(1);
 	}
 	update_pwd();
