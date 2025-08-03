@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_childs.c                                      :+:      :+:    :+:   */
+/*   pipe_io.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 19:49:12 by luiza            ###   ########.fr       */
+/*   Created: 2025/06/15 17:55:08 by luiza             #+#    #+#             */
+/*   Updated: 2025/08/03 20:08:56 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void		setup_child_pipes(t_pipe *pipes, int cmd_index);
-void		execute_child_command(t_command *cmd);
-static int	handle_builtin_in_pipe(t_command *cmd);
 static void	close_unused_pipes(t_pipe *pipes, int cmd_index);
+void		free_pipe_fds(t_pipe *pipes);
+void		free_partial_fds(t_pipe *pipes, int max_index);
 
 void	setup_child_pipes(t_pipe *pipes, int cmd_index)
 {
@@ -36,32 +36,6 @@ void	setup_child_pipes(t_pipe *pipes, int cmd_index)
 		}
 	}
 	close_unused_pipes(pipes, cmd_index);
-}
-
-void	execute_child_command(t_command *cmd)
-{
-	int	exit_code;
-
-	if (!cmd || !cmd->args || !cmd->args[0])
-		exit(127);
-	if (check_builtin(cmd))
-	{
-		exit_code = handle_builtin_in_pipe(cmd);
-		exit(exit_code);
-	}
-	exit_code = run_external(cmd);
-	exit(exit_code);
-}
-
-static int	handle_builtin_in_pipe(t_command *cmd)
-{
-	if (!cmd || !cmd->args || !cmd->args[0])
-	{
-		g_exit_status = 1;
-		return (127);
-	}
-	is_builtin(cmd);
-	return (g_exit_status);
 }
 
 static void	close_unused_pipes(t_pipe *pipes, int cmd_index)
@@ -88,5 +62,60 @@ static void	close_unused_pipes(t_pipe *pipes, int cmd_index)
 			}
 		}
 		i++;
+	}
+}
+
+void	free_pipe_fds(t_pipe *pipes)
+{
+	int	i;
+
+	if (!pipes->pipe_fds)
+		return ;
+	i = 0;
+	while (i < (pipes->total_commands - 1))
+	{
+		if (pipes->pipe_fds[i])
+		{
+			if (pipes->pipe_fds[i][0] != -1)
+			{
+				close(pipes->pipe_fds[i][0]);
+				pipes->pipe_fds[i][0] = -1;
+			}
+			if (pipes->pipe_fds[i][1] != -1)
+			{
+				close(pipes->pipe_fds[i][1]);
+				pipes->pipe_fds[i][1] = -1;
+			}
+			free(pipes->pipe_fds[i]);
+			pipes->pipe_fds[i] = NULL;
+		}
+		i++;
+	}
+	free(pipes->pipe_fds);
+	pipes->pipe_fds = NULL;
+}
+
+void	free_partial_fds(t_pipe *pipes, int max_index)
+{
+	int	i;
+
+	if (!pipes->pipe_fds)
+		return ;
+	i = 0;
+	while (i < max_index)
+	{
+		if (pipes->pipe_fds[i])
+		{
+			free(pipes->pipe_fds[i]);
+			pipes->pipe_fds[i] = NULL;
+		}
+		i++;
+	}
+	free(pipes->pipe_fds);
+	pipes->pipe_fds = NULL;
+	if (pipes->pids)
+	{
+		free(pipes->pids);
+		pipes->pids = NULL;
 	}
 }

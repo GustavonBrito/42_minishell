@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/03 19:27:16 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 20:08:41 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,11 +178,15 @@ void		free_env_array(char **env_array);
 int			has_pipes(t_command *cmd);
 int			execute_pipeline(t_command *cmd);
 int			init_pipeline(t_pipe *pipes, t_command *cmd);
+pid_t		pipe_loop(t_command *cmd, t_pipe *pipes);
+int			handle_pipe_error(t_pipe *pipes);
 int			count_commands(t_command *cmd);
 int			create_pipe(int pipe_fd[2]);
 void		cleanup_pipeline(t_pipe *pipes);
 void		setup_child_pipes(t_pipe *pipes, int cmd_index);
 void		execute_child_command(t_command *cmd);
+void		free_pipe_fds(t_pipe *pipes);
+void		free_partial_fds(t_pipe *pipes, int max_index);
 
 //error handling
 int			report_error(const char *msg, int exit_code);

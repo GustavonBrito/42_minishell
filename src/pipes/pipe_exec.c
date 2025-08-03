@@ -6,60 +6,19 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 19:42:10 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 20:09:46 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int				has_pipes(t_command *cmd);
-int				execute_pipeline(t_command *cmd);
-static pid_t	pipe_loop(t_command *cmd, t_pipe *pipes);
+pid_t			pipe_loop(t_command *cmd, t_pipe *pipes);
 static int		exec_pip_cmd(t_command *cmd, t_pipe *pipes, int cmd_index);
-static int		wait_all_processes(t_pipe *pipes);
+void			execute_child_command(t_command *cmd);
 static void		close_parent_pipes(t_pipe *pipes, int current_index);
-static int		handle_pipe_error(t_pipe *pipes);
+static int		handle_builtin_in_pipe(t_command *cmd);
 
-int	has_pipes(t_command *cmd)
-{
-	if (!cmd)
-	{
-		g_exit_status = 1;
-		return (0);
-	}
-	return (cmd->next != NULL);
-}
-
-int	execute_pipeline(t_command *cmd)
-{
-	pid_t		last_pid;
-	t_pipe		pipes;
-	int			result;
-
-	if (!cmd)
-	{
-		g_exit_status = 1;
-		return (0);
-	}
-	if (!cmd->next)
-		return (execute_command(cmd));
-	if (init_pipeline(&pipes, cmd) != 0)
-	{
-		g_exit_status = 1;
-		return (g_exit_status);
-	}
-	last_pid = pipe_loop(cmd, &pipes);
-	if (last_pid == -1)
-	{
-		cleanup_pipeline(&pipes);
-		g_exit_status = 1;
-		return (g_exit_status);
-	}
-	result = wait_all_processes(&pipes);
-	return (result);
-}
-
-static pid_t	pipe_loop(t_command *cmd, t_pipe *pipes)
+pid_t	pipe_loop(t_command *cmd, t_pipe *pipes)
 {
 	pid_t		pid;
 	t_command	*current;
@@ -113,38 +72,19 @@ static int	exec_pip_cmd(t_command *cmd, t_pipe *pipes, int cmd_index)
 	return (pid);
 }
 
-static int	wait_all_processes(t_pipe *pipes)
+void	execute_child_command(t_command *cmd)
 {
-	int	status;
-	int	i;
-	int	exit_status;
-	int	last_exit_status;
+	int	exit_code;
 
-	i = 0;
-	last_exit_status = 0;
-	while (i < pipes->total_commands)
+	if (!cmd || !cmd->args || !cmd->args[0])
+		exit(127);
+	if (check_builtin(cmd))
 	{
-		if (pipes->pids[i] != -1)
-		{
-			waitpid(pipes->pids[i], &status, 0);
-			if (WIFEXITED(status))
-			{
-				exit_status = WEXITSTATUS(status);
-				if (i == (pipes->total_commands - 1))
-					last_exit_status = exit_status;
-			}
-			else if (WIFSIGNALED(status))
-			{
-				exit_status = 128 + WTERMSIG(status);
-				if (i == (pipes->total_commands - 1))
-					last_exit_status = exit_status;
-			}
-		}
-		i++;
+		exit_code = handle_builtin_in_pipe(cmd);
+		exit(exit_code);
 	}
-	g_exit_status = last_exit_status;
-	cleanup_pipeline(pipes);
-	return (g_exit_status);
+	exit_code = run_external(cmd);
+	exit(exit_code);
 }
 
 static void	close_parent_pipes(t_pipe *pipes, int current_index)
@@ -173,9 +113,13 @@ static void	close_parent_pipes(t_pipe *pipes, int current_index)
 	}
 }
 
-static int	handle_pipe_error(t_pipe *pipes)
+static int	handle_builtin_in_pipe(t_command *cmd)
 {
-	g_exit_status = 1;
-	cleanup_pipeline(pipes);
-	return (-1);
+	if (!cmd || !cmd->args || !cmd->args[0])
+	{
+		g_exit_status = 1;
+		return (127);
+	}
+	is_builtin(cmd);
+	return (g_exit_status);
 }

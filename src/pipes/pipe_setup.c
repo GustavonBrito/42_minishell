@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_utils.c                                       :+:      :+:    :+:   */
+/*   pipe_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 17:55:08 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 19:42:48 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 20:05:48 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,8 @@
 int			init_pipeline(t_pipe *pipes, t_command *cmd);
 static int	init_pipe_arrays(t_pipe *pipes);
 static void	init_pipe_fds(t_pipe *pipes);
-int			count_commands(t_command *cmd);
 int			create_pipe(int pipe_fd[2]);
 void		cleanup_pipeline(t_pipe *pipes);
-static void	free_pipe_fds(t_pipe *pipes);
-static void	free_partial_fds(t_pipe *pipes, int max_index);
 
 int	init_pipeline(t_pipe *pipes, t_command *cmd)
 {
@@ -36,26 +33,6 @@ int	init_pipeline(t_pipe *pipes, t_command *cmd)
 		return (-1);
 	}
 	return (init_pipe_arrays(pipes));
-}
-
-int	count_commands(t_command *cmd)
-{
-	int			count;
-	t_command	*current;
-
-	if (!cmd)
-	{
-		g_exit_status = 1;
-		return (0);
-	}
-	count = 0;
-	current = cmd;
-	while (current)
-	{
-		count++;
-		current = current->next;
-	}
-	return (count);
 }
 
 static int	init_pipe_arrays(t_pipe *pipes)
@@ -133,59 +110,4 @@ void	cleanup_pipeline(t_pipe *pipes)
 		pipes->pids = NULL;
 	}
 	pipes->total_commands = 0;
-}
-
-static void	free_pipe_fds(t_pipe *pipes)
-{
-	int	i;
-
-	if (!pipes->pipe_fds)
-		return ;
-	i = 0;
-	while (i < (pipes->total_commands - 1))
-	{
-		if (pipes->pipe_fds[i])
-		{
-			if (pipes->pipe_fds[i][0] != -1)
-			{
-				close(pipes->pipe_fds[i][0]);
-				pipes->pipe_fds[i][0] = -1;
-			}
-			if (pipes->pipe_fds[i][1] != -1)
-			{
-				close(pipes->pipe_fds[i][1]);
-				pipes->pipe_fds[i][1] = -1;
-			}
-			free(pipes->pipe_fds[i]);
-			pipes->pipe_fds[i] = NULL;
-		}
-		i++;
-	}
-	free(pipes->pipe_fds);
-	pipes->pipe_fds = NULL;
-}
-
-static void	free_partial_fds(t_pipe *pipes, int max_index)
-{
-	int	i;
-
-	if (!pipes->pipe_fds)
-		return ;
-	i = 0;
-	while (i < max_index)
-	{
-		if (pipes->pipe_fds[i])
-		{
-			free(pipes->pipe_fds[i]);
-			pipes->pipe_fds[i] = NULL;
-		}
-		i++;
-	}
-	free(pipes->pipe_fds);
-	pipes->pipe_fds = NULL;
-	if (pipes->pids)
-	{
-		free(pipes->pids);
-		pipes->pids = NULL;
-	}
 }
