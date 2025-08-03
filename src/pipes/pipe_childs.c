@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 19:28:01 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 19:42:24 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@ void		execute_child_command(t_command *cmd);
 static int	handle_builtin_in_pipe(t_command *cmd);
 static void	close_unused_pipes(t_pipe *pipes, int cmd_index);
 
-/**
- * @brief Configura pipes no processo filho
- *
- * @param pipes Estrutura de controle de pipes
- */
 void setup_child_pipes(t_pipe *pipes, int cmd_index)
 {
 	if (cmd_index > 0)
@@ -49,11 +44,6 @@ void setup_child_pipes(t_pipe *pipes, int cmd_index)
 	close_unused_pipes(pipes, cmd_index);
 }
 
-/**
- * @brief Executa comando no processo filho
- *
- * @param cmd Comando a ser executado
- */
 void	execute_child_command(t_command *cmd)
 {
 	int	exit_code;

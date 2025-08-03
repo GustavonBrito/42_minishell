@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 17:55:08 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/19 02:37:39 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 19:42:48 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,6 @@ void		cleanup_pipeline(t_pipe *pipes);
 static void	free_pipe_fds(t_pipe *pipes);
 static void	free_partial_fds(t_pipe *pipes, int max_index);
 
-/**
- * @brief Inicializa a estrutura de pipes para o pipeline
- *
- * @param pipes Estrutura de controle de pipes
- * @param cmd Lista de comandos para contar o total
- */
 int	init_pipeline(t_pipe *pipes, t_command *cmd)
 {
 	if (!pipes || !cmd)
@@ -43,15 +37,6 @@ int	init_pipeline(t_pipe *pipes, t_command *cmd)
 	}
 	return (init_pipe_arrays(pipes));
 }
-
-/**
- * @brief Conta o número de comandos em uma lista encadeada de `t_command`.
- *
- * Percorre a lista de comandos e retorna a quantidade de elementos.
- *
- * @param cmd Ponteiro para o primeiro comando.
- * @return Número de comandos na lista.
- */
 
 int	count_commands(t_command *cmd)
 {
@@ -126,12 +111,6 @@ static void	init_pipe_fds(t_pipe *pipes)
 	}
 }
 
-/**
- * @brief Cria pipe e trata erros
- *
- * @param pipes Estrutura de controle de pipes
- * @return 0 em sucesso, 1 em erro
- */
 int	create_pipe(int pipe_fd[2])
 {
 	if (pipe(pipe_fd) == -1)

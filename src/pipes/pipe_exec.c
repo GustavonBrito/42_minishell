@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/27 23:40:14 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 19:42:10 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,6 @@ static int		wait_all_processes(t_pipe *pipes);
 static void		close_parent_pipes(t_pipe *pipes, int current_index);
 static int		handle_pipe_error(t_pipe *pipes);
 
-/**
- * @brief Verifica se há mais de um comando encadeado.
- *
- * Retorna 1 se o comando atual possui um próximo comando na lista,
- * indicando a existência de pipes. Caso contrário, retorna 0.
- *
- * @param cmd Ponteiro para a estrutura `t_command`.
- * @return 1 se houver pipe, 0 caso contrário.
- */
-
 int	has_pipes(t_command *cmd)
 {
 	if (!cmd)
@@ -40,12 +30,6 @@ int	has_pipes(t_command *cmd)
 	return (cmd->next != NULL);
 }
 
-/**
- * @brief Executa o pipeline de comandos
- *
- * @param cmd Ponteiro para a lista de comandos encadeados.
- * @return Código de status do último comando executado.
- */
 int	execute_pipeline(t_command *cmd)
 {
 	pid_t		last_pid;
@@ -75,13 +59,6 @@ int	execute_pipeline(t_command *cmd)
 	return (result);
 }
 
-/**
- * @brief Executa loop principal do pipeline
- *
- * @param cmd Comando inicial
- * @param pipes Estrutura de controle de pipes
- * @return PID do último processo ou -1 em erro
- */
 static pid_t	pipe_loop(t_command *cmd, t_pipe *pipes)
 {
 	pid_t		pid;
@@ -108,13 +85,6 @@ static pid_t	pipe_loop(t_command *cmd, t_pipe *pipes)
 	return (pipes->pids[pipes->total_commands - 1]);
 }
 
-/**
- * @brief Executa um comando dentro de uma pipeline.
- *
- * @param cmd Ponteiro para o comando a ser executado.
- * @param pipes Estrutura de controle de pipes e índices.
- * @return PID do processo filho ou -1 em erro.
- */
 static int	exec_pip_cmd(t_command *cmd, t_pipe *pipes, int cmd_index)
 {
 	pid_t	pid;
@@ -143,24 +113,15 @@ static int	exec_pip_cmd(t_command *cmd, t_pipe *pipes, int cmd_index)
 	return (pid);
 }
 
-/**
- * @brief Aguarda o término do último processo e define status
- *
- * @param last_pid PID do último processo
- * @param pipes Estrutura de controle de pipes
- * @return Status de saída
- */
 static int	wait_all_processes(t_pipe *pipes)
 {
 	int	status;
 	int	i;
 	int	exit_status;
 	int	last_exit_status;
-	//int	pipeline_failed;
 
 	i = 0;
 	last_exit_status = 0;
-	//pipeline_failed = 0;
 	while (i < pipes->total_commands)
 	{
 		if (pipes->pids[i] != -1)
@@ -171,23 +132,16 @@ static int	wait_all_processes(t_pipe *pipes)
 				exit_status = WEXITSTATUS(status);
 				if (i == (pipes->total_commands - 1))
 					last_exit_status = exit_status;
-				/*if (exit_status != 0)
-					pipeline_failed = 1; */
 			}
 			else if (WIFSIGNALED(status))
 			{
 				exit_status = 128 + WTERMSIG(status);
 				if (i == (pipes->total_commands - 1))
 					last_exit_status = exit_status;
-				//pipeline_failed = 1;
 			}
 		}
 		i++;
 	}
-	/* if (pipeline_failed && last_exit_status == 0)
-		g_exit_status = 1;
-	else
-		g_exit_status = last_exit_status; */
 	g_exit_status = last_exit_status;
 	cleanup_pipeline(pipes);
 	return (g_exit_status);
@@ -208,7 +162,8 @@ static void	close_parent_pipes(t_pipe *pipes, int current_index)
 			pipes->pipe_fds[current_index - 1][1] = -1;
 		}
 	}
-	if (current_index < (pipes->total_commands - 1) && pipes->pipe_fds[current_index])
+	if (current_index < (pipes->total_commands - 1)
+		&& pipes->pipe_fds[current_index])
 	{
 		if (pipes->pipe_fds[current_index][1] != -1)
 		{
