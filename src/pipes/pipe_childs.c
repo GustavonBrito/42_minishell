@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 19:42:24 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 19:47:58 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void		execute_child_command(t_command *cmd);
 static int	handle_builtin_in_pipe(t_command *cmd);
 static void	close_unused_pipes(t_pipe *pipes, int cmd_index);
 
-void setup_child_pipes(t_pipe *pipes, int cmd_index)
+void	setup_child_pipes(t_pipe *pipes, int cmd_index)
 {
 	if (cmd_index > 0)
 	{
-		if (pipes->pipe_fds[cmd_index-1][0] != -1)
+		if (pipes->pipe_fds[cmd_index - 1][0] != -1)
 		{
-			if (dup2(pipes->pipe_fds[cmd_index-1][0], STDIN_FILENO) == -1)
+			if (dup2(pipes->pipe_fds[cmd_index - 1][0], STDIN_FILENO) == -1)
 			{
 				perror("DEBUG PIPES: dup2 input failed");
 				exit(1);
