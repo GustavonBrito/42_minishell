@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 19:47:58 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 19:49:12 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ void	setup_child_pipes(t_pipe *pipes, int cmd_index)
 		if (pipes->pipe_fds[cmd_index - 1][0] != -1)
 		{
 			if (dup2(pipes->pipe_fds[cmd_index - 1][0], STDIN_FILENO) == -1)
-			{
-				perror("DEBUG PIPES: dup2 input failed");
 				exit(1);
-			}
 		}
 	}
 	if (cmd_index < pipes->total_commands - 1)
@@ -35,10 +32,7 @@ void	setup_child_pipes(t_pipe *pipes, int cmd_index)
 		if (pipes->pipe_fds[cmd_index][1] != -1)
 		{
 			if (dup2(pipes->pipe_fds[cmd_index][1], STDOUT_FILENO) == -1)
-			{
-				perror("DEBUG PIPES: dup2 output failed");
 				exit(1);
-			}
 		}
 	}
 	close_unused_pipes(pipes, cmd_index);
