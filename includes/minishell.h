@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 21:22:53 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 19:27:16 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,11 @@ int			execute_builtin(t_command *cmd);
 int			execute_external_command(t_command *cmd);
 void		handle_command_execution(t_command *cmd);
 int			check_builtin(t_command *cmd);
-int			execute_with_execve(t_command *cmd);
+int			run_external(t_command *cmd);
+char		**convert_env_to_array(void);
+char		**cleanup_failed_env_array(char **env_array, int filled_count);
+void		cleanup_n_exit(char **env_array, char *cmd_path);
+void		free_env_array(char **env_array);
 
 //pipes
 int			has_pipes(t_command *cmd);

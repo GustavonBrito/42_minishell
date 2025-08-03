@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/30 17:22:54 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 19:00:56 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	execute_external_command(t_command *cmd)
 		return (g_exit_status);
 	}
 	else if (pid == 0)
-		exit(execute_with_execve(cmd));
+		exit(run_external(cmd));
 	else
 	{
 		waitpid(pid, &g_exit_status, 0);

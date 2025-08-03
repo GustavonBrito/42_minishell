@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/27 23:46:00 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 19:28:01 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	execute_child_command(t_command *cmd)
 		exit_code = handle_builtin_in_pipe(cmd);
 		exit(exit_code);
 	}
-	exit_code = execute_with_execve(cmd);
+	exit_code = run_external(cmd);
 	exit(exit_code);
 }
 
