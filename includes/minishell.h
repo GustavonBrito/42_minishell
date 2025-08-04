@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/03 22:23:11 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 22:41:08 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,15 +118,15 @@ void			free_tokens(t_token *head);
 //lex handlers
 int				handle_quotes(char *input, t_token **token_lst, int i);
 int				handle_var(char *input, t_token **token_lst, int i);
-int				handle_attribution_w_quote(char *input, t_token **token_lst, int i);
+int				handle_att_w_quote(char *input, t_token **token_lst, int i);
 int				handle_escape(char *input, t_token **token_lst);
-int				handle_word_with_quotes(char *input, t_token **token_lst, int i);
+int				handle_word_w_quotes(char *input, t_token **token_lst, int i);
 
 //parsing
 t_command		*parse_tokens(t_token *tokens);
 t_command		*init_command(void);
 int				allocate_command_arrays(t_command *cmd, int arg_count);
-int				fill_command_data(t_command *cmd, t_token **current, int arg_count);
+int				fill_cmd_data(t_command *cmd, t_token **current, int arg_count);
 void			free_commands(t_command *cmd);
 void			free_redirections(t_redir *redirs);
 int				is_argument_token(t_token_type type);
@@ -154,12 +154,11 @@ char			*remove_quotes(char *str);
 int				handle_expand_error(char *expand);
 int				process_single_argument(t_command *cmd, int index);
 t_token_type	get_token_type(t_command *cmd, int index);
-int				updt_arg(t_command *cmd, int index, char *expand, char *final_arg);
+int				updt_arg(t_command *cmd, int index, char *expand, char *arg);
 int				append_remaining_path(const char *str, char **res, int i_cmd);
 int				append_literal_tilde(char **res);
 char			*process_quote_rm(char *str, char *result);
 int				should_expand_variables(char *str, t_token_type token_type);
-
 
 //redirs
 int				setup_redirections(t_command *cmd);

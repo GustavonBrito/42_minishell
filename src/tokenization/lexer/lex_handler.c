@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 22:33:29 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 22:39:58 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int			handle_quotes(char *input, t_token **token_lst, int i);
 int			handle_var(char *input, t_token **token_lst, int i);
 static int	process_var_name(char *input, t_token **token_lst, int start);
 static int	handle_special_vars(char *input, t_token **token_lst, int i);
-int			handle_word_with_quotes(char *input, t_token **token_lst, int i);
+int			handle_word_w_quotes(char *input, t_token **token_lst, int i);
 
 int	handle_quotes(char *input, t_token **token_lst, int i)
 {
@@ -117,7 +117,7 @@ static int	handle_special_vars(char *input, t_token **token_lst, int i)
 	return (1);
 }
 
-int	handle_word_with_quotes(char *input, t_token **token_lst, int i)
+int	handle_word_w_quotes(char *input, t_token **token_lst, int i)
 {
 	int		start;
 	int		j;

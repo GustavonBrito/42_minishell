@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:35:32 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/17 23:52:13 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 22:40:33 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static t_command	*parse_command(t_token **current)
 		free_commands(cmd);
 		return (NULL);
 	}
-	if (!fill_command_data(cmd, current, arg_count))
+	if (!fill_cmd_data(cmd, current, arg_count))
 	{
 		free_commands(cmd);
 		return (NULL);

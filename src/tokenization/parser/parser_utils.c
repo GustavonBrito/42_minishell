@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:39:52 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/30 16:55:16 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/08/03 22:40:33 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //NORMINETTE: too many fts in file. reorder with new file
 
 int		allocate_command_arrays(t_command *cmd, int arg_count);
-int		fill_command_data(t_command *cmd, t_token **current, int arg_count);
+int		fill_cmd_data(t_command *cmd, t_token **current, int arg_count);
 void	free_commands(t_command *cmd);
 void	free_redirections(t_redir *redirs);
 int		is_argument_token(t_token_type type);
@@ -86,7 +86,7 @@ int	allocate_command_arrays(t_command *cmd, int arg_count)
  *         0 em caso de erro de sintaxe ou alocação durante o
  *           tratamento de redirs.
  */
-int	fill_command_data(t_command *cmd, t_token **current, int arg_count)
+int	fill_cmd_data(t_command *cmd, t_token **current, int arg_count)
 {
 	int	arg_index;
 

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 22:34:30 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 22:39:58 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	lex_token(char *input);
 static int	tokenize_input(char *input, t_token **token_lst);
 static int	process_commands(t_command *commands);
 static int	handle_op(char *input, t_token **token_lst, int i);
-int			handle_attribution_w_quote(char *input, t_token **token_lst, int i);
+int			handle_att_w_quote(char *input, t_token **token_lst, int i);
 int			is_assignment_with_quotes(char *input, int start);
 static int	has_adjacent_quotes(char *input, int start);
 
@@ -79,9 +79,9 @@ static int	tokenize_input(char *input, t_token **token_lst)
 		else
 		{
 			if (is_assignment_with_quotes(input, i))
-				i += handle_attribution_w_quote(input, token_lst, i);
+				i += handle_att_w_quote(input, token_lst, i);
 			else
-				i += handle_word_with_quotes(input, token_lst, i);
+				i += handle_word_w_quotes(input, token_lst, i);
 		}
 	}
 	return (0);
@@ -132,7 +132,7 @@ static int	handle_op(char *input, t_token **token_lst, int i)
 	return (0);
 }
 
-int	handle_attribution_w_quote(char *input, t_token **token_lst, int i)
+int	handle_att_w_quote(char *input, t_token **token_lst, int i)
 {
 	int		start;
 	int		j;
