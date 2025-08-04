@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:59:26 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/30 23:11:57 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 23:45:07 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	execute_pwd_export(char *actual_directory)
 	cmd->args[1] = ft_strdup(new_dir);
 	if (cmd->args[1])
 		export(cmd);
+	free(cmd->args[1]);
 	free(new_dir);
 	free_commands(cmd);
 }

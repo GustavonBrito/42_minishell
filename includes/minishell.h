@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/03 20:26:59 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 21:53:30 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ char		**convert_env_to_array(void);
 char		**cleanup_failed_env_array(char **env_array, int filled_count);
 void		cleanup_n_exit(char **env_array, char *cmd_path);
 void		free_env_array(char **env_array);
+void		free_env_list(t_env *head);
 
 //pipes
 int			has_pipes(t_command *cmd);

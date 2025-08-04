@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 01:09:14 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/30 23:16:34 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/04 00:19:52 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void			handle_store_env(char **system_env);
 static t_env	*create_env_node(char *env_data);
 t_env			**handle_t_env(t_env *head);
-static void		free_env_list(t_env *head);
+void			free_env_list(t_env *head);
 void			ft_free_split(char **array);
 
 void	handle_store_env(char **system_env)
@@ -50,12 +50,15 @@ static t_env	*create_env_node(char *env_data)
 
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)
+	{
+		free(new_node);
 		return (NULL);
+	}
 	new_node->env_data = ft_strdup(env_data);
 	if (!new_node->env_data)
 	{
 		free(new_node);
-		return (NULL);
+		return (NULL); 
 	}
 	new_node->next = NULL;
 	return (new_node);
@@ -70,7 +73,7 @@ t_env	**handle_t_env(t_env *head)
 	return (&env);
 }
 
-static void	free_env_list(t_env *head)
+void	free_env_list(t_env *head)
 {
 	t_env	*tmp;
 	t_env	*next;

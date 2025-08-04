@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:26 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 19:05:49 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 21:47:01 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	exit_minishell(t_command *cmd)
 		exit_code = ft_atoi_exit(cmd->args[1]);
 		exit(calculate_exit_code(exit_code));
 	}
+	free_env_list(*handle_t_env(NULL));
 }
 
 static int	is_valid_number(char *str)
