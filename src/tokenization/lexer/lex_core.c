@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_token.c                                        :+:      :+:    :+:   */
+/*   lex_core.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 22:54:15 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/04 16:36:51 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ static int	lex_token(char *input);
 static int	tokenize_input(char *input, t_token **token_lst);
 static int	process_commands(t_command *commands);
 static int	handle_op(char *input, t_token **token_lst, int i);
-int			handle_att_w_quote(char *input, t_token **token_lst, int i);
-int			is_assignment_with_quotes(char *input, int start);
-static int	has_adjacent_quotes(char *input, int start);
 
 int	process_input(char *input)
 {
@@ -130,76 +127,4 @@ static int	handle_op(char *input, t_token **token_lst, int i)
 		return (1);
 	}
 	return (0);
-}
-
-int	handle_att_w_quote(char *input, t_token **token_lst, int i)
-{
-	int		start;
-	int		j;
-	char	*full_word;
-	int		len;
-	char	quote_char;
-
-	start = i;
-	j = i;
-	while (input[j] && !ft_isspace(input[j]) && !ft_isop(input[j])
-		&& input[j] != '$')
-	{
-		if (input[j] == '\'' || input[j] == '"')
-		{
-			quote_char = input[j];
-			j++;
-			while (input[j] && input[j] != quote_char)
-				j++;
-			if (input[j] == quote_char)
-				j++;
-		}
-		else
-			j++;
-	}
-	len = j - start;
-	full_word = ft_substr(input, start, len);
-	if (!full_word)
-		return (len);
-	add_token(token_lst, full_word, WORD);
-	free(full_word);
-	return (len);
-}
-
-int	is_assignment_with_quotes(char *input, int start)
-{
-	int	i;
-
-	i = start;
-	while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
-		i++;
-	if (input[i] == '=' && (input[i + 1] == '"' || input[i + 1] == '\''))
-		return (1);
-	return (0);
-}
-
-static int	has_adjacent_quotes(char *input, int start)
-{
-	int	i;
-
-	i = start;
-	if (i > 0 && !ft_isspace(input[i - 1])
-		&& !ft_isop(input[i - 1]) && input[i - 1] != '$')
-		return (1);
-	while (input[i] && !ft_isspace(input[i])
-		&& !ft_isop(input[i]) && input[i] != '$')
-	{
-		if (input[i] == '\'' || input[i] == '"')
-		{
-			char	quote_char = input[i];
-			i++;
-			while (input[i] && input[i] != quote_char)
-				i++;
-			if (input[i] == quote_char)
-				i++;
-		}
-		else
-			i++;
-	}
-	return (i > start + 2);
 }

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/03 22:41:08 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/04 16:49:06 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,10 @@ int				ft_isspace(char c);
 int				ft_isop(char c);
 void			add_token(t_token **head, char *input, t_token_type type);
 void			free_tokens(t_token *head);
+int				has_adjacent_quotes(char *input, int start);
+int				is_assignment_with_quotes(char *input, int start);
+int				process_var_name(char *input, t_token **token_lst, int start);
+int				handle_special_vars(char *input, t_token **token_lst, int i);
 
 //lex handlers
 int				handle_quotes(char *input, t_token **token_lst, int i);

@@ -6,17 +6,17 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 22:53:21 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/04 16:46:02 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			handle_quotes(char *input, t_token **token_lst, int i);
-int			handle_var(char *input, t_token **token_lst, int i);
-static int	process_var_name(char *input, t_token **token_lst, int start);
-static int	handle_special_vars(char *input, t_token **token_lst, int i);
-int			handle_word_w_quotes(char *input, t_token **token_lst, int i);
+int		handle_quotes(char *input, t_token **token_lst, int i);
+int		handle_var(char *input, t_token **token_lst, int i);
+int		handle_word_w_quotes(char *input, t_token **token_lst, int i);
+int		handle_att_w_quote(char *input, t_token **token_lst, int i);
+int		handle_escape(char *input, t_token **token_lst);
 
 int	handle_quotes(char *input, t_token **token_lst, int i)
 {
@@ -85,39 +85,6 @@ int	handle_var(char *input, t_token **token_lst, int i)
 	return (process_var_name(input, token_lst, start));
 }
 
-static int	process_var_name(char *input, t_token **token_lst, int start)
-{
-	int		i;
-	int		len;
-	char	*var_name;
-
-	i = start + 1;
-	while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
-		i++;
-	len = i - start;
-	var_name = ft_substr(input, start, len);
-	if (!var_name)
-		return (len);
-	add_token(token_lst, var_name, VAR);
-	free(var_name);
-	return (len);
-}
-
-static int	handle_special_vars(char *input, t_token **token_lst, int i)
-{
-	if (input[i + 1] == '?')
-	{
-		add_token(token_lst, "$?", VAR);
-		return (2);
-	}
-	if (input[i + 1] == '$')
-	{
-		add_token(token_lst, "$$", VAR);
-		return (2);
-	}
-	return (1);
-}
-
 int	handle_word_w_quotes(char *input, t_token **token_lst, int i)
 {
 	int		start;
@@ -149,4 +116,83 @@ int	handle_word_w_quotes(char *input, t_token **token_lst, int i)
 	add_token(token_lst, full_word, WORD);
 	free(full_word);
 	return (len);
+}
+
+int	handle_att_w_quote(char *input, t_token **token_lst, int i)
+{
+	int		start;
+	int		j;
+	char	*full_word;
+	int		len;
+	char	quote_char;
+
+	start = i;
+	j = i;
+	while (input[j] && !ft_isspace(input[j]) && !ft_isop(input[j])
+		&& input[j] != '$')
+	{
+		if (input[j] == '\'' || input[j] == '"')
+		{
+			quote_char = input[j];
+			j++;
+			while (input[j] && input[j] != quote_char)
+				j++;
+			if (input[j] == quote_char)
+				j++;
+		}
+		else
+			j++;
+	}
+	len = j - start;
+	full_word = ft_substr(input, start, len);
+	if (!full_word)
+		return (len);
+	add_token(token_lst, full_word, WORD);
+	free(full_word);
+	return (len);
+}
+
+int	handle_escape(char *input, t_token **token_lst)
+{
+	char	*w_esc;
+	int		j;
+	int		a;
+	int		final_escape_i;
+	int		first_escape_i;
+	int		flag;
+	size_t	size;
+	char	*new_word;
+
+	j = -1;
+	first_escape_i = 0;
+	flag = 0;
+	while (input[++j])
+	{
+		if (ft_isspace(input[j]) && (ft_isalnum(input[j + 1])
+				|| (unsigned char)input[j + 1] > 127) && flag == 0)
+		{
+			j++;
+			flag = 1;
+			first_escape_i = j;
+		}
+	}
+	final_escape_i = j;
+	w_esc = ft_substr(input, first_escape_i, first_escape_i - final_escape_i);
+	size = ft_strlen(w_esc);
+	new_word = malloc(sizeof(char) * (size + 1));
+	j = -1;
+	a = 0;
+	while (w_esc[++j])
+	{
+		if (w_esc[j] != '\\' && w_esc[j] != '/')
+		{
+			new_word[a] = w_esc[j];
+			a++;
+		}
+	}
+	new_word[a] = '\0';
+	add_token(token_lst, new_word, DOUBLE_QUOTE);
+	free(w_esc);
+	free(new_word);
+	return (0);
 }
