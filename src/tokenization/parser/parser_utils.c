@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:39:52 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 22:43:51 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 22:46:57 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	add_redirection(t_command *cmd, t_token_type type, char *file);
 int	allocate_command_arrays(t_command *cmd, int arg_count)
 {
 	t_env	*env;
-	int count_env;
-	int	i;
+	int		count_env;
+	int		i;
 
 	count_env = -1;
 	env = *handle_t_env(NULL);
-	while(env)
+	while (env)
 	{
 		env = env->next;
 		count_env++;

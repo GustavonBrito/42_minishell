@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 22:34:55 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 22:50:57 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,44 +64,45 @@ void	add_token(t_token **head, char *input, t_token_type type)
 
 int	handle_escape(char *input, t_token **token_lst)
 {
-	char	*word_escaped;
-	int 	j;
-	int 	a;
-	int		final_escape_index;
-	int 	first_escape_index;
+	char	*w_esc;
+	int		j;
+	int		a;
+	int		final_escape_i;
+	int		first_escape_i;
 	int		flag;
 	size_t	size;
 	char	*new_word;
 
 	j = -1;
-	first_escape_index = 0;
+	first_escape_i = 0;
 	flag = 0;
 	while (input[++j])
 	{
-		if (ft_isspace(input[j]) && (ft_isalnum(input[j + 1]) || (unsigned char)input[j + 1] > 127) && flag == 0)
+		if (ft_isspace(input[j]) && (ft_isalnum(input[j + 1])
+				|| (unsigned char)input[j + 1] > 127) && flag == 0)
 		{
 			j++;
 			flag = 1;
-			first_escape_index = j;
+			first_escape_i = j;
 		}
 	}
-	final_escape_index = j;
-	word_escaped = ft_substr(input, first_escape_index, first_escape_index - final_escape_index);
-	size = ft_strlen(word_escaped);
+	final_escape_i = j;
+	w_esc = ft_substr(input, first_escape_i, first_escape_i - final_escape_i);
+	size = ft_strlen(w_esc);
 	new_word = malloc(sizeof(char) * (size + 1));
 	j = -1;
 	a = 0;
-	while(word_escaped[++j])
+	while (w_esc[++j])
 	{
-		if (word_escaped[j] != '\\' && word_escaped[j] != '/')
+		if (w_esc[j] != '\\' && w_esc[j] != '/')
 		{
-			new_word[a] = word_escaped[j];
+			new_word[a] = w_esc[j];
 			a++;
 		}
 	}
 	new_word[a] = '\0';
 	add_token(token_lst, new_word, DOUBLE_QUOTE);
-	free(word_escaped);
+	free(w_esc);
 	free(new_word);
 	return (0);
 }

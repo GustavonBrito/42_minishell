@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 22:39:58 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 22:53:21 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	handle_quotes(char *input, t_token **token_lst, int i)
 			{
 				quote_count = 1;
 				temp_j = j + 1;
-				while (input[temp_j] && input[temp_j] != ' ' && input[temp_j] != '|')
+				while (input[temp_j] && input[temp_j] != ' '
+					&& input[temp_j] != '|')
 				{
 					if (input[temp_j] == '"')
 						quote_count++;
