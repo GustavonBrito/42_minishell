@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/24 01:43:04 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 21:12:58 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,6 @@ char	*get_env_val(const char *var_name);
 char	*append_char(char *dest, char c);
 int		handle_regular_char(const char *str, char **res, int i);
 
-/**
- * @brief Concatena uma string de origem a uma string de destino, realocando
- * conforme necessário.
- *
- * Esta função cria uma nova string que é a concatenação de `dest` e `src`.
- * A memória da string `dest` original é liberada.
- *
- * @param dest A string de destino (será liberada).
- * @param src A string de origem a ser anexada.
- * @return Uma nova string com o conteúdo concatenado, ou NULL em caso de erro
- *         de alocação.
- */
 char	*append_str(char *dest, const char *src)
 {
 	char	*new_str;
@@ -47,17 +35,6 @@ char	*append_str(char *dest, const char *src)
 	return (new_str);
 }
 
-/**
- * @brief Obtém o valor de uma variável de ambiente.
- *
- * Esta função usa `getenv` para buscar o valor de uma variável de ambiente.
- * Se a variável não for encontrada, retorna uma string vazia duplicada.
- * Caso contrário, retorna uma cópia duplicada do valor encontrado.
- *
- * @param var_name O nome da variável de ambiente.
- * @return Uma nova string contendo o valor da variável, ou uma string vazia
- *         se a var não for definida. Retorna NULL em caso de erro de alocação.
- */
 char	*get_env_val(const char *var_name)
 {
 	char	*value;
@@ -68,16 +45,6 @@ char	*get_env_val(const char *var_name)
 	return (ft_strdup(value));
 }
 
-/**
- * @brief Anexa um único char a uma string, realocando conforme necessário.
- *
- * Esta função cria uma nova string que contém o conteúdo original de `dest`
- * seguido pelo caractere `c`. A memória da string `dest` original é liberada.
- *
- * @param dest A string de destino (será liberada).
- * @param c O caractere a ser anexado.
- * @return Uma nova string com o char anexado, ou NULL em caso de erro.
- */
 char	*append_char(char *dest, char c)
 {
 	char	*new_str;
@@ -97,16 +64,6 @@ char	*append_char(char *dest, char c)
 	return (new_str);
 }
 
-/**
- * @brief Lida com caracteres que não são parte de uma expansão de variável.
- *
- * Simplesmente anexa o char atual da string de entrada à string de resultado.
- *
- * @param str A string de entrada.
- * @param res Um ponteiro para a string de resultado onde o char será anexado.
- * @param i O índice do caractere atual em `str`.
- * @return 1 se o caractere foi anexado com sucesso, 0 em caso de falha.
- */
 int	handle_regular_char(const char *str, char **res, int i)
 {
 	*res = append_char(*res, str[i]);
