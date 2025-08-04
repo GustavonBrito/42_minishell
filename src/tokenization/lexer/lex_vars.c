@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/04 16:44:52 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/04 16:50:50 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	handle_special_vars(char *input, t_token **token_lst, int i)
 	}
 	return (1);
 }
-
 
 int	is_assignment_with_quotes(char *input, int start)
 {
