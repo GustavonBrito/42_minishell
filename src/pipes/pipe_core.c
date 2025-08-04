@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 20:07:44 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 20:29:02 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,7 @@ int	count_commands(t_command *cmd)
 
 static int	wait_all_processes(t_pipe *pipes)
 {
-	int	status;
 	int	i;
-	int	exit_status;
 	int	last_exit_status;
 
 	i = 0;
@@ -89,21 +87,7 @@ static int	wait_all_processes(t_pipe *pipes)
 	while (i < pipes->total_commands)
 	{
 		if (pipes->pids[i] != -1)
-		{
-			waitpid(pipes->pids[i], &status, 0);
-			if (WIFEXITED(status))
-			{
-				exit_status = WEXITSTATUS(status);
-				if (i == (pipes->total_commands - 1))
-					last_exit_status = exit_status;
-			}
-			else if (WIFSIGNALED(status))
-			{
-				exit_status = 128 + WTERMSIG(status);
-				if (i == (pipes->total_commands - 1))
-					last_exit_status = exit_status;
-			}
-		}
+			last_exit_status = wait_single_process(pipes, i);
 		i++;
 	}
 	g_exit_status = last_exit_status;

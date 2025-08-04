@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 17:55:08 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 20:05:48 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 20:22:43 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int			init_pipeline(t_pipe *pipes, t_command *cmd);
 static int	init_pipe_arrays(t_pipe *pipes);
-static void	init_pipe_fds(t_pipe *pipes);
+void		init_pipe_fds(t_pipe *pipes);
 int			create_pipe(int pipe_fd[2]);
 void		cleanup_pipeline(t_pipe *pipes);
 
@@ -37,38 +37,17 @@ int	init_pipeline(t_pipe *pipes, t_command *cmd)
 
 static int	init_pipe_arrays(t_pipe *pipes)
 {
-	int	i;
-
-	pipes->pids = malloc(sizeof(pid_t) * pipes->total_commands);
-	if (!pipes->pids)
-	{
-		g_exit_status = 1;
+	if (allocate_pids_array(pipes) != 0)
 		return (-1);
-	}
-	i = 0;
-	while (i < pipes->total_commands)
-	{
-		pipes->pids[i] = -1;
-		i++;
-	}
 	if (pipes->total_commands == 1)
 	{
 		pipes->pipe_fds = NULL;
 		return (0);
 	}
-	pipes->pipe_fds = malloc(sizeof(int *) * (pipes->total_commands - 1));
-	if (!pipes->pipe_fds)
-	{
-		free(pipes->pids);
-		g_exit_status = 1;
-		pipes->pids = NULL;
-		return (-1);
-	}
-	init_pipe_fds(pipes);
-	return (0);
+	return (allocate_pipe_fds_array(pipes));
 }
 
-static void	init_pipe_fds(t_pipe *pipes)
+void	init_pipe_fds(t_pipe *pipes)
 {
 	int	i;
 

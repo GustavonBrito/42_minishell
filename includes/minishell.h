@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/03 20:08:41 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 20:26:59 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,12 @@ void		setup_child_pipes(t_pipe *pipes, int cmd_index);
 void		execute_child_command(t_command *cmd);
 void		free_pipe_fds(t_pipe *pipes);
 void		free_partial_fds(t_pipe *pipes, int max_index);
+int			allocate_pids_array(t_pipe *pipes);
+int			allocate_pipe_fds_array(t_pipe *pipes);
+void		init_pipe_fds(t_pipe *pipes);
+void		close_pipe_fd(int *fd);
+int			wait_single_process(t_pipe *pipes, int index);
+int			get_exit_status_from_wait(int status);
 
 //error handling
 int			report_error(const char *msg, int exit_code);
