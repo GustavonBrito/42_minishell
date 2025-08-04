@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/04 16:46:02 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/04 17:40:10 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,51 +22,14 @@ int	handle_quotes(char *input, t_token **token_lst, int i)
 {
 	char	quote_char;
 	int		start;
-	int		j;
-	char	*quoted_content;
-	int		len;
-	int		quote_count;
-	int		temp_j;
+	int		end_pos;
 
 	quote_char = input[i];
 	start = i;
-	j = i + 1;
-	while (input[j])
-	{
-		if (input[j] == quote_char)
-		{
-			if (quote_char == '"')
-			{
-				quote_count = 1;
-				temp_j = j + 1;
-				while (input[temp_j] && input[temp_j] != ' '
-					&& input[temp_j] != '|')
-				{
-					if (input[temp_j] == '"')
-						quote_count++;
-					temp_j++;
-				}
-				if (quote_count % 2 == 0)
-					break ;
-			}
-			else
-				break ;
-		}
-		j++;
-	}
-	if (input[j] != quote_char)
+	end_pos = find_quote_end(input, i, quote_char);
+	if (end_pos == -1)
 		return (1);
-	j++;
-	len = j - start;
-	quoted_content = ft_substr(input, start, len);
-	if (!quoted_content)
-		return (len);
-	if (quote_char == '\'')
-		add_token(token_lst, quoted_content, SINGLE_QUOTE);
-	else
-		add_token(token_lst, quoted_content, DOUBLE_QUOTE);
-	free(quoted_content);
-	return (len);
+	return (quote_token(input, token_lst, start, end_pos));
 }
 
 int	handle_var(char *input, t_token **token_lst, int i)
