@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 21:12:58 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 21:56:39 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*append_str(char *dest, const char *src);
 char	*get_env_val(const char *var_name);
 char	*append_char(char *dest, char c);
 int		handle_regular_char(const char *str, char **res, int i);
+int		handle_expand_error(char *expand);
 
 char	*append_str(char *dest, const char *src)
 {
@@ -70,4 +71,10 @@ int	handle_regular_char(const char *str, char **res, int i)
 	if (!*res)
 		return (0);
 	return (1);
+}
+
+int	handle_expand_error(char *expand)
+{
+	free(expand);
+	return (report_error("memory allocation error", 1));
 }

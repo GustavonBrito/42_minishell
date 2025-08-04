@@ -1,63 +1,73 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_var.c                                       :+:      :+:    :+:   */
+/*   tilde_exp.c.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 21:13:20 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/03 22:25:49 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		expand_exit_status(char **res);
-char	*itoa_exit_status(void);
-int		expand_process_id(char **res);
-char	*itoa_process_id(void);
-int		expand_env_var(const char *str, char **res, int i_cmd);
+int			handle_tilde_expansion(const char *str, char **res, int i_cmd);
+static int	handle_no_home_env(char **res);
+static int	exp_tilde_path(const char *str, char **res, int i_cmd, int start);
+char		*remove_quotes(char *str);
+char		*itoa_process_id(void);
 
-int	expand_exit_status(char **res)
+int	handle_tilde_expansion(const char *str, char **res, int i_cmd)
 {
-	char	*temp;
+	char	*home;
+	int		start;
 
-	temp = itoa_exit_status();
-	if (!temp)
-	{
-		free(*res);
-		*res = NULL;
-		return (0);
-	}
-	*res = append_str(*res, temp);
-	free(temp);
+	start = i_cmd;
+	home = getenv("HOME");
+	if (!home)
+		return (handle_no_home_env(res));
+	if (str[i_cmd + 1] == '\0' || str[i_cmd + 1] == '/')
+		return (exp_tilde_path(str, res, i_cmd, start));
+	return (append_literal_tilde(res));
+}
+
+static int	handle_no_home_env(char **res)
+{
+	*res = append_char(*res, '~');
 	if (!*res)
 		return (0);
 	return (1);
 }
 
-char	*itoa_exit_status(void)
+static int	exp_tilde_path(const char *str, char **res, int i_cmd, int start)
 {
-	return (ft_itoa(g_exit_status));
-}
+	char	*home;
 
-
-int	expand_process_id(char **res)
-{
-	char	*temp;
-
-	temp = itoa_process_id();
-	if (!temp)
-	{
-		free(*res);
-		*res = NULL;
-		return (0);
-	}
-	*res = append_str(*res, temp);
-	free(temp);
+	home = getenv("HOME");
+	*res = append_str(*res, home);
 	if (!*res)
 		return (0);
-	return (1);
+	i_cmd++;
+	if (str[i_cmd] == '/')
+		i_cmd = append_remaining_path(str, res, i_cmd);
+	return (i_cmd - start);
+}
+
+char	*remove_quotes(char *str)
+{
+	int		len;
+	char	*result;
+
+	if (!str)
+		return (str);
+	len = ft_strlen(str);
+	if (len == 0)
+		return (str);
+	result = malloc(len + 1);
+	if (!result)
+		return (NULL);
+	return (process_quote_rm(str, result));
 }
 
 char	*itoa_process_id(void)
@@ -82,28 +92,4 @@ char	*itoa_process_id(void)
 	result = ft_strdup(buffer_splitted[0]);
 	ft_free_split(buffer_splitted);
 	return (result);
-}
-
-int	expand_env_var(const char *str, char **res, int i_cmd)
-{
-	char	var_input[256];
-	int		i_var;
-	char	*temp;
-	int		start;
-
-	start = i_cmd;
-	i_var = 0;
-	while (str[i_cmd] && (ft_isalnum(str[i_cmd]) || str[i_cmd] == '_'))
-		var_input[i_var++] = str[i_cmd++];
-	var_input[i_var] = '\0';
-	temp = get_env_val(var_input);
-	if (!temp)
-	{
-		free(*res);
-		*res = NULL;
-		return (0);
-	}
-	*res = append_str(*res, temp);
-	free(temp);
-	return (i_cmd - start);
 }
