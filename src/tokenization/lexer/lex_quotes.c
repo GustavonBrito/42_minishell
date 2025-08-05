@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_utils2.c                                       :+:      :+:    :+:   */
+/*   lex_quotes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:30:45 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/04 17:43:48 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/05 02:17:45 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int			find_quote_end(char *input, int i, char quote_char);
 int			quote_token(char *input, t_token **token_lst, int start, int end);
 static int	is_valid_double_quote_end(char *input, int pos);
 static void	add_quote_by_type(t_token **tkn_lst, char *content, char qte_char);
+int			skip_quoted_section(char *input, int j);
 
 int	find_quote_end(char *input, int i, char quote_char)
 {
@@ -77,4 +78,17 @@ static void	add_quote_by_type(t_token **tkn_lst, char *content, char qte_char)
 		add_token(tkn_lst, content, SINGLE_QUOTE);
 	else
 		add_token(tkn_lst, content, DOUBLE_QUOTE);
+}
+
+int	skip_quoted_section(char *input, int j)
+{
+	char	quote_char;
+
+	quote_char = input[j];
+	j++;
+	while (input[j] && input[j] != quote_char)
+		j++;
+	if (input[j] == quote_char)
+		j++;
+	return (j);
 }

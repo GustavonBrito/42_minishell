@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/05 02:11:59 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/05 02:20:18 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,9 @@ int				find_quote_end(char *input, int i, char quote_char);
 int				quote_token(char *input, t_token **tkn_lst, int strt, int end);
 int				find_word_end(char *input, int i);
 int				find_asg_end(char *input, int i);
+int				skip_quoted_section(char *input, int j);
+int				find_escape_start(char *input);
+char			*process_escape_chars(char *w_esc);
 int				create_token(char *input, t_token **tkn_lst, int start,
 					int len);
 

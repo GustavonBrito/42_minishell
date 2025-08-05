@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/05 02:12:52 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/05 02:23:19 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,42 +75,21 @@ int	handle_att_quote(char *input, t_token **token_lst, int i)
 int	handle_escape(char *input, t_token **token_lst)
 {
 	char	*w_esc;
-	int		j;
-	int		a;
-	int		final_escape_i;
 	int		first_escape_i;
-	int		flag;
-	size_t	size;
+	int		final_escape_i;
 	char	*new_word;
 
-	j = -1;
-	first_escape_i = 0;
-	flag = 0;
-	while (input[++j])
+	first_escape_i = find_escape_start(input);
+	final_escape_i = ft_strlen(input);
+	w_esc = ft_substr(input, first_escape_i, (final_escape_i - first_escape_i));
+	if (!w_esc)
+		return (-1);
+	new_word = process_escape_chars(w_esc);
+	if (!new_word)
 	{
-		if (ft_isspace(input[j]) && (ft_isalnum(input[j + 1])
-				|| (unsigned char)input[j + 1] > 127) && flag == 0)
-		{
-			j++;
-			flag = 1;
-			first_escape_i = j;
-		}
+		free(w_esc);
+		return (-1);
 	}
-	final_escape_i = j;
-	w_esc = ft_substr(input, first_escape_i, first_escape_i - final_escape_i);
-	size = ft_strlen(w_esc);
-	new_word = malloc(sizeof(char) * (size + 1));
-	j = -1;
-	a = 0;
-	while (w_esc[++j])
-	{
-		if (w_esc[j] != '\\' && w_esc[j] != '/')
-		{
-			new_word[a] = w_esc[j];
-			a++;
-		}
-	}
-	new_word[a] = '\0';
 	add_token(token_lst, new_word, DOUBLE_QUOTE);
 	free(w_esc);
 	free(new_word);
