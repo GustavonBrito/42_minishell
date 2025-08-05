@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/05 02:00:01 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/05 02:12:52 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,41 +57,19 @@ int	handle_word_quotes(char *input, t_token **token_lst, int i)
 	start = i;
 	end = find_word_end(input, i);
 	len = end - start;
-	return (create_w_token(input, token_lst, start, len));
+	return (create_token(input, token_lst, start, len));
 }
 
 int	handle_att_quote(char *input, t_token **token_lst, int i)
 {
 	int		start;
-	int		j;
-	char	*full_word;
+	int		end;
 	int		len;
-	char	quote_char;
 
 	start = i;
-	j = i;
-	while (input[j] && !ft_isspace(input[j]) && !ft_isop(input[j])
-		&& input[j] != '$')
-	{
-		if (input[j] == '\'' || input[j] == '"')
-		{
-			quote_char = input[j];
-			j++;
-			while (input[j] && input[j] != quote_char)
-				j++;
-			if (input[j] == quote_char)
-				j++;
-		}
-		else
-			j++;
-	}
-	len = j - start;
-	full_word = ft_substr(input, start, len);
-	if (!full_word)
-		return (len);
-	add_token(token_lst, full_word, WORD);
-	free(full_word);
-	return (len);
+	end = find_asg_end(input, i);
+	len = end - start;
+	return (create_token(input, token_lst, start, len));
 }
 
 int	handle_escape(char *input, t_token **token_lst)
