@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 16:54:01 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/04 17:02:16 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/05 02:00:01 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int	handle_quote_token(char *input, t_token **token_lst, int i)
 int	handle_word_token(char *input, t_token **token_lst, int i)
 {
 	if (is_assignment_with_quotes(input, i))
-		return (i + handle_att_w_quote(input, token_lst, i));
+		return (i + handle_att_quote(input, token_lst, i));
 	else
-		return (i + handle_word_w_quotes(input, token_lst, i));
+		return (i + handle_word_quotes(input, token_lst, i));
 }
 
 static int	handle_input_redir(char *input, t_token **token_lst, int i)

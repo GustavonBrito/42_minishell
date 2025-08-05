@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/04 17:40:10 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/05 02:00:01 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 int		handle_quotes(char *input, t_token **token_lst, int i);
 int		handle_var(char *input, t_token **token_lst, int i);
-int		handle_word_w_quotes(char *input, t_token **token_lst, int i);
-int		handle_att_w_quote(char *input, t_token **token_lst, int i);
+int		handle_word_quotes(char *input, t_token **token_lst, int i);
+int		handle_att_quote(char *input, t_token **token_lst, int i);
 int		handle_escape(char *input, t_token **token_lst);
 
 int	handle_quotes(char *input, t_token **token_lst, int i)
 {
 	char	quote_char;
 	int		start;
-	int		end_pos;
+	int		end;
 
 	quote_char = input[i];
 	start = i;
-	end_pos = find_quote_end(input, i, quote_char);
-	if (end_pos == -1)
+	end = find_quote_end(input, i, quote_char);
+	if (end == -1)
 		return (1);
-	return (quote_token(input, token_lst, start, end_pos));
+	return (quote_token(input, token_lst, start, end));
 }
 
 int	handle_var(char *input, t_token **token_lst, int i)
@@ -48,40 +48,19 @@ int	handle_var(char *input, t_token **token_lst, int i)
 	return (process_var_name(input, token_lst, start));
 }
 
-int	handle_word_w_quotes(char *input, t_token **token_lst, int i)
+int	handle_word_quotes(char *input, t_token **token_lst, int i)
 {
 	int		start;
-	int		j;
-	char	*full_word;
+	int		end;
 	int		len;
-	char	quote_char;
 
 	start = i;
-	j = i;
-	while (input[j] && !ft_isspace(input[j]) && !ft_isop(input[j]))
-	{
-		if (input[j] == '\'' || input[j] == '"')
-		{
-			quote_char = input[j];
-			j++;
-			while (input[j] && input[j] != quote_char)
-				j++;
-			if (input[j] == quote_char)
-				j++;
-		}
-		else
-			j++;
-	}
-	len = j - start;
-	full_word = ft_substr(input, start, len);
-	if (!full_word)
-		return (len);
-	add_token(token_lst, full_word, WORD);
-	free(full_word);
-	return (len);
+	end = find_word_end(input, i);
+	len = end - start;
+	return (create_w_token(input, token_lst, start, len));
 }
 
-int	handle_att_w_quote(char *input, t_token **token_lst, int i)
+int	handle_att_quote(char *input, t_token **token_lst, int i)
 {
 	int		start;
 	int		j;

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/04 17:39:27 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/05 02:02:48 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,16 @@ int				process_var_name(char *input, t_token **token_lst, int start);
 int				is_quote_token(char *input, int i);
 int				find_quote_end(char *input, int i, char quote_char);
 int				quote_token(char *input, t_token **tkn_lst, int strt, int end);
+int				find_word_end(char *input, int i);
+int				create_w_token(char *input, t_token **tkn_lst, int start,
+					int len);
 
 //lex handlers
 int				handle_quotes(char *input, t_token **token_lst, int i);
 int				handle_var(char *input, t_token **token_lst, int i);
-int				handle_att_w_quote(char *input, t_token **token_lst, int i);
+int				handle_att_quote(char *input, t_token **token_lst, int i);
 int				handle_escape(char *input, t_token **token_lst);
-int				handle_word_w_quotes(char *input, t_token **token_lst, int i);
+int				handle_word_quotes(char *input, t_token **token_lst, int i);
 int				handle_special_vars(char *input, t_token **token_lst, int i);
 int				handle_op(char *input, t_token **token_lst, int i);
 int				handle_quote_token(char *input, t_token **token_lst, int i);
