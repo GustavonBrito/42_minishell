@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/05 02:35:01 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/05 02:46:09 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ void			finalize_command_arrays(t_command *cmd, int arg_count);
 void			add_redirection(t_command *cmd, t_token_type type, char *file);
 t_command		*init_command(void);
 int				handle_parse_error(t_token *token, t_command *first_cmd);
+void			initialize_arrays(t_command *cmd, int arg_count);
 
 //expand vars
 int				expand_variables(t_command *cmd);

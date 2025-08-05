@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 21:10:55 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/05 02:45:56 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	check_exit_condition(char *buffer_received);
 void	signal_handler(int signal);
 char	*obtain_current_directory(void);
 char	*get_env_or_cleanup(const char *var, char *to_free);
+void	initialize_arrays(t_command *cmd, int arg_count);
 
 void	check_exit_condition(char *buffer_received)
 {
@@ -57,4 +58,18 @@ char	*get_env_or_cleanup(const char *var, char *to_free)
 		return (NULL);
 	}
 	return (value);
+}
+
+void	initialize_arrays(t_command *cmd, int arg_count)
+{
+	int	i;
+
+	i = 0;
+	while (i <= arg_count)
+	{
+		cmd->args[i] = NULL;
+		cmd->quote_removed[i] = 0;
+		cmd->token_types[i] = WORD;
+		i++;
+	}
 }
