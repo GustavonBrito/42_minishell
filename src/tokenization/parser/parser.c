@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:35:32 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 22:46:15 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/05 02:35:44 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 t_command			*parse_tokens(t_token *tokens);
 static t_command	*parse_command(t_token **current);
+static t_command	*parse_next_cmd(t_token **c_token, t_command *frst_cmd);
 t_command			*init_command(void);
 static int			count_args(t_token *start);
 
@@ -32,14 +33,7 @@ t_command	*parse_tokens(t_token *tokens)
 	current_command = first_command;
 	while (current_token && current_token->type == PIPE)
 	{
-		current_token = current_token->next;
-		if (!current_token)
-		{
-			report_error("syntax error near unexpected token 'newline'", 2);
-			free_commands(first_command);
-			return (NULL);
-		}
-		current_command->next = parse_command(&current_token);
+		current_command->next = parse_next_cmd(&current_token, first_command);
 		if (!current_command->next)
 		{
 			free_commands(first_command);
@@ -70,6 +64,22 @@ static t_command	*parse_command(t_token **current)
 		return (NULL);
 	}
 	return (cmd);
+}
+
+static t_command	*parse_next_cmd(t_token **c_token, t_command *frst_cmd)
+{
+	t_command	*next_cmd;
+
+	*c_token = (*c_token)->next;
+	if (!handle_parse_error(*c_token, frst_cmd))
+		return (NULL);
+	next_cmd = parse_command(c_token);
+	if (!next_cmd)
+	{
+		free_commands(frst_cmd);
+		return (NULL);
+	}
+	return (next_cmd);
 }
 
 t_command	*init_command(void)

@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:39:52 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 22:46:57 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/05 02:32:04 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int		is_redirection_token(t_token_type type);
 int		handle_redirection_parsing(t_command *cmd, t_token **current);
 void	finalize_command_arrays(t_command *cmd, int arg_count);
 void	add_redirection(t_command *cmd, t_token_type type, char *file);
+int		handle_parse_error(t_token *token, t_command *first_cmd);
 
 int	allocate_command_arrays(t_command *cmd, int arg_count)
 {
@@ -190,4 +191,15 @@ void	add_redirection(t_command *cmd, t_token_type type, char *file)
 			current = current->next;
 		current->next = new_redir;
 	}
+}
+
+int	handle_parse_error(t_token *token, t_command *first_cmd)
+{
+	if (!token)
+	{
+		report_error("syntax error near unexpected token 'newline'", 2);
+		free_commands(first_cmd);
+		return (0);
+	}
+	return (1);
 }
