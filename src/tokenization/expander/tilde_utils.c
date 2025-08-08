@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 22:11:11 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 22:16:46 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/08 19:17:21 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int			append_remaining_path(const char *str, char **res, int i_cmd);
 int			append_literal_tilde(char **res);
 char		*process_quote_rm(char *str, char *result);
 static int	is_quote_char(char c);
-static int	skip_quoted_section(char *str, char *result, int *j, int i);
+static int	skip_q_section(char *str, char *result, int *j, int i);
 
 int	append_remaining_path(const char *str, char **res, int i_cmd)
 {
@@ -48,7 +48,7 @@ char	*process_quote_rm(char *str, char *result)
 	while (str[i])
 	{
 		if (is_quote_char(str[i]))
-			i = skip_quoted_section(str, result, &j, i);
+			i = skip_q_section(str, result, &j, i);
 		else
 			result[j++] = str[i++];
 	}
@@ -61,7 +61,7 @@ static int	is_quote_char(char c)
 	return (c == '\'' || c == '"');
 }
 
-static int	skip_quoted_section(char *str, char *result, int *j, int i)
+static int	skip_q_section(char *str, char *result, int *j, int i)
 {
 	char	quote_char;
 
