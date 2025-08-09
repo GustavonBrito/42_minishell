@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/05 02:46:09 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/08 19:32:39 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,8 @@ int				create_heredoc_file(char *delimiter);
 void			restore_std_fds(int saved_stdin, int saved_stdout);
 int				validate_redirection(t_redir *redir);
 int				apply_redirection(t_redir *redir);
+char			*ft_realloc(char *ptr, int old_size, int new_size);
+
 
 //exec
 int				execute_command(t_command *cmd);
