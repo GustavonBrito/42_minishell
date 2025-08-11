@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/10 22:55:09 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/10 23:16:45 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef enum e_token_type
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
 	VAR,
-	ESCAPE
 }	t_token_type;
 
 typedef struct s_token
@@ -96,7 +95,6 @@ void			cd(t_command *cmd);
 void			env(int is_export);
 t_env			**handle_t_env(t_env *head);
 void			handle_store_env(char **system_env);
-int				handle_escape(char *input, t_token **token_lst);
 void			exit_minishell(t_command *cmd);
 void			export(t_command *cmd);
 int				validate_identifier(char *arg);
