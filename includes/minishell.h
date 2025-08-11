@@ -6,7 +6,7 @@
 /*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/08 19:32:39 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/10 22:55:09 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,6 @@ int				quote_token(char *input, t_token **tkn_lst, int strt, int end);
 int				find_word_end(char *input, int i);
 int				find_asg_end(char *input, int i);
 int				skip_quoted_section(char *input, int j);
-int				find_escape_start(char *input);
-char			*process_escape_chars(char *w_esc);
 int				create_token(char *input, t_token **tkn_lst, int start,
 					int len);
 
@@ -132,7 +130,6 @@ int				create_token(char *input, t_token **tkn_lst, int start,
 int				handle_quotes(char *input, t_token **token_lst, int i);
 int				handle_var(char *input, t_token **token_lst, int i);
 int				handle_att_quote(char *input, t_token **token_lst, int i);
-int				handle_escape(char *input, t_token **token_lst);
 int				handle_word_quotes(char *input, t_token **token_lst, int i);
 int				handle_special_vars(char *input, t_token **token_lst, int i);
 int				handle_op(char *input, t_token **token_lst, int i);
@@ -190,7 +187,6 @@ void			restore_std_fds(int saved_stdin, int saved_stdout);
 int				validate_redirection(t_redir *redir);
 int				apply_redirection(t_redir *redir);
 char			*ft_realloc(char *ptr, int old_size, int new_size);
-
 
 //exec
 int				execute_command(t_command *cmd);
