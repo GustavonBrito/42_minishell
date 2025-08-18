@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/16 14:36:50 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/08/16 15:01:22 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,5 +222,8 @@ int				get_exit_status_from_wait(int status);
 int				report_error(const char *msg, int exit_code);
 void			critical_error(const char *msg, int exit_code);
 void			write_err(const char *msg);
+
+//treat_leaks
+void			free_env_list(t_env *head);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/04 00:06:46 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/08/17 15:15:33 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	unset(t_command *cmd)
 	handle_t_env(head);
 }
 
-void free_split(char **buffer)
+void	free_split(char **buffer)
 {
 	int	i;
 

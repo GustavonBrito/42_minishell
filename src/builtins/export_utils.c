@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/30 22:32:06 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/17 15:32:26 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ char	*ft_strjoin_free(char *s1, char *s2)
 
 	joined = ft_strjoin(s1, s2);
 	if (joined == ((void *)0))
+	{
+		free(s1);
 		return (((void *)0));
+	}
 	free(s1);
 	return (joined);
 }
