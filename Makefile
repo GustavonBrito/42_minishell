@@ -28,12 +28,6 @@ $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-# LEAKS	:=	valgrind --leak-check=full --show-leak-kinds=all\
-# 		--track-origins=yes --log-file=valgrind-out.txt --track-fds=yes
-
-# val_leaks: all
-# 	@$(LEAKS) ./$(NAME)
-
 LEAKS := valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all \
 	--track-origins=yes --log-file=valgrind-out.txt --track-fds=yes \
 	--suppressions=$(CURDIR)/valgrind_readline.supp
@@ -56,4 +50,4 @@ re:
 
 .PHONY: all clean fclean re val_leaks
 
-# valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
+# valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=valgrind_readline.supp ./minishell
