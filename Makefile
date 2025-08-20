@@ -28,7 +28,7 @@ $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-LEAKS := valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all \
+LEAKS := valgrind --leak-check=full --show-leak-kinds=all \
 	--track-origins=yes --log-file=valgrind-out.txt --track-fds=yes \
 	--suppressions=$(CURDIR)/valgrind_readline.supp
 

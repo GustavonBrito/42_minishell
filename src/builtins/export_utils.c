@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/17 15:32:26 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/08/20 01:23:50 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	validate_identifier(char *arg)
 			return (0);
 		if (arg[j] == '=')
 			equal_passed = 1;
-		if (ft_isalnum(arg[j]) == 0 && (arg[j] != '=' || arg[j + 1] == '\0'))
+		if (ft_isalnum(arg[j]) == 0 && arg[j] != '_' && (arg[j] != '=' || arg[j + 1] == '\0'))
 			return (0);
 		j++;
 		first_passed = 1;
