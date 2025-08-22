@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsilva-x <lsilva-x@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/15 01:57:26 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/21 19:31:15 by lsilva-x         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		execute_command(t_command *cmd);
-int		execute_builtin_with_redirections(t_command *cmd);
+int		execute_builtin(t_command *cmd);
 int		execute_external_command(t_command *cmd);
 void	handle_command_execution(t_command *cmd);
-int		is_builtin_command(char *cmd);
+int		check_builtin(t_command *cmd);
 
 int	execute_command(t_command *cmd)
 {
@@ -26,97 +26,113 @@ int	execute_command(t_command *cmd)
 	int	exec_result;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
+	{
+		g_exit_status = 1;
 		return (0);
+	}
 	saved_stdin = dup(STDIN_FILENO);
+	(*handle_t_env(NULL))->fd_stdin = saved_stdin;
 	saved_stdout = dup(STDOUT_FILENO);
+	(*handle_t_env(NULL))->fd_stdout = saved_stdout;
 	redir_result = setup_redirections(cmd);
 	if (redir_result != 0)
 	{
 		restore_std_fds(saved_stdin, saved_stdout);
 		return (redir_result);
 	}
-	if (is_builtin_command(cmd->args[0]))
-		exec_result = execute_builtin_with_redirections(cmd);
+	if (check_builtin(cmd))
+		exec_result = execute_builtin(cmd);
 	else
 		exec_result = execute_external_command(cmd);
 	restore_std_fds(saved_stdin, saved_stdout);
 	return (exec_result);
 }
 
-int	execute_builtin_with_redirections(t_command *cmd)
+int	execute_builtin(t_command *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
-		return (1);
-	is_builtin(cmd->args);
-	return (0);
+	{
+		g_exit_status = 1;
+		return (g_exit_status);
+	}
+	is_builtin(cmd);
+	return (g_exit_status);
 }
 
-//norminette:+25 lines needs to be chopped
 int	execute_external_command(t_command *cmd)
 {
 	pid_t	pid;
-	int		status;
 
+	if (!cmd || !cmd->args || !cmd->args[0])
+	{
+		g_exit_status = 1;
+		return (g_exit_status);
+	}
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("minishell: fork");
-		return (1);
+		perror("minishell: fork ");
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
 	else if (pid == 0)
-	{
-		if (execvp(cmd->args[0], cmd->args) == -1)
-		{
-			ft_printf("minishell: %s: command not found\n", cmd->args[0]);
-			exit(127);
-		}
-	}
+		exit(run_external(cmd));
 	else
 	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			return (WEXITSTATUS(status));
-		else if (WIFSIGNALED(status))
-			return (128 + WTERMSIG(status));
+		waitpid(pid, &g_exit_status, 0);
+		if (WIFEXITED(g_exit_status))
+			return (WEXITSTATUS(g_exit_status));
+		else if (WIFSIGNALED(g_exit_status))
+			return (128 + WTERMSIG(g_exit_status));
 	}
-	return (0);
+	return (g_exit_status);
 }
 
 void	handle_command_execution(t_command *cmd)
 {
 	t_command	*current;
+	int			result;
 
-	current = cmd;
-	while (current)
+	if (!cmd)
 	{
-		g_exit_status = execute_command(current);
-		current = current->next;
-		// TODO: implement pipes
+		g_exit_status = 1;
+		return ;
+	}
+	current = cmd;
+	if (has_pipes(current))
+	{
+		result = execute_pipeline(current);
+		g_exit_status = result;
+	}
+	else
+	{
+		result = execute_command(current);
+		g_exit_status = result;
 	}
 }
 
-int	is_builtin_command(char *cmd)
+int	check_builtin(t_command *cmd)
 {
-	char	*trimmed;
-	int		result;
-
-	trimmed = ft_strtrim(cmd, " ");
-	if (!trimmed)
+	if (!cmd || !cmd->args || !cmd->args[0])
+	{
+		g_exit_status = 1;
 		return (0);
-	result = (ft_strncmp(trimmed, "echo", 4) == 0 && (trimmed[4] == ' '
-				|| trimmed[4] == '\0'))
-		|| (ft_strncmp(trimmed, "cd", 2) == 0 && (trimmed[2] == ' '
-				|| trimmed[2] == '\0'))
-		|| (ft_strncmp(trimmed, "pwd", 3) == 0 && (trimmed[3] == ' '
-				|| trimmed[3] == '\0'))
-		|| (ft_strncmp(trimmed, "export", 6) == 0 && (trimmed[6] == ' '
-				|| trimmed[6] == '\0'))
-		|| (ft_strncmp(trimmed, "unset", 5) == 0 && (trimmed[5] == ' '
-				|| trimmed[5] == '\0'))
-		|| (ft_strncmp(trimmed, "env", 3) == 0 && (trimmed[3] == ' '
-				|| trimmed[3] == '\0'))
-		|| (ft_strncmp(trimmed, "exit", 4) == 0 && (trimmed[4] == ' '
-				|| trimmed[4] == '\0'));
-	free(trimmed);
-	return (result);
+	}
+	if ((ft_strncmp(cmd->args[0], "echo", 4) == 0
+			&& ft_strlen(cmd->args[0]) == 4)
+		|| (ft_strncmp(cmd->args[0], "cd", 2) == 0
+			&& ft_strlen(cmd->args[0]) == 2)
+		|| (ft_strncmp(cmd->args[0], "pwd", 3) == 0
+			&& ft_strlen(cmd->args[0]) == 3)
+		|| (ft_strncmp(cmd->args[0], "export", 6) == 0
+			&& ft_strlen(cmd->args[0]) == 6)
+		|| (ft_strncmp(cmd->args[0], "unset", 5) == 0
+			&& ft_strlen(cmd->args[0]) == 5)
+		|| (ft_strncmp(cmd->args[0], "env", 3) == 0
+			&& ft_strlen(cmd->args[0]) == 3)
+		|| (ft_strncmp(cmd->args[0], "exit", 4) == 0
+			&& ft_strlen(cmd->args[0]) == 4))
+		return (1);
+	else
+		return (0);
 }

@@ -24,16 +24,16 @@ NAME = libft_gnl_printf.a
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
+	@ar rcs $(NAME) $(OBJS)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	@rm -f $(OBJS)
 
 fclean:
-	rm -f $(OBJS) $(NAME)
+	@rm -f $(OBJS) $(NAME)
 
 re:
 	@$(MAKE) fclean

@@ -3,46 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsilva-x <lsilva-x@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:35:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/06/15 01:56:55 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/21 16:45:52 by lsilva-x         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		create_heredoc_file(char *delimiter);
-void	restore_std_fds(int saved_stdin, int saved_stdout);
-
-int	create_heredoc_file(char *delimiter)
-{
-	char	*line;
-	int		pipe_fd[2];
-
-	if (pipe(pipe_fd) == -1)
-	{
-		perror("minishell: pipe");
-		return (-1);
-	}
-	ft_printf("> ");
-	line = readline("");
-	while (line != NULL)
-	{
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
-			&& ft_strlen(line) == ft_strlen(delimiter))
-		{
-			free(line);
-			break ;
-		}
-		write(pipe_fd[1], line, ft_strlen(line));
-		write(pipe_fd[1], "\n", 1);
-		free(line);
-		ft_printf("> ");
-	}
-	close(pipe_fd[1]);
-	return (pipe_fd[0]);
-}
+void		restore_std_fds(int saved_stdin, int saved_stdout);
+int			validate_redirection(t_redir *redir);
+static int	validate_input_redir(t_redir *redir);
+int			apply_redirection(t_redir *redir);
+char		*ft_realloc(char *ptr, int old_size, int new_size);
 
 void	restore_std_fds(int saved_stdin, int saved_stdout)
 {
@@ -56,4 +30,74 @@ void	restore_std_fds(int saved_stdin, int saved_stdout)
 		dup2(saved_stdout, STDOUT_FILENO);
 		close(saved_stdout);
 	}
+}
+
+int	validate_redirection(t_redir *redir)
+{
+	int	fd;
+
+	if (redir->type == REDIR_IN)
+		return (validate_input_redir(redir));
+	else if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
+	{
+		if (redir->type == REDIR_OUT)
+			fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else
+			fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd == -1)
+		{
+			perror(" ");
+			return (1);
+		}
+		close(fd);
+	}
+	return (0);
+}
+
+static int	validate_input_redir(t_redir *redir)
+{
+	int	fd;
+
+	fd = open(redir->file, O_RDONLY);
+	if (fd == -1)
+	{
+		perror(" ");
+		return (1);
+	}
+	close(fd);
+	return (0);
+}
+
+int	apply_redirection(t_redir *redir)
+{
+	if (redir->type == REDIR_IN)
+		return (handle_input_redirection(redir));
+	else if (redir->type == REDIR_OUT)
+		return (handle_output_redirection(redir));
+	else if (redir->type == REDIR_APPEND)
+		return (handle_append_redirection(redir));
+	else if (redir->type == HEREDOC)
+		return (handle_heredoc(redir));
+	return (0);
+}
+
+char	*ft_realloc(char *ptr, int old_size, int new_size)
+{
+	char	*new_ptr;
+	int		i;
+
+	new_ptr = malloc(new_size);
+	if (!new_ptr)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	i = 0;
+	while (i < old_size && i < new_size)
+	{
+		new_ptr[i] = ptr[i];
+		i++;
+	}
+	free(ptr);
+	return (new_ptr);
 }

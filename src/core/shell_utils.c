@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/06/15 01:50:08 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/16 15:00:48 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,17 @@
 
 void	check_exit_condition(char *buffer_received);
 void	signal_handler(int signal);
+char	*obtain_current_directory(void);
+char	*get_env_or_cleanup(const char *var, char *to_free);
+void	initialize_arrays(t_command *cmd, int arg_count);
 
 void	check_exit_condition(char *buffer_received)
 {
 	if (buffer_received == NULL)
 	{
 		ft_printf("exit\n");
+		rl_clear_history();
+		free_env_list(*handle_t_env(NULL));
 		exit(0);
 	}
 }
@@ -32,4 +37,41 @@ void	signal_handler(int signal)
 	rl_replace_line("", 0);
 	rl_redisplay();
 	g_exit_status = 130;
+}
+
+char	*obtain_current_directory(void)
+{
+	char	*dir;
+
+	dir = getcwd(NULL, 0);
+	if (!dir)
+		return (NULL);
+	return (dir);
+}
+
+char	*get_env_or_cleanup(const char *var, char *to_free)
+{
+	char	*value;
+
+	value = getenv(var);
+	if (!value)
+	{
+		free(to_free);
+		return (NULL);
+	}
+	return (value);
+}
+
+void	initialize_arrays(t_command *cmd, int arg_count)
+{
+	int	i;
+
+	i = 0;
+	while (i <= arg_count)
+	{
+		cmd->args[i] = NULL;
+		cmd->quote_removed[i] = 0;
+		cmd->token_types[i] = WORD;
+		i++;
+	}
 }
