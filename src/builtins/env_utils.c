@@ -3,6 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: lsilva-x <lsilva-x@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/02 01:09:14 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2025/08/21 21:51:18 by lsilva-x         ###   ########.fr       */
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 01:09:14 by gustavo-lin       #+#    #+#             */
@@ -60,6 +64,11 @@ static t_env	*create_env_node(char *env_data)
 		free(new_node);
 		return (NULL);
 	}
+	new_node->pipe = NULL;
+	new_node->next = NULL;
+	new_node->tokens = NULL;
+	new_node->fd_stdin = -1;
+	new_node->fd_stdout = -1;
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -79,6 +88,10 @@ void	free_env_list(t_env *head)
 	t_env	*next;
 
 	tmp = head;
+	if (tmp->fd_stdin != -1)
+		close (tmp->fd_stdin);
+	if (tmp->fd_stdout != -1)
+		close (tmp->fd_stdout);
 	while (tmp)
 	{
 		next = tmp->next;

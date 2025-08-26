@@ -15,7 +15,7 @@ OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 OBJ_DIR = build
 
-CFLAGS = -Werror -Wall -Wextra $(HEADER)
+CFLAGS = -Werror -Wall -Wextra -g $(HEADER)
 READLINE_FLAG = -lreadline
 
 all: $(NAME)

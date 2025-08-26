@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_core.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsilva-x <lsilva-x@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 20:29:02 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/21 22:02:05 by lsilva-x         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	execute_pipeline(t_command *cmd)
 	t_pipe		pipes;
 	int			result;
 
+	(*handle_t_env(NULL))->pipe = &pipes;
 	if (!cmd)
 	{
 		g_exit_status = 1;

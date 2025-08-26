@@ -3,9 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsilva-x <lsilva-x@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
+
+/*   Updated: 2025/08/21 19:31:15 by lsilva-x         ###   ########.fr       */
 /*   Updated: 2025/08/03 19:00:56 by luiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -31,7 +33,9 @@ int	execute_command(t_command *cmd)
 		return (0);
 	}
 	saved_stdin = dup(STDIN_FILENO);
+	(*handle_t_env(NULL))->fd_stdin = saved_stdin;
 	saved_stdout = dup(STDOUT_FILENO);
+	(*handle_t_env(NULL))->fd_stdout = saved_stdout;
 	redir_result = setup_redirections(cmd);
 	if (redir_result != 0)
 	{

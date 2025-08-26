@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lsilva-x <lsilva-x@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 20:18:43 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 20:26:47 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/21 21:57:46 by lsilva-x         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	allocate_pids_array(t_pipe *pipes)
 	int	i;
 
 	pipes->pids = malloc(sizeof(pid_t) * pipes->total_commands);
+	// (*handle_t_env(NULL))->pid_list = pipes->pids;
 	if (!pipes->pids)
 	{
 		g_exit_status = 1;

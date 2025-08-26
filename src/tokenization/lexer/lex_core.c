@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_core.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lsilva-x <lsilva-x@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/17 15:34:40 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/08/21 19:12:00 by lsilva-x         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static int	lex_token(char *input)
 		free_tokens(token_lst);
 		return (1);
 	}
+	(*handle_t_env(NULL))->tokens = token_lst;
 	res = process_commands(commands);
 	free_commands(commands);
 	free_tokens(token_lst);
