@@ -7,6 +7,10 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 01:09:14 by gustavo-lin       #+#    #+#             */
 /*   Updated: 2025/08/21 21:51:18 by lsilva-x         ###   ########.fr       */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/02 01:09:14 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2025/08/17 15:15:48 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +69,7 @@ static t_env	*create_env_node(char *env_data)
 	new_node->tokens = NULL;
 	new_node->fd_stdin = -1;
 	new_node->fd_stdout = -1;
+	new_node->next = NULL;
 	return (new_node);
 }
 

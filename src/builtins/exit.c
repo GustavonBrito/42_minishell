@@ -7,6 +7,10 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:26 by gustavo-lin       #+#    #+#             */
 /*   Updated: 2025/08/21 19:47:23 by lsilva-x         ###   ########.fr       */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/06 13:31:26 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2025/08/17 17:03:06 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +30,21 @@ void	exit_minishell(t_command *cmd)
 	ft_printf("exit\n");
 	arg_count = count_args(cmd->args);
 	if (!cmd || !cmd->args || arg_count == 1)
-		flush_rsc_minishell((*handle_t_env(NULL)), cmd, g_exit_status);
+		flush_rsc_minishell((*handle_t_env(NULL)), cmd, g_exit_status
+	{
+		free_env_list(*handle_t_env(NULL));
+		rl_clear_history();
+		exit(g_exit_status);
+	}
 	if (arg_count >= 2)
 	{
 		if (!is_valid_number(cmd->args[1]))
 		{
 			write(2, "minishell: exit: numeric argument required", 42);
 			flush_rsc_minishell((*handle_t_env(NULL)), cmd, 2);
+			free_env_list(*handle_t_env(NULL));
+			rl_clear_history();
+			exit(2);
 		}
 		if (arg_count > 2)
 		{
@@ -43,6 +55,9 @@ void	exit_minishell(t_command *cmd)
 		exit_code = ft_atoi_exit(cmd->args[1]);
 		exit_code =  calculate_exit_code(exit_code);
 		flush_rsc_minishell((*handle_t_env(NULL)), cmd, exit_code);
+		free_env_list(*handle_t_env(NULL));
+		rl_clear_history();
+		exit(calculate_exit_code(exit_code));
 	}
 	free_env_list(*handle_t_env(NULL));
 }

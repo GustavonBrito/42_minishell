@@ -7,6 +7,10 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
 /*   Updated: 2025/08/21 21:57:20 by lsilva-x         ###   ########.fr       */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2025/08/16 15:01:22 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +92,9 @@ void close_dup_fds(int fd1, int fd2);
 void flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code);
 //!LSILVA-X ----------------------------------------
 
+
+=======
+}	t_env;
 
 //core
 extern int		g_exit_status;

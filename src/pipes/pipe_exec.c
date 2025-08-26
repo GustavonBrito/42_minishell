@@ -54,7 +54,6 @@ static int	exec_pip_cmd(t_command *cmd, t_pipe *pipes, int cmd_index)
 	{
 		g_exit_status = 1;
 		flush_rsc_minishell(env, cmd, -1);
-
 	}
 	pid = fork();
 	if (pid == -1)
@@ -62,7 +61,6 @@ static int	exec_pip_cmd(t_command *cmd, t_pipe *pipes, int cmd_index)
 		perror("minishell: error with fork ");
 		g_exit_status = 1;
 		flush_rsc_minishell(env, cmd, -1);
-
 	}
 	else if (pid == 0)
 	{
