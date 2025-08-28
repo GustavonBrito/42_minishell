@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   execve_runner.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsilva-x <lsilva-x@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/17 20:54:17 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/21 21:32:23 by lsilva-x         ###   ########.fr       */
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 20:54:17 by luiza             #+#    #+#             */
+/*   Updated: 2025/08/26 23:18:34 by gustavo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*   Updated: 2025/08/20 00:29:13 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -78,20 +78,6 @@ static void	run_execve(t_command *cmd, char *cmd_path, char **env_array)
 	execve(cmd_path, args_to_use, env_array);
 	close_dup_fds(env->fd_stdin, env->fd_stdout);
 	perror(" ");
-
-static void	run_execve(t_command *cmd, char *cmd_path, char **env_array)
-{
-	char	**args_to_use;
-
-	if (!cmd_path && !is_empty_command(cmd->args[0]))
-	{
-		free_env_array(env_array);
-		perror(" ");
-		exit(127);
-	}
-	args_to_use = get_args_for_execution(cmd);
-	if (execve(cmd_path, args_to_use, env_array) == -1)
-		perror(" ");
 }
 
 static char	**get_args_for_execution(t_command *cmd)

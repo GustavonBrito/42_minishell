@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsilva-x <lsilva-x@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/06 13:31:26 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/21 19:47:23 by lsilva-x         ###   ########.fr       */
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:26 by gustavo-lin       #+#    #+#             */
+/*   Updated: 2025/08/26 23:18:48 by gustavo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*   Updated: 2025/08/17 17:03:06 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -30,8 +30,8 @@ void	exit_minishell(t_command *cmd)
 	ft_printf("exit\n");
 	arg_count = count_args(cmd->args);
 	if (!cmd || !cmd->args || arg_count == 1)
-		flush_rsc_minishell((*handle_t_env(NULL)), cmd, g_exit_status
 	{
+		flush_rsc_minishell((*handle_t_env(NULL)), cmd, g_exit_status);
 		free_env_list(*handle_t_env(NULL));
 		rl_clear_history();
 		exit(g_exit_status);

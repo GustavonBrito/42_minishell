@@ -31,7 +31,7 @@ criadas pelo donos do projeto
 
 void flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code)
 {
-	// flush_pipe_str(env->pipe);
+	//flush_pipe_str(env->pipe);
 	free_tokens(env->tokens);
 	free_env_list(env);
 	rl_clear_history();
