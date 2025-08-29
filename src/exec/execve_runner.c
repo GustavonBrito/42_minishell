@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_runner.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 20:54:17 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/28 23:08:56 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/08/29 14:11:42 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,14 @@ static void	run_execve(t_command *cmd, char *cmd_path, char **env_array)
 	{
 
 		free_env_array(env_array);
+		write(2, "minishell: command not found\n", 29);
 		close_dup_fds(env->fd_stdin, env->fd_stdout);
-		perror("minishell ");
 		flush_rsc_minishell(env, cmd, 127);
 	}
 	args_to_use = get_args_for_execution(cmd);
 	execve(cmd_path, args_to_use, env_array);
 	close_dup_fds(env->fd_stdin, env->fd_stdout);
-	perror("minishell ");
+	perror("minishell: ");
 }
 
 static char	**get_args_for_execution(t_command *cmd)

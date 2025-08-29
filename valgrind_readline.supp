@@ -1056,3 +1056,35 @@
    fun:shell_loop
    fun:main
 }
+{
+   readline_ncurses_realloc_tparm
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:tparm
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.*
+   fun:_nc_trim_sgr0
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:shell_loop
+   fun:main
+}
+{
+   readline_ncurses_malloc_tparm_analyze
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_tparm_analyze
+   fun:tparm
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.*
+   fun:_nc_trim_sgr0
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:shell_loop
+   fun:main
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/26 23:18:09 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/08/29 13:23:25 by vboxuser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,11 @@ typedef struct s_env
 {
 	char			*env_data;
 	struct s_env	*next;
-	//!LSILVA-X ----------------------------------------
 	int				fd_stdin;
 	int				fd_stdout;
 	t_token			*tokens;
 	t_pipe			*pipe;
-	//!LSILVA-X ----------------------------------------
-
 }	t_env;
-
-//!LSILVA-X ----------------------------------------
-void close_dup_fds(int fd1, int fd2);
-void flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code);
-//!LSILVA-X ----------------------------------------
 
 //core
 extern int		g_exit_status;
@@ -238,6 +230,8 @@ int				get_exit_status_from_wait(int status);
 int				report_error(const char *msg, int exit_code);
 void			critical_error(const char *msg, int exit_code);
 void			write_err(const char *msg);
+void			close_dup_fds(int fd1, int fd2);
+void			flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code);
 
 //treat_leaks
 void			free_env_list(t_env *head);

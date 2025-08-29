@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lsilva-x <lsilva-x@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gserafio-x-x <gserafio-x-x@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 01:09:14 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/21 21:51:18 by lsilva-x         ###   ########.fr       */
+/*   Updated: 2025/08/21 21:51:18 by gserafio-x-x         ###   ########.fr       */
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 01:09:14 by gustavo-lin       #+#    #+#             */
