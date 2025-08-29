@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 20:54:17 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/26 23:18:34 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/08/28 23:08:56 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,6 @@ int	run_external(t_command *cmd)
 	env_array = convert_env_to_array();
 	if (!env_array)
 		flush_rsc_minishell(env, cmd, 1);
-
-	if (!cmd || !cmd->args || !cmd->args[0])
-		exit(127);
-	env_array = convert_env_to_array();
-	if (!env_array)
-		exit(1);
 	cmd_path = get_executable_path(cmd);
 	run_execve(cmd, cmd_path, env_array);
 	cleanup_n_exit(env_array, cmd_path);
@@ -71,13 +65,13 @@ static void	run_execve(t_command *cmd, char *cmd_path, char **env_array)
 
 		free_env_array(env_array);
 		close_dup_fds(env->fd_stdin, env->fd_stdout);
-		perror(" ");
+		perror("minishell ");
 		flush_rsc_minishell(env, cmd, 127);
 	}
 	args_to_use = get_args_for_execution(cmd);
 	execve(cmd_path, args_to_use, env_array);
 	close_dup_fds(env->fd_stdin, env->fd_stdout);
-	perror(" ");
+	perror("minishell ");
 }
 
 static char	**get_args_for_execution(t_command *cmd)

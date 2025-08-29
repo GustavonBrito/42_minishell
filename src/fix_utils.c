@@ -8,30 +8,30 @@ criadas pelo donos do projeto
 
 #include "minishell.h"
 
-// static void flush_pipe_str(t_pipe *pipes)
-// {
-// 	if (pipes)
-// 	{
-// 		if (pipes->pipe_fds)
-// 		{
-// 			int i = 0;
-// 			while (i < pipes->total_commands - 1)
-// 			{
-// 				if (pipes->pipe_fds[i])
-// 					free(pipes->pipe_fds[i]);
-// 				i++;
-// 			}
-// 			free(pipes->pipe_fds);
-// 		}
-// 		if (pipes->pids)
-// 			free(pipes->pids);
-// 		free(pipes);
-// 	}
-// }
+static void flush_pipe_str(t_pipe *pipes)
+{
+	if (pipes)
+	{
+		if (pipes->pipe_fds)
+		{
+			int i = 0;
+			while (i < pipes->total_commands - 1)
+			{
+				if (pipes->pipe_fds[i])
+					free(pipes->pipe_fds[i]);
+				i++;
+			}
+			free(pipes->pipe_fds);
+		}
+		if (pipes->pids)
+			free(pipes->pids);
+		//free(pipes);
+	}
+}
 
 void flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code)
 {
-	//flush_pipe_str(env->pipe);
+	flush_pipe_str(env->pipe);
 	free_tokens(env->tokens);
 	free_env_list(env);
 	rl_clear_history();

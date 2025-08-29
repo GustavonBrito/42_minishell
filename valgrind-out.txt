@@ -1,72 +1,119 @@
-==14662== Memcheck, a memory error detector
-==14662== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==14662== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==14662== Command: ./minishell
-==14662== Parent PID: 14650
-==14662== 
-==14665== Invalid free() / delete / delete[] / realloc()
-==14665==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==14665==    by 0x109EC4: flush_pipe_str (fix_utils.c:28)
-==14665==    by 0x109EEE: flush_rsc_minishell (fix_utils.c:34)
-==14665==    by 0x10A80C: execute_child_command (pipe_exec.c:88)
-==14665==    by 0x10A75C: exec_pip_cmd (pipe_exec.c:70)
-==14665==    by 0x10A5DC: pipe_loop (pipe_exec.c:36)
-==14665==    by 0x10A037: execute_pipeline (pipe_core.c:50)
-==14665==    by 0x10B3C8: handle_command_execution (execution.c:106)
-==14665==    by 0x10CC0E: process_commands (lex_core.c:93)
-==14665==    by 0x10CA3B: lex_token (lex_core.c:48)
-==14665==    by 0x10C99A: process_input (lex_core.c:25)
-==14665==    by 0x1094F2: shell_loop (shell_loop.c:38)
-==14665==  Address 0x1ffefffc50 is on thread 1's stack
-==14665==  in frame #6, created by execute_pipeline (pipe_core.c:32)
-==14665== 
-==14665== 
-==14665== FILE DESCRIPTORS: 5 open (3 std) at exit.
-==14665== Open file descriptor 5:
-==14665==    at 0x49D307D: pipe (pipe.c:29)
-==14665==    by 0x10ADF7: create_pipe (pipe_setup.c:72)
-==14665==    by 0x10A5B0: pipe_loop (pipe_exec.c:33)
-==14665==    by 0x10A037: execute_pipeline (pipe_core.c:50)
-==14665==    by 0x10B3C8: handle_command_execution (execution.c:106)
-==14665==    by 0x10CC0E: process_commands (lex_core.c:93)
-==14665==    by 0x10CA3B: lex_token (lex_core.c:48)
-==14665==    by 0x10C99A: process_input (lex_core.c:25)
-==14665==    by 0x1094F2: shell_loop (shell_loop.c:38)
-==14665==    by 0x109771: main (main.c:24)
-==14665== 
-==14665== Open file descriptor 3: /home/gustavo/minishell/valgrind-out.txt
-==14665==    <inherited from parent>
-==14665== 
-==14665== 
-==14665== HEAP SUMMARY:
-==14665==     in use at exit: 208,239 bytes in 223 blocks
-==14665==   total heap usage: 665 allocs, 443 frees, 246,229 bytes allocated
-==14665== 
-==14665== LEAK SUMMARY:
-==14665==    definitely lost: 0 bytes in 0 blocks
-==14665==    indirectly lost: 0 bytes in 0 blocks
-==14665==      possibly lost: 0 bytes in 0 blocks
-==14665==    still reachable: 0 bytes in 0 blocks
-==14665==         suppressed: 208,239 bytes in 223 blocks
-==14665== 
-==14665== For lists of detected and suppressed errors, rerun with: -s
-==14665== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
-==14662== 
-==14662== FILE DESCRIPTORS: 4 open (3 std) at exit.
-==14662== Open file descriptor 3: /home/gustavo/minishell/valgrind-out.txt
-==14662==    <inherited from parent>
-==14662== 
-==14662== 
-==14662== HEAP SUMMARY:
-==14662==     in use at exit: 208,218 bytes in 222 blocks
-==14662==   total heap usage: 846 allocs, 624 frees, 268,524 bytes allocated
-==14662== 
-==14662== LEAK SUMMARY:
-==14662==    definitely lost: 0 bytes in 0 blocks
-==14662==    indirectly lost: 0 bytes in 0 blocks
-==14662==      possibly lost: 0 bytes in 0 blocks
-==14662==    still reachable: 0 bytes in 0 blocks
-==14662==         suppressed: 208,218 bytes in 222 blocks
-==14662== 
-==14662== For lists of detected and suppressed errors, rerun with: -s
-==14662== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==30293== Memcheck, a memory error detector
+==30293== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==30293== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==30293== Command: ./minishell
+==30293== Parent PID: 30290
+==30293== 
+==30297== 
+==30297== FILE DESCRIPTORS: 5 open (3 std) at exit.
+==30297== Open file descriptor 4:
+==30297==    at 0x49D307D: pipe (pipe.c:29)
+==30297==    by 0x10AE2B: create_pipe (pipe_setup.c:72)
+==30297==    by 0x10A5E4: pipe_loop (pipe_exec.c:33)
+==30297==    by 0x10A06B: execute_pipeline (pipe_core.c:50)
+==30297==    by 0x10B3FC: handle_command_execution (execution.c:106)
+==30297==    by 0x10CC2E: process_commands (lex_core.c:93)
+==30297==    by 0x10CA5B: lex_token (lex_core.c:48)
+==30297==    by 0x10C9BA: process_input (lex_core.c:25)
+==30297==    by 0x109532: shell_loop (shell_loop.c:38)
+==30297==    by 0x1097B1: main (main.c:24)
+==30297== 
+==30297== Open file descriptor 3: /home/gustavo/minishell/valgrind-out.txt
+==30297==    <inherited from parent>
+==30297== 
+==30297== 
+==30297== HEAP SUMMARY:
+==30297==     in use at exit: 208,844 bytes in 228 blocks
+==30297==   total heap usage: 636 allocs, 408 frees, 240,917 bytes allocated
+==30297== 
+==30297== 8 bytes in 1 blocks are still reachable in loss record 3 of 69
+==30297==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==30297==    by 0x10BC85: allocate_command_arrays (parser_command.c:35)
+==30297==    by 0x10BA1F: parse_command (parser_core.c:56)
+==30297==    by 0x10B943: parse_tokens (parser_core.c:30)
+==30297==    by 0x10CA1C: lex_token (lex_core.c:41)
+==30297==    by 0x10C9BA: process_input (lex_core.c:25)
+==30297==    by 0x109532: shell_loop (shell_loop.c:38)
+==30297==    by 0x1097B1: main (main.c:24)
+==30297== 
+==30297== 8 bytes in 1 blocks are still reachable in loss record 4 of 69
+==30297==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==30297==    by 0x10BCA4: allocate_command_arrays (parser_command.c:36)
+==30297==    by 0x10BA1F: parse_command (parser_core.c:56)
+==30297==    by 0x10B943: parse_tokens (parser_core.c:30)
+==30297==    by 0x10CA1C: lex_token (lex_core.c:41)
+==30297==    by 0x10C9BA: process_input (lex_core.c:25)
+==30297==    by 0x109532: shell_loop (shell_loop.c:38)
+==30297==    by 0x1097B1: main (main.c:24)
+==30297== 
+==30297== 10 bytes in 1 blocks are still reachable in loss record 5 of 69
+==30297==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==30297==    by 0x10DE9B: remove_quotes (tilde_exp.c:67)
+==30297==    by 0x10D73F: process_single_argument (var_utils.c:31)
+==30297==    by 0x10D2E2: expand_variables (variable_exp.c:28)
+==30297==    by 0x10CC04: process_commands (lex_core.c:89)
+==30297==    by 0x10CA5B: lex_token (lex_core.c:48)
+==30297==    by 0x10C9BA: process_input (lex_core.c:25)
+==30297==    by 0x109532: shell_loop (shell_loop.c:38)
+==30297==    by 0x1097B1: main (main.c:24)
+==30297== 
+==30297== 40 bytes in 1 blocks are still reachable in loss record 17 of 69
+==30297==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==30297==    by 0x10BAF6: init_command (parser_core.c:89)
+==30297==    by 0x10B9EA: parse_command (parser_core.c:52)
+==30297==    by 0x10B943: parse_tokens (parser_core.c:30)
+==30297==    by 0x10CA1C: lex_token (lex_core.c:41)
+==30297==    by 0x10C9BA: process_input (lex_core.c:25)
+==30297==    by 0x109532: shell_loop (shell_loop.c:38)
+==30297==    by 0x1097B1: main (main.c:24)
+==30297== 
+==30297== 520 bytes in 1 blocks are still reachable in loss record 28 of 69
+==30297==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==30297==    by 0x10BC67: allocate_command_arrays (parser_command.c:34)
+==30297==    by 0x10BA1F: parse_command (parser_core.c:56)
+==30297==    by 0x10B943: parse_tokens (parser_core.c:30)
+==30297==    by 0x10CA1C: lex_token (lex_core.c:41)
+==30297==    by 0x10C9BA: process_input (lex_core.c:25)
+==30297==    by 0x109532: shell_loop (shell_loop.c:38)
+==30297==    by 0x1097B1: main (main.c:24)
+==30297== 
+==30297== LEAK SUMMARY:
+==30297==    definitely lost: 0 bytes in 0 blocks
+==30297==    indirectly lost: 0 bytes in 0 blocks
+==30297==      possibly lost: 0 bytes in 0 blocks
+==30297==    still reachable: 586 bytes in 5 blocks
+==30297==         suppressed: 208,258 bytes in 223 blocks
+==30297== 
+==30297== For lists of detected and suppressed errors, rerun with: -s
+==30297== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==30296== 
+==30296== FILE DESCRIPTORS: 5 open (3 std) at exit.
+==30296== Open file descriptor 5:
+==30296==    at 0x49D307D: pipe (pipe.c:29)
+==30296==    by 0x10AE2B: create_pipe (pipe_setup.c:72)
+==30296==    by 0x10A5E4: pipe_loop (pipe_exec.c:33)
+==30296==    by 0x10A06B: execute_pipeline (pipe_core.c:50)
+==30296==    by 0x10B3FC: handle_command_execution (execution.c:106)
+==30296==    by 0x10CC2E: process_commands (lex_core.c:93)
+==30296==    by 0x10CA5B: lex_token (lex_core.c:48)
+==30296==    by 0x10C9BA: process_input (lex_core.c:25)
+==30296==    by 0x109532: shell_loop (shell_loop.c:38)
+==30296==    by 0x1097B1: main (main.c:24)
+==30296== 
+==30296== Open file descriptor 3: /home/gustavo/minishell/valgrind-out.txt
+==30296==    <inherited from parent>
+==30296== 
+==30296== 
+==30296== HEAP SUMMARY:
+==30296==     in use at exit: 208,258 bytes in 223 blocks
+==30296==   total heap usage: 738 allocs, 515 frees, 247,066 bytes allocated
+==30296== 
+==30296== LEAK SUMMARY:
+==30296==    definitely lost: 0 bytes in 0 blocks
+==30296==    indirectly lost: 0 bytes in 0 blocks
+==30296==      possibly lost: 0 bytes in 0 blocks
+==30296==    still reachable: 0 bytes in 0 blocks
+==30296==         suppressed: 208,258 bytes in 223 blocks
+==30296== 
+==30296== For lists of detected and suppressed errors, rerun with: -s
+==30296== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
