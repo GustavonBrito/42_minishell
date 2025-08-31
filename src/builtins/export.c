@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/20 01:15:24 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/08/30 21:43:22 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static void	process_export_arg(char *arg)
 
 	equal_sign = ft_strchr(arg, '=');
 	verify_var = ft_strdup(arg);
-	if (!validate_identifier(verify_var))
+	if (validate_identifier(verify_var) == 0)
 	{
-		write(2, "minishell: export: not a valid identifier\n", 41);
+		write(2, "minishell: export: not a valid identifier\n", 43);
 		free_env_list(*handle_t_env(NULL));
 		rl_clear_history();
 		free(verify_var);

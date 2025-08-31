@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 20:27:42 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/30 15:51:06 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	print_export(void)
 	{
 		buffer = ft_split(env->env_data, '=');
 		if (buffer[1] == NULL)
-			ft_printf("declare -x %s\n", buffer[0]);
+			ft_printf("declare -x %s=\"\"\n", buffer[0]);
 		else
 			ft_printf("declare -x %s=\"%s\"\n", buffer[0], buffer[1]);
 		ft_free_split(buffer);
