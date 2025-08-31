@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 21:10:33 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/30 22:22:11 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	shell_loop(void)
 {
 	char		*buffer_received;
 	char		*prompt;
-
+	char		*colored_prompt;
+	char 		*tmp;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
@@ -29,7 +30,11 @@ void	shell_loop(void)
 		prompt = create_prompt();
 		if (!prompt)
 			return ;
-		buffer_received = readline(prompt);
+		colored_prompt = ft_strjoin("\001\033[0;32m\002", prompt);
+		tmp = colored_prompt;
+		colored_prompt = ft_strjoin(colored_prompt, "\001\033[0m\002");
+		free(tmp);
+		buffer_received = readline(colored_prompt);
 		free(prompt);
 		check_exit_condition(buffer_received);
 		if (*buffer_received)

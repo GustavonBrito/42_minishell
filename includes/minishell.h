@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/10 23:16:45 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/31 14:50:03 by gustavo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/*   Updated: 2025/08/16 15:01:22 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +78,11 @@ typedef struct s_env
 {
 	char			*env_data;
 	struct s_env	*next;
+	int				fd_stdin;
+	int				fd_stdout;
+	int				export_organize_flag;
+	t_token			*tokens;
+	t_pipe			*pipe;
 }	t_env;
 
 //core
@@ -222,5 +231,10 @@ int				get_exit_status_from_wait(int status);
 int				report_error(const char *msg, int exit_code);
 void			critical_error(const char *msg, int exit_code);
 void			write_err(const char *msg);
+void			close_dup_fds(int fd1, int fd2);
+void			flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code);
+
+//treat_leaks
+void			free_env_list(t_env *head);
 
 #endif

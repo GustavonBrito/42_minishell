@@ -15,7 +15,7 @@ OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 OBJ_DIR = build
 
-CFLAGS = -Werror -Wall -Wextra $(HEADER)
+CFLAGS = -Werror -Wall -Wextra -g $(HEADER)
 READLINE_FLAG = -lreadline
 
 all: $(NAME)
@@ -28,10 +28,12 @@ $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-LEAKS	:=	valgrind --leak-check=full --show-leak-kinds=all\
-		--track-origins=yes --log-file=valgrind-out.txt --track-fds=yes
+LEAKS := valgrind --leak-check=full --show-leak-kinds=all \
+	--track-origins=yes --log-file=valgrind-out.txt --track-fds=yes \
+	--suppressions=$(CURDIR)/valgrind_readline.supp
 
 val_leaks: all
+	@printf "Running valgrind (interactive). Valgrind log -> valgrind-out.txt\n"
 	@$(LEAKS) ./$(NAME)
 
 clean:
@@ -48,4 +50,4 @@ re:
 
 .PHONY: all clean fclean re val_leaks
 
-# valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
+# valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=valgrind_readline.supp ./minishell
