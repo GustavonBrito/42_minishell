@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/30 15:48:58 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/08/31 15:08:52 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,14 @@ t_env	*find_env_var(char *var_name)
 void	update_env_var(t_env *env, char *var_name, char *value)
 {
 	free(env->env_data);
-	env->env_data = ft_strdup(var_name);
-	env->env_data = ft_strjoin_free(env->env_data, "=");
-	env->env_data = ft_strjoin_free(env->env_data, value);
+	if (value != NULL)
+	{
+		env->env_data = ft_strdup(var_name);
+		env->env_data = ft_strjoin_free(env->env_data, "=");
+		env->env_data = ft_strjoin_free(env->env_data, value);
+	}
+	else
+		env->env_data = ft_strdup(var_name);
 }
 
 char	*ft_strjoin_free(char *s1, char *s2)
@@ -93,9 +98,14 @@ void	create_new_var(t_env *last_env, char *var_name, char *value)
 	t_env	*new_var;
 
 	new_var = malloc(sizeof(t_env));
-	new_var->env_data = ft_strdup(var_name);
-	new_var->env_data = ft_strjoin_free(new_var->env_data, "=");
-	new_var->env_data = ft_strjoin_free(new_var->env_data, value);
+	if (value != NULL)
+	{
+		new_var->env_data = ft_strdup(var_name);
+		new_var->env_data = ft_strjoin_free(new_var->env_data, "=");
+		new_var->env_data = ft_strjoin_free(new_var->env_data, value);
+	}
+	else
+		new_var->env_data = ft_strdup(var_name);
 	new_var->next = NULL;
 	if (last_env)
 		last_env->next = new_var;
