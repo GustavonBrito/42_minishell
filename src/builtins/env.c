@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/31 19:10:10 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/01 14:31:20 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,16 @@ void	print_export(void)
 		{
 			if (second_head->export_organize_flag == 0)
 			{
-				if (!head || ft_strncmp(head->env_data, second_head->env_data, 10000) > 0)
+				if (!head || ft_strncmp(head->env_data, second_head->env_data, ft_strlen(head->env_data)) > 0)
 					head = second_head;
 			}
 			second_head = second_head->next;
 		}
 		head->export_organize_flag = 1;
 		buffer = ft_split(head->env_data, '=');
-		if (ft_strnstr(head->env_data, "=", ft_strlen(head->env_data)) == 0)
+		if (buffer[0][0] == '_' && buffer[0][1] == '\0')
+			continue;
+		else if (ft_strnstr(head->env_data, "=", ft_strlen(head->env_data)) == 0)
 			ft_printf("declare -x %s\n", buffer[0]);
 		else if (buffer[1] == NULL)
 			ft_printf("declare -x %s=\"\"\n", buffer[0]);
