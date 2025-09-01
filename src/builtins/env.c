@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/31 17:17:42 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/08/31 19:10:10 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	print_export(void)
 
 	env = *handle_t_env(NULL);
 	head = env;
-	while (has_someone_not_printed(head) == 1)
+	while (has_someone_not_printed(env) == 1)
 	{
 		second_head = env;
 		head = NULL;
@@ -86,5 +86,10 @@ void	print_export(void)
 		else
 			ft_printf("declare -x %s=\"%s\"\n", buffer[0], buffer[1]);
 		ft_free_split(buffer);
+	}
+	while(env)
+	{
+		env->export_organize_flag = 0;
+		env = env->next;
 	}
 }

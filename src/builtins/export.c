@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/31 15:24:44 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/08/31 20:55:29 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	process_export_arg(char *arg)
 	if (equal_sign)
 	{
 		*equal_sign = '\0';
-		if ((found_env && found_env->env_data[ft_strlen(arg)] == '=') || found_env)
+		if (found_env && found_env->env_data[ft_strlen(arg)] == '=')
 			update_env_var(found_env, arg, equal_sign + 1);
 		else
 			create_new_var(found_env, arg, equal_sign + 1);
