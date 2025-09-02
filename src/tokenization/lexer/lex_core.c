@@ -35,7 +35,7 @@ static int	lex_token(char *input)
 	res = tokenize_input(input, &token_lst);
 	if (res != 0)
 	{
-		free_tokens(token_lst);
+		//free_tokens(token_lst);
 		return (res);
 	}
 	commands = parse_tokens(token_lst);
@@ -74,7 +74,9 @@ static int	process_next_token(char *input, t_token **token_lst, int i)
 	else if (ft_isop(input[i]))
 		return (i + handle_op(input, token_lst, i));
 	else if (is_quote_token(input, i))
+	{
 		return (handle_quote_token(input, token_lst, i));
+	}
 	else
 		return (handle_word_token(input, token_lst, i));
 }
