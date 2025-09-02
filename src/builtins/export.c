@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/01 15:13:46 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/01 21:59:09 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	process_export_arg(char *arg)
 	if (validate_identifier(verify_var) == 0)
 	{
 		write(2, "minishell: not a valid identifier\n", 35);
-		rl_clear_history();
 		free(verify_var);
 		g_exit_status = 1;
 		return ;
