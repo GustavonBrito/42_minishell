@@ -45,7 +45,11 @@ int	execute_command(t_command *cmd)
 	if (check_builtin(cmd))
 		exec_result = execute_builtin(cmd);
 	else
+	{
+		if (ft_strncmp(cmd->args[0], "cat", 3) == 0 && cmd->args[1] == NULL)
+			(*handle_t_env(NULL))->cat_flag = 1;
 		exec_result = execute_external_command(cmd);
+	}
 	restore_std_fds(saved_stdin, saved_stdout);
 	return (exec_result);
 }
@@ -78,14 +82,24 @@ int	execute_external_command(t_command *cmd)
 		return (g_exit_status);
 	}
 	else if (pid == 0)
+	{
+		signal(SIGQUIT, SIG_DFL);
 		exit(run_external(cmd));
+	}
 	else
 	{
 		waitpid(pid, &g_exit_status, 0);
 		if (WIFEXITED(g_exit_status))
 			return (WEXITSTATUS(g_exit_status));
 		else if (WIFSIGNALED(g_exit_status))
+		{
+			if (WTERMSIG(g_exit_status) == SIGQUIT)
+			{
+				write(2, "Quit (core dumped)\n", 20);
+				(*(handle_t_env(NULL)))->cat_flag = 0;
+			}
 			return (128 + WTERMSIG(g_exit_status));
+		}
 	}
 	return (g_exit_status);
 }

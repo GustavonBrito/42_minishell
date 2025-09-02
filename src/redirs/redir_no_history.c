@@ -38,6 +38,12 @@ static void	heredoc_input_loop(int pipe_fd, char *delimiter)
 
 	ft_printf("> ");
 	line = read_line_no_history();
+	if (line == NULL)
+	{
+		if ((*(handle_t_env(NULL)))->cat_flag == 1)
+			(*(handle_t_env(NULL)))->cat_flag = 0;
+		dprintf(2,"minishell: warning: here-document at line 1 delimited by end-of-file (wanted `EOF')\n");
+	}
 	while (line != NULL)
 	{
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0

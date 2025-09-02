@@ -27,7 +27,7 @@ int	run_external(t_command *cmd)
 	char	**env_array;
 	char	*cmd_path;
 	t_env	*env;
-
+	
 	env = (*handle_t_env(NULL));
 	if (!cmd || !cmd->args || !cmd->args[0])
 		flush_rsc_minishell(env, cmd, 127);

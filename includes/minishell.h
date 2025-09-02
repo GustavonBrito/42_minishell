@@ -81,6 +81,7 @@ typedef struct s_env
 	int				fd_stdin;
 	int				fd_stdout;
 	int				export_organize_flag;
+	int				cat_flag;
 	t_token			*tokens;
 	t_pipe			*pipe;
 }	t_env;

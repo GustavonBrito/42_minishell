@@ -61,14 +61,8 @@ t_env	*find_env_var(char *var_name)
 	while (s_env)
 	{
 		env_to_compare = ft_split(s_env->env_data, '=');
-		if (env_to_compare[1] != NULL)
-		{
-			if (ft_strncmp(var_to_compare[0], env_to_compare[0],
-					ft_strlen(var_to_compare[0])) == 0)
-				return (s_env);
-		}
-		else if (ft_strncmp(var_name, s_env->env_data,
-				ft_strlen(s_env->env_data)) == 0)
+		if (ft_strncmp(var_to_compare[0], env_to_compare[0],
+				ft_strlen(var_to_compare[0])) == 0)
 			return (s_env);
 		if (!s_env->next)
 			break ;

@@ -77,7 +77,7 @@ int	apply_redirection(t_redir *redir)
 	else if (redir->type == REDIR_APPEND)
 		return (handle_append_redirection(redir));
 	else if (redir->type == HEREDOC)
-		return (handle_heredoc(redir));
+		return (handle_heredoc(redir));	
 	return (0);
 }
 

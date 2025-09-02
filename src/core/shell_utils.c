@@ -29,14 +29,20 @@ void	check_exit_condition(char *buffer_received)
 	}
 }
 
-void	signal_handler(int signal)
+void	signal_handler(int signal_received)
 {
-	(void)signal;
+	(void)signal_received;
+	t_env	*handle_cat;
+	handle_cat = *handle_t_env(NULL);
+
 	ft_printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
 	g_exit_status = 130;
+	if (handle_cat->cat_flag == 0)
+		rl_redisplay();
+	else
+		handle_cat->cat_flag = 0;
 }
 
 char	*obtain_current_directory(void)

@@ -23,6 +23,7 @@ void	shell_loop(void)
 	char		*prompt;
 	char		*colored_prompt;
 	char 		*tmp;
+	
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
