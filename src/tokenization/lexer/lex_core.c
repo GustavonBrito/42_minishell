@@ -56,8 +56,10 @@ static int	lex_token(char *input)
 	res = tokenize_input(input, &token_lst);
 	if (res != 0)
 	{
-		//free_tokens(token_lst);
-		printf("\n");
+		if (ft_strncmp(input, "echo", 4) == 0)
+			printf("\n");
+		else if (ft_strncmp(input, "cat", 3) == 0)
+			write(2, "cat: '': No such file or directory\n", 36);
 		return (res);
 	}
 	commands = parse_tokens(token_lst);
