@@ -90,7 +90,10 @@ int	execute_external_command(t_command *cmd)
 	{
 		waitpid(pid, &g_exit_status, 0);
 		if (WIFEXITED(g_exit_status))
+		{
+			(*(handle_t_env(NULL)))->cat_flag = 0;
 			return (WEXITSTATUS(g_exit_status));
+		}
 		else if (WIFSIGNALED(g_exit_status))
 		{
 			if (WTERMSIG(g_exit_status) == SIGQUIT)
