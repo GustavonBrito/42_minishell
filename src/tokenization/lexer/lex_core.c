@@ -20,6 +20,27 @@ static int	process_commands(t_command *commands);
 
 int	process_input(char *input)
 {
+	int	i;
+	char	open_quote;
+
+	i = 0;
+	open_quote = 0;
+	while (input[i])
+	{
+		if ((input[i] == '\'' || input[i] == '"'))
+		{
+			if (open_quote == 0)
+				open_quote = input[i];
+			else if (open_quote == input[i])
+				open_quote = 0;
+		}
+		i++;
+	}
+	if (open_quote != 0)
+	{
+		write(2, "No closed quotes\n", 18);
+		return (0);
+	}
 	if (!input || ft_strlen(input) == 0)
 		return (0);
 	return (lex_token(input));
@@ -36,6 +57,7 @@ static int	lex_token(char *input)
 	if (res != 0)
 	{
 		//free_tokens(token_lst);
+		printf("\n");
 		return (res);
 	}
 	commands = parse_tokens(token_lst);
