@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 10:54:36 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/03 20:48:35 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/03 22:00:12 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ static void	print_args(t_command *cmd, int start)
 	{
 		ft_printf("%s", cmd->args[i]);
 		i++;
-		printf("%d\n", cmd->token_types[i - 1]);
 		if (cmd->args[i] && cmd->token_types[i - 1] != VAR)
 			ft_printf(" ");
 	}
