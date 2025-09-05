@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:30:45 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/03 20:47:02 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/05 09:42:18 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	quote_token(char *input, t_token **token_lst, int start,
 	quoted_content = ft_substr(input, start, len);
 	if (!quoted_content)
 		return (len);
-	printf("%s\n", quoted_content);
 	add_quote_by_type(token_lst, quoted_content, quote_char);
 	free(quoted_content);
 	return (len);

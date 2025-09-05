@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/03 15:42:37 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/05 09:33:37 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	has_adjacent_quotes(char *input, int start)
 
 	i = start;
 	if (i > 0 && !ft_isspace(input[i - 1])
-		&& !ft_isop(input[i - 1]) && input[i - 1] != '\'')
+		&& !ft_isop(input[i - 1]))
 		return (1);
 	i = token_length(input, i);
 	return (i > start + 2);
@@ -80,7 +80,7 @@ static int	token_length(char *input, int i)
 	char	quote_char;
 
 	while (input[i] && !ft_isspace(input[i])
-		&& !ft_isop(input[i]) && input[i] != '\'')
+		&& !ft_isop(input[i]))
 	{
 		if (input[i] == '\'' || input[i] == '"')
 		{
