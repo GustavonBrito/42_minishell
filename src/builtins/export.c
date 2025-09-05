@@ -17,7 +17,7 @@ static void	process_export_arg(char *arg);
 
 void	export(t_command *cmd)
 {
-	int		i;
+	int	i;
 
 	if (!cmd->args[1])
 	{
@@ -60,6 +60,6 @@ static void	process_export_arg(char *arg)
 			create_new_var(found_env, arg, equal_sign + 1);
 		*equal_sign = '=';
 	}
-	else if(ft_strncmp(found_env->env_data, arg, ft_strlen(arg)) != 0)
+	else if (ft_strncmp(found_env->env_data, arg, ft_strlen(arg)) != 0)
 		create_new_var(found_env, arg, equal_sign);
 }

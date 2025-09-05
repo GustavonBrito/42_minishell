@@ -40,8 +40,8 @@ int	validate_identifier(char *arg)
 				return (0);
 			equal_passed = 1;
 		}
-		if (ft_isalnum(arg[j]) == 0 && arg[j] != '_' && (arg[j] != '=' \
-			|| arg[j+ 1] == '\0'))
+		if (ft_isalnum(arg[j]) == 0 && arg[j] != '_' && (arg[j] != '=' || arg[j
+				+ 1] == '\0'))
 			return (0);
 		j++;
 		first_passed = 1;

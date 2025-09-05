@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_runner.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/17 20:54:17 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/29 14:11:42 by vboxuser         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/*   Updated: 2025/08/20 00:29:13 by gustavo          ###   ########.fr       */
+/*   Created: 2025/09/05 16:06:54 by gustavo           #+#    #+#             */
+/*   Updated: 2025/09/05 16:06:55 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +23,7 @@ int	run_external(t_command *cmd)
 	char	**env_array;
 	char	*cmd_path;
 	t_env	*env;
-	
+
 	env = (*handle_t_env(NULL));
 	if (!cmd || !cmd->args || !cmd->args[0])
 		flush_rsc_minishell(env, cmd, 127);
@@ -62,7 +58,6 @@ static void	run_execve(t_command *cmd, char *cmd_path, char **env_array)
 	env = (*handle_t_env(NULL));
 	if (!cmd_path && !is_empty_command(cmd->args[0]))
 	{
-
 		free_env_array(env_array);
 		write(2, "minishell: command not found\n", 29);
 		close_dup_fds(env->fd_stdin, env->fd_stdout);

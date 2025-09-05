@@ -3,12 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio-x-x <gserafio-x-x@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/11 00:38:15 by luiza             #+#    #+#             */
-
-/*   Updated: 2025/08/21 19:31:15 by gserafio-x-x         ###   ########.fr       */
-/*   Updated: 2025/08/03 19:00:56 by luiza            ###   ########.fr       */
+/*   Created: 2025/09/05 15:33:30 by gustavo           #+#    #+#             */
+/*   Updated: 2025/09/05 15:33:33 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,17 +136,14 @@ int	check_builtin(t_command *cmd)
 		return (0);
 	}
 	if ((ft_strncmp(cmd->args[0], "echo", 4) == 0
-			&& ft_strlen(cmd->args[0]) == 4)
-		|| (ft_strncmp(cmd->args[0], "cd", 2) == 0
-			&& ft_strlen(cmd->args[0]) == 2)
+			&& ft_strlen(cmd->args[0]) == 4) || (ft_strncmp(cmd->args[0], "cd",
+				2) == 0 && ft_strlen(cmd->args[0]) == 2)
 		|| (ft_strncmp(cmd->args[0], "pwd", 3) == 0
-			&& ft_strlen(cmd->args[0]) == 3)
-		|| (ft_strncmp(cmd->args[0], "export", 6) == 0
-			&& ft_strlen(cmd->args[0]) == 6)
+			&& ft_strlen(cmd->args[0]) == 3) || (ft_strncmp(cmd->args[0],
+				"export", 6) == 0 && ft_strlen(cmd->args[0]) == 6)
 		|| (ft_strncmp(cmd->args[0], "unset", 5) == 0
-			&& ft_strlen(cmd->args[0]) == 5)
-		|| (ft_strncmp(cmd->args[0], "env", 3) == 0
-			&& ft_strlen(cmd->args[0]) == 3)
+			&& ft_strlen(cmd->args[0]) == 5) || (ft_strncmp(cmd->args[0], "env",
+				3) == 0 && ft_strlen(cmd->args[0]) == 3)
 		|| (ft_strncmp(cmd->args[0], "exit", 4) == 0
 			&& ft_strlen(cmd->args[0]) == 4))
 		return (1);

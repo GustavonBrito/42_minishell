@@ -19,11 +19,11 @@ static char	*build_prompt(char *username, char *display_path);
 
 void	shell_loop(void)
 {
-	char		*buffer_received;
-	char		*prompt;
-	char		*colored_prompt;
-	char 		*tmp;
-	
+	char	*buffer_received;
+	char	*prompt;
+	char	*colored_prompt;
+	char	*tmp;
+
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)

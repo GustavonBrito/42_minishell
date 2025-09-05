@@ -20,7 +20,7 @@ static int	process_read_result(char **line, int i, int read_res);
 
 int	create_heredoc_file(char *delimiter)
 {
-	int		pipe_fd[2];
+	int	pipe_fd[2];
 
 	if (pipe(pipe_fd) == -1)
 	{
@@ -42,7 +42,9 @@ static void	heredoc_input_loop(int pipe_fd, char *delimiter)
 	{
 		if ((*(handle_t_env(NULL)))->cat_flag == 1)
 			(*(handle_t_env(NULL)))->cat_flag = 0;
-		write(2,"minishell: warning: here-document at line 1 delimited by end-of-file (wanted `EOF')\n", 85);
+		write(2,
+			"minishell: warning: here-document at line 1 delimited by end-of-file (wanted `EOF')\n",
+			85);
 	}
 	while (line != NULL)
 	{

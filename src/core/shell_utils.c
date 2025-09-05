@@ -32,10 +32,10 @@ void	check_exit_condition(char *buffer_received)
 
 void	signal_handler(int signal_received)
 {
-	(void)signal_received;
 	t_env	*handle_cat;
-	handle_cat = *handle_t_env(NULL);
 
+	(void)signal_received;
+	handle_cat = *handle_t_env(NULL);
 	ft_printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
