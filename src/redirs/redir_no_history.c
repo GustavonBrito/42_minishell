@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_no_history.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 19:28:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/08 23:28:37 by luiza            ###   ########.fr       */
+/*   Updated: 2025/09/08 20:23:19 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ int	create_heredoc_file(char *delimiter)
 static void	heredoc_input_loop(int pipe_fd, char *delimiter)
 {
 	char	*line;
+	int		line_count;
 
+	line_count = 1;
 	ft_printf("> ");
 	line = read_line_no_history();
 	while (line != NULL)
@@ -44,7 +46,7 @@ static void	heredoc_input_loop(int pipe_fd, char *delimiter)
 			&& ft_strlen(line) == ft_strlen(delimiter))
 		{
 			free(line);
-			break ;
+			return ;
 		}
 		write(pipe_fd, line, ft_strlen(line));
 		write(pipe_fd, "\n", 1);
@@ -52,6 +54,9 @@ static void	heredoc_input_loop(int pipe_fd, char *delimiter)
 		ft_printf("> ");
 		line = read_line_no_history();
 	}
+	ft_printf("\nbash: warning: here-document ");
+	ft_printf("at line %d delimited by end-of-file (wanted `%s')\n",
+		line_count, delimiter);
 }
 
 static char	*read_line_no_history(void)
@@ -71,6 +76,11 @@ static char	*read_line_no_history(void)
 		read_res = read_char_to_buffer(&line, &i, &capacity);
 		if (process_read_result(&line, i, read_res))
 			break ;
+	}
+	if (i == 0 && read_res == 0)
+	{
+		free(line);
+		return (NULL);
 	}
 	if (line)
 		line[i] = '\0';
