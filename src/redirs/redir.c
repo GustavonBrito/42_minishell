@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 23:14:39 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 21:07:25 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/28 20:22:09 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	handle_input_redirection(t_redir *redir)
 	if (fd == -1)
 	{
 		ft_printf("minishell: %s: ", redir->file);
-		perror(" ");
+		perror("minishell ");
 		return (1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
@@ -76,7 +76,7 @@ int	handle_output_redirection(t_redir *redir)
 	if (fd == -1)
 	{
 		ft_printf("minishell: %s: ", redir->file);
-		perror(" ");
+		perror("minishell ");
 		return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
@@ -97,7 +97,7 @@ int	handle_append_redirection(t_redir *redir)
 	if (fd == -1)
 	{
 		ft_printf("minishell: %s: ", redir->file);
-		perror(" ");
+		perror("minishell ");
 		return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)

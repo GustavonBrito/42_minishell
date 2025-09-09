@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/05 02:45:56 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/16 15:00:48 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	check_exit_condition(char *buffer_received)
 	if (buffer_received == NULL)
 	{
 		ft_printf("exit\n");
+		rl_clear_history();
+		free_env_list(*handle_t_env(NULL));
 		exit(0);
 	}
 }

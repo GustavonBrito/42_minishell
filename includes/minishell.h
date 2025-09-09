@@ -38,7 +38,6 @@ typedef enum e_token_type
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
 	VAR,
-	ESCAPE
 }	t_token_type;
 
 typedef struct s_token
@@ -75,6 +74,11 @@ typedef struct s_env
 {
 	char			*env_data;
 	struct s_env	*next;
+	int				fd_stdin;
+	int				fd_stdout;
+	int				export_organize_flag;
+	t_token			*tokens;
+	t_pipe			*pipe;
 }	t_env;
 
 //core
@@ -96,7 +100,6 @@ void			cd(t_command *cmd);
 void			env(int is_export);
 t_env			**handle_t_env(t_env *head);
 void			handle_store_env(char **system_env);
-int				handle_escape(char *input, t_token **token_lst);
 void			exit_minishell(t_command *cmd);
 void			export(t_command *cmd);
 int				validate_identifier(char *arg);
@@ -123,8 +126,6 @@ int				quote_token(char *input, t_token **tkn_lst, int strt, int end);
 int				find_word_end(char *input, int i);
 int				find_asg_end(char *input, int i);
 int				skip_quoted_section(char *input, int j);
-int				find_escape_start(char *input);
-char			*process_escape_chars(char *w_esc);
 int				create_token(char *input, t_token **tkn_lst, int start,
 					int len);
 
@@ -132,7 +133,6 @@ int				create_token(char *input, t_token **tkn_lst, int start,
 int				handle_quotes(char *input, t_token **token_lst, int i);
 int				handle_var(char *input, t_token **token_lst, int i);
 int				handle_att_quote(char *input, t_token **token_lst, int i);
-int				handle_escape(char *input, t_token **token_lst);
 int				handle_word_quotes(char *input, t_token **token_lst, int i);
 int				handle_special_vars(char *input, t_token **token_lst, int i);
 int				handle_op(char *input, t_token **token_lst, int i);
@@ -227,5 +227,10 @@ int				get_exit_status_from_wait(int status);
 int				report_error(const char *msg, int exit_code);
 void			critical_error(const char *msg, int exit_code);
 void			write_err(const char *msg);
+void			close_dup_fds(int fd1, int fd2);
+void			flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code);
+
+//treat_leaks
+void			free_env_list(t_env *head);
 
 #endif
