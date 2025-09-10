@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/30 22:22:11 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/09 20:28:34 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ static char	*build_prompt(char *username, char *display_path);
 
 void	shell_loop(void)
 {
-	char		*buffer_received;
-	char		*prompt;
-	char		*colored_prompt;
-	char 		*tmp;
+	char	*buffer_received;
+	char	*prompt;
+	char	*colored_prompt;
+	char	*tmp;
+
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
@@ -36,6 +37,7 @@ void	shell_loop(void)
 		free(tmp);
 		buffer_received = readline(colored_prompt);
 		free(prompt);
+		free(colored_prompt);
 		check_exit_condition(buffer_received);
 		if (*buffer_received)
 		{

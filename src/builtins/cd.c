@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/17 16:59:48 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/01 21:59:22 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ void	cd(t_command *cmd)
 	if (cmd->args[2] != NULL)
 	{
 		write(2, "minishell: cd: too many arguments\n", 34);
-		free_env_list(*handle_t_env(NULL));
-		rl_clear_history();
-		exit(1);
+		g_exit_status = 1;
+		return ;
 	}
 	if (!cmd->args[1])
 	{
@@ -52,9 +51,8 @@ static void	cd_to_target(char *target_dir)
 	if (chdir(target_dir) == -1)
 	{
 		write(2, "minishell: cd: No such file or directory\n", 41);
-		free_env_list(*handle_t_env(NULL));
-		rl_clear_history();
-		exit(1);
+		g_exit_status = 1;
+		return ;
 	}
 	update_pwd();
 }

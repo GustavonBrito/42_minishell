@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/16 15:00:48 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/03 20:51:27 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,27 @@ void	check_exit_condition(char *buffer_received)
 	if (buffer_received == NULL)
 	{
 		ft_printf("exit\n");
+		(*(handle_t_env(NULL)))->cat_flag = 0;
 		rl_clear_history();
 		free_env_list(*handle_t_env(NULL));
 		exit(0);
 	}
 }
 
-void	signal_handler(int signal)
+void	signal_handler(int signal_received)
 {
-	(void)signal;
+	t_env	*handle_cat;
+
+	(void)signal_received;
+	handle_cat = *handle_t_env(NULL);
 	ft_printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
 	g_exit_status = 130;
+	if (handle_cat->cat_flag == 0)
+		rl_redisplay();
+	else
+		handle_cat->cat_flag = 0;
 }
 
 char	*obtain_current_directory(void)

@@ -17,8 +17,8 @@ int	main(int argc, char **argv, char **env);
 
 int	main(int argc, char **argv, char **env)
 {
-	(void) argc;
-	(void) argv;
+	(void)argc;
+	(void)argv;
 	g_exit_status = 0;
 	handle_store_env(env);
 	shell_loop();

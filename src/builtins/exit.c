@@ -5,22 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/06 13:31:26 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/26 23:18:48 by gustavo          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/*   Updated: 2025/08/17 17:03:06 by gustavo          ###   ########.fr       */
+/*   Created: 2025/09/05 15:56:34 by gustavo           #+#    #+#             */
+/*   Updated: 2025/09/09 20:38:45 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void				exit_minishell(t_command *cmd);
-static int			is_valid_number(char *str);
-static int			count_args(char **args);
-static int			ft_atoi_exit(char *str);
-static int			calculate_exit_code(int code);
+void		exit_minishell(t_command *cmd);
+static int	is_valid_number(char *str);
+static int	count_args(char **args);
+static int	ft_atoi_exit(char *str);
+static int	calculate_exit_code(int code);
 
 void	exit_minishell(t_command *cmd)
 {
@@ -31,6 +27,7 @@ void	exit_minishell(t_command *cmd)
 	arg_count = count_args(cmd->args);
 	if (!cmd || !cmd->args || arg_count == 1)
 	{
+		(*(handle_t_env(NULL)))->cat_flag = 0;
 		flush_rsc_minishell((*handle_t_env(NULL)), cmd, g_exit_status);
 		free_env_list(*handle_t_env(NULL));
 		rl_clear_history();
@@ -41,6 +38,7 @@ void	exit_minishell(t_command *cmd)
 		if (!is_valid_number(cmd->args[1]))
 		{
 			write(2, "minishell: exit: numeric argument required", 42);
+			(*(handle_t_env(NULL)))->cat_flag = 0;
 			flush_rsc_minishell((*handle_t_env(NULL)), cmd, 2);
 			free_env_list(*handle_t_env(NULL));
 			rl_clear_history();
@@ -53,7 +51,7 @@ void	exit_minishell(t_command *cmd)
 			return ;
 		}
 		exit_code = ft_atoi_exit(cmd->args[1]);
-		exit_code =  calculate_exit_code(exit_code);
+		exit_code = calculate_exit_code(exit_code);
 		flush_rsc_minishell((*handle_t_env(NULL)), cmd, exit_code);
 		free_env_list(*handle_t_env(NULL));
 		rl_clear_history();

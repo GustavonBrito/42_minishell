@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_core.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio-x-x <gserafio-x-x@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/21 22:02:05 by gserafio-x-x         ###   ########.fr       */
+/*   Created: 2025/09/05 15:34:39 by gustavo           #+#    #+#             */
+/*   Updated: 2025/09/09 19:53:25 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int				has_pipes(t_command *cmd);
-int				execute_pipeline(t_command *cmd);
-int				count_commands(t_command *cmd);
-static int		wait_all_processes(t_pipe *pipes);
-int				handle_pipe_error(t_pipe *pipes);
+int			has_pipes(t_command *cmd);
+int			execute_pipeline(t_command *cmd);
+int			count_commands(t_command *cmd);
+static int	wait_all_processes(t_pipe *pipes);
+int			handle_pipe_error(t_pipe *pipes);
 
 int	has_pipes(t_command *cmd)
 {
@@ -30,9 +30,9 @@ int	has_pipes(t_command *cmd)
 
 int	execute_pipeline(t_command *cmd)
 {
-	pid_t		last_pid;
-	t_pipe		pipes;
-	int			result;
+	pid_t	last_pid;
+	t_pipe	pipes;
+	int		result;
 
 	(*handle_t_env(NULL))->pipe = &pipes;
 	if (!cmd)

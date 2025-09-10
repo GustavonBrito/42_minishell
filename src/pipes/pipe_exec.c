@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio-x-x <gserafio-x-x@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/15 15:51:04 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/21 21:31:49 by gserafio-x-x         ###   ########.fr       */
+/*   Created: 2025/09/05 16:07:04 by gustavo           #+#    #+#             */
+/*   Updated: 2025/09/05 16:07:06 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-pid_t			pipe_loop(t_command *cmd, t_pipe *pipes);
-static int		exec_pip_cmd(t_command *cmd, t_pipe *pipes, int cmd_index);
-void			execute_child_command(t_command *cmd);
-static void		close_parent_pipes(t_pipe *pipes, int current_index);
-static int		handle_builtin_in_pipe(t_command *cmd);
+pid_t		pipe_loop(t_command *cmd, t_pipe *pipes);
+static int	exec_pip_cmd(t_command *cmd, t_pipe *pipes, int cmd_index);
+void		execute_child_command(t_command *cmd);
+static void	close_parent_pipes(t_pipe *pipes, int current_index);
+static int	handle_builtin_in_pipe(t_command *cmd);
 
 pid_t	pipe_loop(t_command *cmd, t_pipe *pipes)
 {

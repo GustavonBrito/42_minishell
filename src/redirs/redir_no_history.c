@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 19:28:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/08 20:23:19 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/10 06:42:26 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	process_read_result(char **line, int i, int read_res);
 
 int	create_heredoc_file(char *delimiter)
 {
-	int		pipe_fd[2];
+	int	pipe_fd[2];
 
 	if (pipe(pipe_fd) == -1)
 	{
@@ -40,6 +40,14 @@ static void	heredoc_input_loop(int pipe_fd, char *delimiter)
 	line_count = 1;
 	ft_printf("> ");
 	line = read_line_no_history();
+	if (line == NULL)
+	{
+		if ((*(handle_t_env(NULL)))->cat_flag == 1)
+			(*(handle_t_env(NULL)))->cat_flag = 0;
+		write(2,
+			"minishell: warning: here-document at line 1 delimited by end-of-file (wanted `EOF')\n",
+			85);
+	}
 	while (line != NULL)
 	{
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0

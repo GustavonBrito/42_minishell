@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:39:52 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/10 02:01:27 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/10 06:43:02 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	fill_cmd_data(t_command *cmd, t_token **current, int arg_count)
 		if (is_argument_token((*current)->type))
 		{
 			cmd->args[arg_index] = ft_strdup((*current)->value);
+			if (!cmd->args[arg_index])
+				return (0);
 			cmd->quote_removed[arg_index] = 1;
 			cmd->token_types[arg_index] = (*current)->type;
 			arg_index++;
