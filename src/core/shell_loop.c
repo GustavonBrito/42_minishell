@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/09 20:28:34 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/10 14:14:03 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	shell_loop(void)
 		prompt = create_prompt();
 		if (!prompt)
 			return ;
+		(*handle_t_env(NULL))->pipe = NULL;
 		colored_prompt = ft_strjoin("\001\033[0;32m\002", prompt);
 		tmp = colored_prompt;
 		colored_prompt = ft_strjoin(colored_prompt, "\001\033[0m\002");

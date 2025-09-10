@@ -5,12 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/09 20:38:17 by gustavo          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/*   Updated: 2025/08/16 15:01:22 by gustavo          ###   ########.fr       */
+/*   Created: 2025/09/10 14:01:34 by gustavo           #+#    #+#             */
+/*   Updated: 2025/09/10 14:01:37 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +233,6 @@ void			flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code);
 
 //treat_leaks
 void			free_env_list(t_env *head);
-void			flush_pipe_str(t_pipe *pipes, t_command *cmd);
+void			flush_pipe_str(t_pipe *pipes);
 
 #endif

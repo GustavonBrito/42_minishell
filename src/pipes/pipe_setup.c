@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 17:55:08 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/09 19:51:49 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/10 14:21:25 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ void	cleanup_pipeline(t_pipe *pipes)
 		free(pipes->pids);
 		pipes->pids = NULL;
 	}
+	(*handle_t_env(NULL))->pipe = NULL;
 	pipes->total_commands = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:56:34 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/09 20:38:45 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/10 15:52:13 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,19 @@ void	exit_minishell(t_command *cmd)
 	{
 		if (!is_valid_number(cmd->args[1]))
 		{
-			write(2, "minishell: exit: numeric argument required", 42);
-			(*(handle_t_env(NULL)))->cat_flag = 0;
-			flush_rsc_minishell((*handle_t_env(NULL)), cmd, 2);
-			free_env_list(*handle_t_env(NULL));
-			rl_clear_history();
-			exit(2);
+			write(2, "minishell: exit: numeric argument required\n", 43);
+			g_exit_status = 2;
+			return ;
+			//(*(handle_t_env(NULL)))->cat_flag = 0;
+			//flush_rsc_minishell((*handle_t_env(NULL)), cmd, 2);
+			//free_env_list(*handle_t_env(NULL));
+			//rl_clear_history();
+			//exit(2);
 		}
 		if (arg_count > 2)
 		{
 			write(2, "minishell: exit: too many arguments\n", 36);
-			g_exit_status = 1;
+			g_exit_status = 2;
 			return ;
 		}
 		exit_code = ft_atoi_exit(cmd->args[1]);
