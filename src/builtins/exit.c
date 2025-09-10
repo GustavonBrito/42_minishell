@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:56:34 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/10 15:52:13 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/10 16:13:17 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	exit_minishell(t_command *cmd)
 		if (arg_count > 2)
 		{
 			write(2, "minishell: exit: too many arguments\n", 36);
-			g_exit_status = 2;
+			g_exit_status = 1;
 			return ;
 		}
 		exit_code = ft_atoi_exit(cmd->args[1]);
