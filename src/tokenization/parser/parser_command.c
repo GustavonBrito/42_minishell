@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:39:52 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/10 01:51:10 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/10 02:01:27 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ int	handle_parse_error(t_token *token, t_command *first_cmd)
 {
 	if (!token)
 	{
-		//report_error("syntax error near unexpected token 'newline'", 2);
 		free_commands(first_cmd);
 		return (0);
 	}
