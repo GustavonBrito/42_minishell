@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/05 14:27:37 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/09 20:28:34 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	shell_loop(void)
 		free(tmp);
 		buffer_received = readline(colored_prompt);
 		free(prompt);
+		free(colored_prompt);
 		check_exit_condition(buffer_received);
 		if (*buffer_received)
 		{

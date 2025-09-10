@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:56:34 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/05 15:56:36 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/09 20:38:45 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	exit_minishell(t_command *cmd)
 	arg_count = count_args(cmd->args);
 	if (!cmd || !cmd->args || arg_count == 1)
 	{
+		(*(handle_t_env(NULL)))->cat_flag = 0;
 		flush_rsc_minishell((*handle_t_env(NULL)), cmd, g_exit_status);
 		free_env_list(*handle_t_env(NULL));
 		rl_clear_history();
@@ -37,6 +38,7 @@ void	exit_minishell(t_command *cmd)
 		if (!is_valid_number(cmd->args[1]))
 		{
 			write(2, "minishell: exit: numeric argument required", 42);
+			(*(handle_t_env(NULL)))->cat_flag = 0;
 			flush_rsc_minishell((*handle_t_env(NULL)), cmd, 2);
 			free_env_list(*handle_t_env(NULL));
 			rl_clear_history();

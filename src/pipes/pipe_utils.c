@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:07:14 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/05 16:23:49 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/09 19:58:49 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	allocate_pids_array(t_pipe *pipes)
 	int	i;
 
 	pipes->pids = malloc(sizeof(pid_t) * pipes->total_commands);
-	// (*handle_t_env(NULL))->pid_list = pipes->pids;
+	//(*handle_t_env(NULL))->pid_list = pipes->pids;
 	if (!pipes->pids)
 	{
 		g_exit_status = 1;

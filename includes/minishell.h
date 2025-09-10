@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/03 10:00:14 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/09 20:38:17 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,5 +237,6 @@ void			flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code);
 
 //treat_leaks
 void			free_env_list(t_env *head);
+void			flush_pipe_str(t_pipe *pipes, t_command *cmd);
 
 #endif
