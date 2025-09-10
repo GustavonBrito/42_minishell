@@ -1,12 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_ve.c                                          :+:      :+:    :+:   */
+/*   execve_runner.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vboxuser <vboxuser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 20:54:17 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 19:06:35 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/29 14:11:42 by vboxuser         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/*   Updated: 2025/08/20 00:29:13 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +26,14 @@ int	run_external(t_command *cmd)
 {
 	char	**env_array;
 	char	*cmd_path;
+	t_env	*env;
 
+	env = (*handle_t_env(NULL));
 	if (!cmd || !cmd->args || !cmd->args[0])
-		exit(127);
+		flush_rsc_minishell(env, cmd, 127);
 	env_array = convert_env_to_array();
 	if (!env_array)
-		exit(1);
+		flush_rsc_minishell(env, cmd, 1);
 	cmd_path = get_executable_path(cmd);
 	run_execve(cmd, cmd_path, env_array);
 	cleanup_n_exit(env_array, cmd_path);
@@ -51,16 +57,21 @@ static int	is_empty_command(char *command)
 static void	run_execve(t_command *cmd, char *cmd_path, char **env_array)
 {
 	char	**args_to_use;
+	t_env	*env;
 
+	env = (*handle_t_env(NULL));
 	if (!cmd_path && !is_empty_command(cmd->args[0]))
 	{
+
 		free_env_array(env_array);
-		perror(" ");
-		exit(127);
+		write(2, "minishell: command not found\n", 29);
+		close_dup_fds(env->fd_stdin, env->fd_stdout);
+		flush_rsc_minishell(env, cmd, 127);
 	}
 	args_to_use = get_args_for_execution(cmd);
-	if (execve(cmd_path, args_to_use, env_array) == -1)
-		perror(" ");
+	execve(cmd_path, args_to_use, env_array);
+	close_dup_fds(env->fd_stdin, env->fd_stdout);
+	perror("minishell: ");
 }
 
 static char	**get_args_for_execution(t_command *cmd)

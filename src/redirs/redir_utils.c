@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:35:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/08 19:31:13 by luiza            ###   ########.fr       */
+/*   Updated: 2025/08/28 20:21:56 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	validate_redirection(t_redir *redir)
 			fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd == -1)
 		{
-			perror(" ");
+			perror("minishell ");
 			return (1);
 		}
 		close(fd);
@@ -61,7 +61,7 @@ static int	validate_input_redir(t_redir *redir)
 	fd = open(redir->file, O_RDONLY);
 	if (fd == -1)
 	{
-		perror(" ");
+		perror("minishell ");
 		return (1);
 	}
 	close(fd);
