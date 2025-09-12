@@ -1088,3 +1088,59 @@
    fun:shell_loop
    fun:main
 }
+{
+   readline_malloc_xmalloc_rl_maybe_save_line_1
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_maybe_save_line
+   fun:rl_get_previous_history
+   fun:_rl_dispatch_subseq
+   fun:readline_internal_char
+   fun:readline
+   fun:shell_loop
+   fun:main
+}
+{
+   readline_malloc_xmalloc_rl_maybe_save_line_2
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_maybe_save_line
+   fun:rl_get_previous_history
+   fun:_rl_dispatch_subseq
+   fun:readline_internal_char
+   fun:readline
+   fun:shell_loop
+   fun:main
+}
+{
+   readline_malloc_xmalloc_rl_maybe_save_line_1
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_maybe_save_line
+   fun:rl_get_previous_history
+   fun:_rl_dispatch_subseq
+   fun:readline_internal_char
+   fun:readline
+   fun:shell_loop
+   fun:main
+}
+{
+   readline_malloc_xmalloc_rl_maybe_save_line_2
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_maybe_save_line
+   fun:rl_get_previous_history
+   fun:_rl_dispatch_subseq
+   fun:readline_internal_char
+   fun:readline
+   fun:shell_loop
+   fun:main
+}

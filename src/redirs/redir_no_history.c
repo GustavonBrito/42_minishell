@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 19:28:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/10 16:00:37 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/11 18:51:55 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ static void	heredoc_input_loop(int pipe_fd, char *delimiter)
 	line = read_line_no_history();
 	if (line == NULL)
 	{
-		if ((*(handle_t_env(NULL)))->cat_flag == 1)
-			(*(handle_t_env(NULL)))->cat_flag = 0;
+		if ((*handle_t_env(NULL))->cat_flag == 1)
+		{
+			(*handle_t_env(NULL))->cat_flag = 0;
 		write(2,
 			"minishell: warning: here-document at line 1 delimited by end-of-file (wanted `EOF')\n",
 			85);
+		}
 	}
 	while (line != NULL)
 	{
