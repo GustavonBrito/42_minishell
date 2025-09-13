@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_core.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio-x-x <gserafio-x-x@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/21 19:12:00 by gserafio-x-x         ###   ########.fr       */
+/*   Updated: 2025/09/12 16:13:55 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,7 @@ static int	process_next_token(char *input, t_token **token_lst, int i)
 	else if (ft_isop(input[i]))
 		return (i + handle_op(input, token_lst, i));
 	else if (is_quote_token(input, i))
-	{
 		return (handle_quote_token(input, token_lst, i));
-	}
 	else
 		return (handle_word_token(input, token_lst, i));
 }

@@ -6,19 +6,16 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:19:33 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/09/09 22:53:18 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/11 17:21:14 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	flush_pipe_str(t_pipe *pipes, t_command *cmd)
+// void	flush_pipe_str(t_pipe *pipes)
 // {
 // 	int	i;
 
-// 	if (!pipes)
-// 		return ;
-// 	pipes->total_commands = count_commands(cmd);
 // 	if (pipes)
 // 	{
 // 		if (pipes->pipe_fds)
@@ -35,11 +32,15 @@
 // 		if (pipes->pids)
 // 			free(pipes->pids);
 // 	}
-// }
+//}
 
 void	flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code)
 {
-	//flush_pipe_str(env->pipe, cmd);
+	if (env->pipe != NULL)
+	{
+		cleanup_pipeline(env->pipe);
+		//flush_pipe_str(env->pipe);
+	}
 	free_tokens(env->tokens);
 	free_env_list(env);
 	rl_clear_history();

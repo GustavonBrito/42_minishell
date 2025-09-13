@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/10 06:45:05 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/13 19:06:10 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <termcap.h>
 # include <errno.h>
 # include "../libft/headers/libft.h"
@@ -237,6 +238,6 @@ void			flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code);
 
 //treat_leaks
 void			free_env_list(t_env *head);
-void			flush_pipe_str(t_pipe *pipes, t_command *cmd);
+void			flush_pipe_str(t_pipe *pipes);
 
 #endif

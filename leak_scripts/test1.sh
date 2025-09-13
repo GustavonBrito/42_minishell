@@ -2,7 +2,6 @@
 # Colete/edite seus casos aqui. Cada linha é um comando a ser alimentado ao minishell.
 # Linhas começando com # são ignoradas.
 
-read -r -d '' CASES << 'EOF'
 # Builtins básicos
 echo hello
 pwd
@@ -51,7 +50,7 @@ echo a | cat | cat | grep a > /dev/null
 echo a | cat | cat | grep b > /dev/null
 
 # Heredoc (não-interativo)
-cat << EOF
+cat << EOF #Analisar depois, conditional or jump on unitialized value
 line1
 line2
 EOF

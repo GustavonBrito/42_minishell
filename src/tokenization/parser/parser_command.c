@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:39:52 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/10 06:43:02 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/13 19:07:43 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,18 @@ void	finalize_command_arrays(t_command *cmd, int arg_count)
 
 int	handle_parse_error(t_token *token, t_command *first_cmd)
 {
+	int i;
+
+	i = 0;
 	if (!token)
 	{
+		report_error("syntax error near unexpected token 'newline'", 2);
+		while(1)
+		{
+			if (first_cmd->args[i] == NULL)
+				return (0);
+			i++;
+		}
 		free_commands(first_cmd);
 		return (0);
 	}
