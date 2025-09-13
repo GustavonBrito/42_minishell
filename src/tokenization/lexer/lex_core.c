@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_core.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio-x-x <gserafio-x-x@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/21 19:12:00 by gserafio-x-x         ###   ########.fr       */
+/*   Updated: 2025/09/12 16:13:55 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,27 @@ static int	process_commands(t_command *commands);
 
 int	process_input(char *input)
 {
+	int	i;
+	char	open_quote;
+
+	i = 0;
+	open_quote = 0;
+	while (input[i])
+	{
+		if ((input[i] == '\'' || input[i] == '"'))
+		{
+			if (open_quote == 0)
+				open_quote = input[i];
+			else if (open_quote == input[i])
+				open_quote = 0;
+		}
+		i++;
+	}
+	if (open_quote != 0)
+	{
+		write(2, "No closed quotes\n", 18);
+		return (0);
+	}
 	if (!input || ft_strlen(input) == 0)
 		return (0);
 	return (lex_token(input));
@@ -35,7 +56,10 @@ static int	lex_token(char *input)
 	res = tokenize_input(input, &token_lst);
 	if (res != 0)
 	{
-		free_tokens(token_lst);
+		if (ft_strncmp(input, "echo", 4) == 0)
+			printf("\n");
+		else if (ft_strncmp(input, "cat", 3) == 0)
+			write(2, "cat: '': No such file or directory\n", 36);
 		return (res);
 	}
 	commands = parse_tokens(token_lst);

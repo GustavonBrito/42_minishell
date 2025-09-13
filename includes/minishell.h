@@ -6,7 +6,11 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/08 23:56:50 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/12 11:39:30 by gustavo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/*   Updated: 2025/08/16 15:01:22 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +25,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <termcap.h>
 # include <errno.h>
 # include "../libft/headers/libft.h"
@@ -77,6 +82,7 @@ typedef struct s_env
 	int				fd_stdin;
 	int				fd_stdout;
 	int				export_organize_flag;
+	int				cat_flag;
 	t_token			*tokens;
 	t_pipe			*pipe;
 }	t_env;
@@ -232,5 +238,6 @@ void			flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code);
 
 //treat_leaks
 void			free_env_list(t_env *head);
+void			flush_pipe_str(t_pipe *pipes);
 
 #endif

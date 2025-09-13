@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio-x-x <gserafio-x-x@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 01:09:14 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/21 21:51:18 by gserafio-x-x         ###   ########.fr       */
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 01:09:14 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/17 15:15:48 by gustavo          ###   ########.fr       */
+/*   Created: 2025/09/05 15:56:44 by gustavo           #+#    #+#             */
+/*   Updated: 2025/09/11 18:51:51 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +65,7 @@ static t_env	*create_env_node(char *env_data)
 	new_node->tokens = NULL;
 	new_node->fd_stdin = -1;
 	new_node->fd_stdout = -1;
+	new_node->cat_flag = 0;
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -89,9 +86,9 @@ void	free_env_list(t_env *head)
 
 	tmp = head;
 	if (tmp->fd_stdin != -1)
-		close (tmp->fd_stdin);
+		close(tmp->fd_stdin);
 	if (tmp->fd_stdout != -1)
-		close (tmp->fd_stdout);
+		close(tmp->fd_stdout);
 	while (tmp)
 	{
 		next = tmp->next;

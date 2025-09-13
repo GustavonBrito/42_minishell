@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/17 15:15:33 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/11 17:13:12 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@ static int	verify_remove_env(char **argv, t_env *s_env);
 
 void	unset(t_command *cmd)
 {
+	t_env	*first_node;
 	t_env	*s_env;
 	t_env	*tmp;
 	t_env	*head;
 	t_env	*last;
 
 	s_env = *handle_t_env(NULL);
+	first_node = s_env;
 	head = NULL;
 	last = NULL;
 	while (s_env)
@@ -40,6 +42,7 @@ void	unset(t_command *cmd)
 		}
 		s_env = s_env->next;
 	}
+	free_env_list(first_node);
 	handle_t_env(head);
 }
 

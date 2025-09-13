@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/31 15:24:44 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/01 21:59:09 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	process_export_arg(char *arg);
 
 void	export(t_command *cmd)
 {
-	int		i;
+	int	i;
 
 	if (!cmd->args[1])
 	{
@@ -44,22 +44,22 @@ static void	process_export_arg(char *arg)
 	if (validate_identifier(verify_var) == 0)
 	{
 		write(2, "minishell: not a valid identifier\n", 35);
-		free_env_list(*handle_t_env(NULL));
-		rl_clear_history();
 		free(verify_var);
-		exit(1);
+		g_exit_status = 1;
+		return ;
 	}
 	free(verify_var);
 	found_env = find_env_var(arg);
 	if (equal_sign)
 	{
+		found_env = find_env_var(arg);
 		*equal_sign = '\0';
-		if ((found_env && found_env->env_data[ft_strlen(arg)] == '=') || found_env)
+		if (ft_strncmp(arg, found_env->env_data, ft_strlen(arg)) == 0)
 			update_env_var(found_env, arg, equal_sign + 1);
 		else
 			create_new_var(found_env, arg, equal_sign + 1);
 		*equal_sign = '=';
 	}
-	else if(ft_strncmp(found_env->env_data, arg, ft_strlen(arg)) != 0)
+	else if (ft_strncmp(found_env->env_data, arg, ft_strlen(arg)) != 0)
 		create_new_var(found_env, arg, equal_sign);
 }

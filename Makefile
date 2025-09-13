@@ -32,9 +32,9 @@ LEAKS := valgrind --leak-check=full --show-leak-kinds=all \
 	--track-origins=yes --log-file=valgrind-out.txt --track-fds=yes \
 	--suppressions=$(CURDIR)/valgrind_readline.supp
 
-val_leaks: all
+vl: all
 	@printf "Running valgrind (interactive). Valgrind log -> valgrind-out.txt\n"
-	@$(LEAKS) ./$(NAME)
+	@$(LEAKS) ./$(NAME)	
 
 clean:
 	@make -C $(LIBFT_DIR) clean
@@ -49,5 +49,3 @@ re:
 	@$(MAKE) all
 
 .PHONY: all clean fclean re val_leaks
-
-# valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=valgrind_readline.supp ./minishell
