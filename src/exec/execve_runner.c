@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:06:54 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/12 11:22:52 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/13 10:09:17 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,12 @@ static void	run_execve(t_command *cmd, char *cmd_path, char **env_array)
 	env = (*handle_t_env(NULL));
 	if (!cmd_path && !is_empty_command(cmd->args[0]))
 	{
+		if (g_exit_status == 0)
+			g_exit_status = 127;
 		free_env_array(env_array);
 		write(2, "minishell: command not found\n", 29);
 		close_dup_fds(env->fd_stdin, env->fd_stdout);
-		flush_rsc_minishell(env, cmd, 127);
+		flush_rsc_minishell(env, cmd, g_exit_status);
 	}
 	args_to_use = get_args_for_execution(cmd);
 	execve(cmd_path, args_to_use, env_array);
