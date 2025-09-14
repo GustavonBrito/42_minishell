@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/13 19:06:10 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:34:05 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_env
 	int				fd_stdout;
 	int				export_organize_flag;
 	int				cat_flag;
+	int				heredoc_mode;
 	t_token			*tokens;
 	t_pipe			*pipe;
 }	t_env;
@@ -91,9 +92,11 @@ typedef struct s_env
 extern int		g_exit_status;
 void			shell_loop(void);
 void			check_exit_condition(char *buffer_received);
-void			signal_handler(int signal);
 char			*obtain_current_directory(void);
 char			*get_env_or_cleanup(const char *var, char *to_free);
+void			signal_handler(int signal);
+void			setup_heredoc_signals(void);
+void			restore_normal_signals(void);
 
 //paths
 void			update_pwd(void);

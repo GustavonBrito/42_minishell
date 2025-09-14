@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 23:14:39 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/28 20:22:09 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/13 21:11:03 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,11 @@ int	handle_heredoc(t_redir *redir)
 	delimiter = redir->file;
 	heredoc_fd = create_heredoc_file(delimiter);
 	if (heredoc_fd == -1)
+	{
+		if (g_exit_status == 130)
+			return (130);
 		return (1);
+	}
 	if (dup2(heredoc_fd, STDIN_FILENO) == -1)
 	{
 		perror("minishell: dup2 ");
