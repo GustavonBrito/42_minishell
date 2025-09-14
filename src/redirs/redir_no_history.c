@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 19:28:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/11 18:51:55 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/14 12:24:29 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	heredoc_input_loop(int pipe_fd, char *delimiter)
 		ft_printf("> ");
 		line = read_line_no_history();
 	}
-	ft_printf("\nbash: warning: here-document ");
+	ft_printf("\nminishell: warning: here-document ");
 	ft_printf("at line %d delimited by end-of-file (wanted `%s')\n",
 		line_count, delimiter);
 }
