@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:07:14 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/09 19:58:49 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/14 15:29:32 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	allocate_pids_array(t_pipe *pipes)
 	int	i;
 
 	pipes->pids = malloc(sizeof(pid_t) * pipes->total_commands);
-	//(*handle_t_env(NULL))->pid_list = pipes->pids;
 	if (!pipes->pids)
 	{
 		g_exit_status = 1;
@@ -78,6 +77,18 @@ int	get_exit_status_from_wait(int status)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
+	{
+		if (WIFEXITED(status))
+		{
+			(*(handle_t_env(NULL)))->cat_flag = 0;
+			return (WEXITSTATUS(status));
+		}
+		if (WTERMSIG(status) == SIGQUIT && (*(handle_t_env(NULL)))->cat_flag == 1)
+		{
+			write(2, "Quit (core dumped)\n", 20);
+			(*(handle_t_env(NULL)))->cat_flag = 0;
+		}
 		return (128 + WTERMSIG(status));
+	}
 	return (0);
 }

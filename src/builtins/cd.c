@@ -34,9 +34,18 @@ void	cd(t_command *cmd)
 
 static void	cd_to_home(void)
 {
+	t_env	*env;
 	char	*home;
 
-	home = getenv("HOME");
+	// home = NULL;
+	env = *handle_t_env(NULL);
+	while (env)
+	{
+		if (ft_strncmp(env->env_data, "HOME", 4) == 0)
+			home = env->env_data;
+		env = env->next;
+	}
+	//home = getenv("HOME");
 	if (!home)
 	{
 		ft_printf("cd: HOME not set\n");
