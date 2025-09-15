@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/13 20:34:05 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/14 21:39:54 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <sys/stat.h>
 # include <termcap.h>
 # include <errno.h>
+# include <termios.h>
 # include "../libft/headers/libft.h"
 # include "../libft/headers/get_next_line.h"
 # include "../libft/headers/ft_printf.h"

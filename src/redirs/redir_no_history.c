@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 19:28:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/13 22:07:58 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/14 22:04:33 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,20 @@ int	create_heredoc_file(char *delimiter)
 
 static void	heredoc_input_loop(int pipe_fd, char *delimiter)
 {
-	char	*line;
-	int		line_count;
-	int		delimiter_len;
+	char			*line;
+	int				line_count;
+	int				delimiter_len;
+	struct termios	original_termios;
+	struct termios	new_termios;
 
 	line_count = 1;
 	delimiter_len = ft_strlen(delimiter);
 	setup_heredoc_signals();
+	tcgetattr(STDIN_FILENO, &original_termios);
+	new_termios = original_termios;
+	new_termios.c_lflag &= ~(ECHO | ECHOE | ECHOK | ECHONL);
+	new_termios.c_cc[VQUIT] = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 	while (1)
 	{
 		ft_printf("> ");
@@ -54,6 +61,7 @@ static void	heredoc_input_loop(int pipe_fd, char *delimiter)
 		{
 			if (g_exit_status == 130)
 			{
+				tcsetattr(STDIN_FILENO, TCSANOW, &original_termios);
 				restore_normal_signals();
 				return ;
 			}
@@ -82,6 +90,7 @@ static void	heredoc_input_loop(int pipe_fd, char *delimiter)
 		free(line);
 		line_count++;
 	}
+	tcsetattr(STDIN_FILENO, TCSANOW, &original_termios);
 	restore_normal_signals();
 }
 
