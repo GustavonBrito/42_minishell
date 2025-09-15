@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 20:26:54 by lukorman          #+#    #+#             */
-/*   Updated: 2025/09/13 20:33:01 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/14 21:09:17 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void setup_heredoc_signals(void)
 	if (env)
 		env->heredoc_mode = 1;
 	signal(SIGINT, signal_handler);
-    signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void restore_normal_signals(void)
@@ -57,7 +57,6 @@ void restore_normal_signals(void)
 	env = *handle_t_env(NULL);
 	if (env)
 		env->heredoc_mode = 0;
-
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
