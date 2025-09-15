@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
 /*   Updated: 2025/09/14 12:14:53 by gustavo          ###   ########.fr       */
@@ -13,7 +13,6 @@
 #include "minishell.h"
 
 void	check_exit_condition(char *buffer_received);
-void	signal_handler(int signal);
 char	*obtain_current_directory(void);
 char	*get_env_or_cleanup(const char *var, char *to_free);
 void	initialize_arrays(t_command *cmd, int arg_count);
@@ -28,22 +27,6 @@ void	check_exit_condition(char *buffer_received)
 		free_env_list(*handle_t_env(NULL));
 		exit(0);
 	}
-}
-
-void	signal_handler(int signal_received)
-{
-	t_env	*handle_cat;
-
-	(void)signal_received;
-	handle_cat = *handle_t_env(NULL);
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	g_exit_status = 130;
-	if (handle_cat->cat_flag == 0)
-		rl_redisplay();
-	else
-		handle_cat->cat_flag = 0;
 }
 
 char	*obtain_current_directory(void)
