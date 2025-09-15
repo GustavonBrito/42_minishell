@@ -52,7 +52,7 @@ void	exit_minishell(t_command *cmd)
 		flush_rsc_minishell((*handle_t_env(NULL)), cmd, exit_code);
 		free_env_list(*handle_t_env(NULL));
 		rl_clear_history();
-		exit(calculate_exit_code(exit_code));
+		exit(exit_code);
 	}
 	free_env_list(*handle_t_env(NULL));
 }
