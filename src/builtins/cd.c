@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 21:47:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/01 21:59:22 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/15 19:52:57 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	cd_to_home(void)
 	t_env	*env;
 	char	*home;
 
-	// home = NULL;
 	env = *handle_t_env(NULL);
 	while (env)
 	{
@@ -45,7 +44,6 @@ static void	cd_to_home(void)
 			home = env->env_data;
 		env = env->next;
 	}
-	//home = getenv("HOME");
 	if (!home)
 	{
 		ft_printf("cd: HOME not set\n");

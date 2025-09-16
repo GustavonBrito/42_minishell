@@ -34,7 +34,7 @@ LEAKS := valgrind --leak-check=full --show-leak-kinds=all \
 
 vl: all
 	@printf "Running valgrind (interactive). Valgrind log -> valgrind-out.txt\n"
-	@$(LEAKS) ./$(NAME)	
+	@$(LEAKS) ./$(NAME)
 
 clean:
 	@make -C $(LIBFT_DIR) clean

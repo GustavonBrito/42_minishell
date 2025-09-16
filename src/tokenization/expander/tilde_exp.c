@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tilde_exp.c.c                                      :+:      :+:    :+:   */
+/*   tilde_exp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 22:25:49 by luiza            ###   ########.fr       */
+/*   Updated: 2025/09/15 20:25:07 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,17 @@ int	handle_tilde_expansion(const char *str, char **res, int i_cmd)
 {
 	char	*home;
 	int		start;
+	t_env	*env;
 
+	env = *handle_t_env(NULL);
 	start = i_cmd;
-	home = getenv("HOME");
+	home = NULL;
+	while (env)
+	{
+		if (ft_strncmp(env->env_data, "HOME", 4) == 0)
+			home = env->env_data;
+		env = env->next;
+	}
 	if (!home)
 		return (handle_no_home_env(res));
 	if (str[i_cmd + 1] == '\0' || str[i_cmd + 1] == '/')
