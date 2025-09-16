@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:07:04 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/05 16:07:06 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/14 15:17:19 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ static int	exec_pip_cmd(t_command *cmd, t_pipe *pipes, int cmd_index)
 		g_exit_status = 1;
 		flush_rsc_minishell(env, cmd, -1);
 	}
+	if (ft_strncmp(cmd->args[0], "cat", 3) == 0 && cmd->args[1] == NULL)
+		(*handle_t_env(NULL))->cat_flag = 1;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -64,6 +66,7 @@ static int	exec_pip_cmd(t_command *cmd, t_pipe *pipes, int cmd_index)
 	}
 	else if (pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		setup_child_pipes(pipes, cmd_index);
 		if (setup_redirections(cmd) != 0)
 			flush_rsc_minishell(env, cmd, 1);
