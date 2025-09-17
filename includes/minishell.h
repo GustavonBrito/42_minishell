@@ -6,16 +6,16 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/17 13:56:18 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/16 19:56:20 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 /*   Updated: 2025/08/16 15:01:22 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define _GNU_SOURCE
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -201,7 +201,7 @@ int				handle_input_redirection(t_redir *redir);
 int				handle_output_redirection(t_redir *redir);
 int				handle_append_redirection(t_redir *redir);
 int				handle_heredoc(t_redir *redir);
-int				create_heredoc_file(char *delimiter);
+void			create_heredoc_file(char *delimiter);
 void			restore_std_fds(int saved_stdin, int saved_stdout);
 int				validate_redirection(t_redir *redir);
 int				apply_redirection(t_redir *redir);
