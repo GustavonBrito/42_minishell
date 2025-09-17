@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 23:14:39 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/16 20:48:53 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/16 22:22:58 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,5 +116,5 @@ int	handle_heredoc(t_redir *redir)
 
 	delimiter = redir->file;
 	create_heredoc_file(delimiter);
-	return (0);
+	return (g_exit_status);
 }

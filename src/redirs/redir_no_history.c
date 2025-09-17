@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 19:28:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/16 21:15:04 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/17 00:17:41 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,36 +43,30 @@ static void	heredoc_input_loop(struct termios original_termios, char *delimiter)
 	tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 	while (1)
 	{
-		ft_printf("> ");
+		if (g_exit_status == 130)
+		{
+			tcsetattr(STDIN_FILENO, TCSANOW, &original_termios);
+			restore_normal_signals();
+			return ;
+		}
 		line = read_line_no_history();
 		if (line == NULL)
 		{
-			if (g_exit_status == 130)
-			{
-				tcsetattr(STDIN_FILENO, TCSANOW, &original_termios);
-				restore_normal_signals();
-				return ;
-			}
 			if ((*handle_t_env(NULL))->cat_flag == 1)
 			{
 				(*handle_t_env(NULL))->cat_flag = 0;
-				ft_printf("minishell: warning: here-document at line 1");
-				ft_printf(" delimited by end-of-file (wanted `EOF')\n");
-			}
-			else
-			{
 				ft_printf("\nminishell: warning: here-document ");
 				ft_printf("at line %d delimited by end-of-file (wanted `%s')\n",
 					line_count, delimiter);
 			}
-			break ;
+			tcsetattr(STDIN_FILENO, TCSANOW, &original_termios);
+			restore_normal_signals();
+			return ;
 		}
 		if (ft_strncmp(line, delimiter, delimiter_len) == 0
 			&& ft_strlen(line) == (size_t)delimiter_len)
-		{
-			free(line);
 			break ;
-		}
+		free(line);
 		line_count++;
 	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &original_termios);
@@ -91,12 +85,15 @@ static char	*read_line_no_history(void)
 	if (!line)
 		return (NULL);
 	i = 0;
+	ft_printf("> ");
 	while (1)
 	{
 		read_res = read_char_to_buffer(&line, &i, &capacity);
-		if (read_res == -2 && line)
+		if (read_res == -2)
 		{
-			free(line);
+			g_exit_status = 130;
+			if (line)
+				free(line);
 			return (NULL);
 		}
 		if (process_read_result(&line, i, read_res))
@@ -118,14 +115,18 @@ static int	read_char_to_buffer(char **line, int *i, int *capacity)
 	int		read_res;
 
 	read_res = read(STDIN_FILENO, buffer, 1);
-	if (read_res == -1 && errno == EINTR)
+	if ((read_res == -1 && errno == EINTR))
+	{
+		if (g_exit_status == 130)
+				return (-2);
+			return (1);
+	}
+	if (read_res == 3)
 		return (-2);
 	if (read_res <= 0)
 		return (0);
 	if (buffer[0] == '\n')
 		return (-1);
-	if (buffer[0] == 28)
-		return (1);
 	if (*i >= *capacity - 1)
 	{
 		*capacity *= 2;
