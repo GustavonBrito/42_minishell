@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:07:14 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/14 15:29:32 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/17 12:02:15 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	wait_single_process(t_pipe *pipes, int index)
 
 int	get_exit_status_from_wait(int status)
 {
+	(*handle_pipe_mode())->pipe_mode = 0;
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))

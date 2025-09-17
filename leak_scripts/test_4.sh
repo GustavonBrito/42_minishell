@@ -9,7 +9,7 @@ cat < out1.txt
 # REDIRECIONAMENTO ERRADO
 # =======================
 > arquivo_inexistente/nao_pode
-echo $?   # deve ser != 0
+echo $?   # deve ser != 0 #error
 
 # =======================
 # PIPE SIMPLES

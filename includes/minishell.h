@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/14 21:39:54 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/17 13:56:18 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,15 @@ typedef struct s_env
 	int				export_organize_flag;
 	int				cat_flag;
 	int				heredoc_mode;
+	t_command		*first_cmd;
 	t_token			*tokens;
 	t_pipe			*pipe;
 }	t_env;
+
+typedef struct s_pipe_mode
+{
+	int		pipe_mode;
+}	t_pipe_mode;
 
 //core
 extern int		g_exit_status;
@@ -207,7 +213,7 @@ int				execute_builtin(t_command *cmd);
 int				execute_external_command(t_command *cmd);
 void			handle_command_execution(t_command *cmd);
 int				check_builtin(t_command *cmd);
-int				run_external(t_command *cmd);
+int				run_external(t_command *cmd, t_command *first_cmd);
 char			**convert_env_to_array(void);
 char			**cleanup_failed_env_array(char **env_array, int filled_count);
 void			cleanup_n_exit(char **env_array, char *cmd_path);
@@ -223,7 +229,7 @@ int				count_commands(t_command *cmd);
 int				create_pipe(int pipe_fd[2]);
 void			cleanup_pipeline(t_pipe *pipes);
 void			setup_child_pipes(t_pipe *pipes, int cmd_index);
-void			execute_child_command(t_command *cmd);
+void			execute_child_command(t_command *cmd_crr, t_command *first_cmd);
 void			free_pipe_fds(t_pipe *pipes);
 void			free_partial_fds(t_pipe *pipes, int max_index);
 int				allocate_pids_array(t_pipe *pipes);
@@ -232,6 +238,9 @@ void			init_pipe_fds(t_pipe *pipes);
 void			close_pipe_fd(int *fd);
 int				wait_single_process(t_pipe *pipes, int index);
 int				get_exit_status_from_wait(int status);
+void			init_pipe_struct(void);
+void			free_pipe_mode(t_pipe_mode *head);
+t_pipe_mode		**handle_pipe_mode(void);
 
 //error handling
 int				report_error(const char *msg, int exit_code);

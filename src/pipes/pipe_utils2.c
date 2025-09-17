@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pipe_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 00:45:31 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/17 13:36:18 by gustavo          ###   ########.fr       */
+/*   Created: 2025/09/17 11:44:21 by gustavo           #+#    #+#             */
+/*   Updated: 2025/09/17 13:56:38 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_exit_status;
-int	main(int argc, char **argv, char **env);
+void			init_pipe_struct(void);
+t_pipe_mode		**handle_pipe_mode(void);
 
-int	main(int argc, char **argv, char **env)
+void	init_pipe_struct(void)
 {
-	(void)argc;
-	(void)argv;
-	g_exit_status = 0;
-	handle_store_env(env);
-	init_pipe_struct();
-	shell_loop();
-	free_env_list(*handle_t_env(NULL));
-	rl_clear_history();
-	return (0);
+	t_pipe_mode *pipe;
+	
+	pipe = NULL;
+	pipe = ft_calloc(1, sizeof(t_pipe_mode));
+	*handle_pipe_mode() = pipe;
+}
+
+t_pipe_mode	**handle_pipe_mode(void)
+{
+	static t_pipe_mode	*pipe;
+	return (&pipe);
+}
+void		free_pipe_mode(t_pipe_mode *head)
+{
+	free(head);
 }
