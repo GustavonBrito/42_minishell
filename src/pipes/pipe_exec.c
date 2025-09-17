@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:07:04 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/16 22:19:59 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/17 12:02:10 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ pid_t	pipe_loop(t_command *cmd, t_pipe *pipes)
 	int			i;
 	t_command	*first_cmd;
 	
-	(*handle_t_env(NULL))->pipe_mode = 1;
+	(*handle_pipe_mode())->pipe_mode = 1;
 	first_cmd = cmd;
 	i = 0;
 	while (cmd && i < pipes->total_commands)

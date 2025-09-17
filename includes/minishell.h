@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/16 22:15:36 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/17 13:56:18 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,15 @@ typedef struct s_env
 	int				export_organize_flag;
 	int				cat_flag;
 	int				heredoc_mode;
-	int				pipe_mode;
 	t_command		*first_cmd;
 	t_token			*tokens;
 	t_pipe			*pipe;
 }	t_env;
+
+typedef struct s_pipe_mode
+{
+	int		pipe_mode;
+}	t_pipe_mode;
 
 //core
 extern int		g_exit_status;
@@ -234,6 +238,9 @@ void			init_pipe_fds(t_pipe *pipes);
 void			close_pipe_fd(int *fd);
 int				wait_single_process(t_pipe *pipes, int index);
 int				get_exit_status_from_wait(int status);
+void			init_pipe_struct(void);
+void			free_pipe_mode(t_pipe_mode *head);
+t_pipe_mode		**handle_pipe_mode(void);
 
 //error handling
 int				report_error(const char *msg, int exit_code);
