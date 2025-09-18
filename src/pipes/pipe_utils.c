@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:07:14 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/17 12:02:15 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/18 06:26:22 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ int	get_exit_status_from_wait(int status)
 			(*(handle_t_env(NULL)))->cat_flag = 0;
 			return (WEXITSTATUS(status));
 		}
-		if (WTERMSIG(status) == SIGQUIT && (*(handle_t_env(NULL)))->cat_flag == 1)
+		if (WTERMSIG(status) == SIGQUIT
+			&& (*(handle_t_env(NULL)))->cat_flag == 1)
 		{
 			write(2, "Quit (core dumped)\n", 20);
 			(*(handle_t_env(NULL)))->cat_flag = 0;
