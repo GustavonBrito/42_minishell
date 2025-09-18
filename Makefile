@@ -1,7 +1,7 @@
 CC = cc
 
 LIBFT_DIR = libft
-LIBFT_LIB = $(LIBFT_DIR)/libftprintf.a
+LIBFT_LIB = $(LIBFT_DIR)/libft_gnl_printf.a
 
 HEADER = -Iincludes -I$(LIBFT_DIR)
 
@@ -29,8 +29,13 @@ $(OBJ_DIR)/%.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 LEAKS := valgrind --leak-check=full --show-leak-kinds=all \
+<<<<<<< Updated upstream
 	--track-origins=yes --log-file=valgrind-out.txt --track-fds=yes \
 	--suppressions=$(CURDIR)/valgrind_readline.supp
+=======
+	--track-origins=yes --track-fds=yes \
+	--suppressions=$(CURDIR)/valgrind_readline.supp --log-file=valgrind-out.txt
+>>>>>>> Stashed changes
 
 vl: all
 	@printf "Running valgrind (interactive). Valgrind log -> valgrind-out.txt\n"

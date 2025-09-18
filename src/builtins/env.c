@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/11 17:12:03 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/18 01:08:25 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,5 @@ void	print_export(void)
 			ft_printf("declare -x %s=\"%s\"\n", buffer[0], buffer[1]);
 		ft_free_split(buffer);
 	}
-	ft_free_split(buffer);
+	//ft_free_split(buffer);
 }
