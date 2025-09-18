@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 09:12:28 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 11:00:47 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	process_export_arg(char *arg)
 
 	equal_sign = ft_strchr(arg, '=');
 	verify_var = ft_strdup(arg);
-	if (validate_identifier(verify_var) == 0)
+	if (validate_identifier(verify_var) == 0 || arg[0] == '=')
 		return (not_a_valid_identifier(&verify_var));
 	free(verify_var);
 	found_env = find_env_var(arg);

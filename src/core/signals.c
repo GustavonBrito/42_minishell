@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 20:26:54 by lukorman          #+#    #+#             */
-/*   Updated: 2025/09/18 06:33:39 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 11:12:32 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	signal_handler(int signal_received)
 	t_env	*handle_edge_cases;
 
 	(void)signal_received;
-	(*handle_t_env(NULL))->exit_timer++;
+	(*handle_t_env(NULL))->exit_timer = 1;
 	handle_edge_cases = *handle_t_env(NULL);
 	g_exit_status = 130;
 	if (handle_edge_cases->heredoc_mode)
