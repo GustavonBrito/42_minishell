@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_core.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:34:39 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/14 10:17:36 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/18 06:27:32 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ int	execute_pipeline(t_command *cmd)
 	if (last_pid == -1)
 	{
 		cleanup_pipeline(&pipes);
-		g_exit_status = 1;
-		return (g_exit_status);
+		return (g_exit_status = 1);
 	}
 	result = wait_all_processes(&pipes);
 	return (result);
