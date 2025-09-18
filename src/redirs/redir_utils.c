@@ -3,20 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:35:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/28 20:21:56 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/17 23:43:13 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void		create_heredoc_file(char *delimiter);
 void		restore_std_fds(int saved_stdin, int saved_stdout);
 int			validate_redirection(t_redir *redir);
 static int	validate_input_redir(t_redir *redir);
 int			apply_redirection(t_redir *redir);
-char		*ft_realloc(char *ptr, int old_size, int new_size);
+
+void	create_heredoc_file(char *delimiter)
+{
+	char			*line;
+	int				line_count;
+	int				delimiter_len;
+	t_env			*env;
+	
+	line_count = 1;
+	delimiter_len = ft_strlen(delimiter);
+	env= *handle_t_env(NULL);
+	setup_heredoc_signals();
+	while (1)
+	{
+		if (g_exit_status == 130 || env->heredoc_interrupted)
+		{
+			restore_normal_signals();
+			return ;
+		}
+		line = readline("> ");
+		if (g_exit_status == 130 || env->heredoc_interrupted)
+		{
+			if (line)
+				free(line);
+			restore_normal_signals();
+			return ;
+		}
+		if (line == NULL)
+		{
+			if (g_exit_status != 130 && !env->heredoc_interrupted)
+			{
+				ft_printf("\nminishell: warning: here-document ");
+				ft_printf("at line %d delimited by end-of-file (wanted `%s')\n",
+					line_count, delimiter);
+			}
+			restore_normal_signals();
+			return ;
+		}
+		if (ft_strncmp(line, delimiter, delimiter_len) == 0
+			&& ft_strlen(line) == (size_t)delimiter_len)
+			{
+				free(line);
+				break ;
+			}
+		free(line);
+		line_count++;
+	}
+	restore_normal_signals();
+}
 
 void	restore_std_fds(int saved_stdin, int saved_stdout)
 {
@@ -81,23 +130,3 @@ int	apply_redirection(t_redir *redir)
 	return (0);
 }
 
-char	*ft_realloc(char *ptr, int old_size, int new_size)
-{
-	char	*new_ptr;
-	int		i;
-
-	new_ptr = malloc(new_size);
-	if (!new_ptr)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	i = 0;
-	while (i < old_size && i < new_size)
-	{
-		new_ptr[i] = ptr[i];
-		i++;
-	}
-	free(ptr);
-	return (new_ptr);
-}
