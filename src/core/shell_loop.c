@@ -7,8 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
 /*   Updated: 2025/09/18 01:37:59 by lukorman         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -23,9 +22,11 @@ void	shell_loop(void)
 	char	*prompt;
 	char	*colored_prompt;
 	char	*tmp;
+	int		exit_timer;
 	t_env	*env;
 	int		exit_timer;
 
+	exit_timer = 0;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	exit_timer = 0;

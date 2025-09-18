@@ -10,9 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -248,6 +245,5 @@ void			flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code);
 
 //treat_leaks
 void			free_env_list(t_env *head);
-void			flush_pipe_str(t_pipe *pipes);
 
 #endif
