@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:35:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/18 18:52:28 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:41:41 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ static int	read_heredoc_line(char *delimiter, int line_count, int fd_archive)
 
 	delimiter_len = ft_strlen(delimiter);
 	line = readline("> ");
-
-	if (g_exit_status == 130)
+	if ((*handle_exit_status())->exit_status == 130)
 	{
 		if (line)
 			free(line);
@@ -50,8 +49,8 @@ void	create_heredoc_file(char *delimiter, int archive_fd)
 {
 	int	line_count;
 	int	status;
-	int saved_stdin;
-	int saved_stdout;
+	int	saved_stdin;
+	int	saved_stdout;
 
 	line_count = 1;
 	setup_heredoc_signals();

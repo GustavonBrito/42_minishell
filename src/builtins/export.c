@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 11:00:47 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:22:22 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	not_a_valid_identifier(char **verify_var)
 {
 	write(2, "minishell: not a valid identifier\n", 35);
 	free(*verify_var);
-	g_exit_status = 1;
+	(*handle_exit_status())->exit_status = 1;
 	return ;
 }
 

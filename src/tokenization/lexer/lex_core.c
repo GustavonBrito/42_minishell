@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/18 07:32:26 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:22:22 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,5 @@ static int	process_commands(t_command *commands)
 		current_cmd = current_cmd->next;
 	}
 	handle_command_execution(commands);
-	return (g_exit_status);
+	return ((*handle_exit_status())->exit_status);
 }

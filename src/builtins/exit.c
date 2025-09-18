@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:56:34 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/18 05:49:53 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:22:22 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	exit_minishell(t_command *cmd)
 
 	ft_printf("exit\n");
 	if (!cmd || !cmd->args)
-		cleanup_and_exit(g_exit_status, cmd);
+		cleanup_and_exit((*handle_exit_status())->exit_status, cmd);
 	arg_count = count_args(cmd->args);
 	if (arg_count == 1)
 	{
 		(*(handle_t_env(NULL)))->cat_flag = 0;
-		cleanup_and_exit(g_exit_status, cmd);
+		cleanup_and_exit((*handle_exit_status())->exit_status, cmd);
 	}
 	if (arg_count >= 2)
 	{

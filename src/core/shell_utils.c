@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 12:03:55 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:42:19 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,19 @@ void	initialize_arrays(t_command *cmd, int arg_count);
 
 void	check_exit_condition(char *buffer_received)
 {
+	int	exit_status;
+
+	exit_status = (*handle_exit_status())->exit_status;
 	if (buffer_received == NULL)
 	{
 		ft_printf("exit\n");
 		(*(handle_t_env(NULL)))->cat_flag = 0;
 		rl_clear_history();
 		free_env_list(*handle_t_env(NULL));
-		free_pipe_mode((*handle_pipe_mode()));
-		exit(g_exit_status);
+		free(*handle_pipe_mode());
+		free(*handle_heredoc_redir());
+		free(*handle_exit_status());
+		exit(exit_status);
 	}
 }
 

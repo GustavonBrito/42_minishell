@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_core.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:34:39 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/18 06:27:32 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:22:22 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	has_pipes(t_command *cmd)
 {
 	if (!cmd)
 	{
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 		return (0);
 	}
 	return (cmd->next != NULL);
@@ -37,21 +37,21 @@ int	execute_pipeline(t_command *cmd)
 	(*handle_t_env(NULL))->pipe = &pipes;
 	if (!cmd)
 	{
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 		return (0);
 	}
 	if (!cmd->next)
 		return (execute_command(cmd));
 	if (init_pipeline(&pipes, cmd) != 0)
 	{
-		g_exit_status = 1;
-		return (g_exit_status);
+		(*handle_exit_status())->exit_status = 1;
+		return ((*handle_exit_status())->exit_status);
 	}
 	last_pid = pipe_loop(cmd, &pipes);
 	if (last_pid == -1)
 	{
 		cleanup_pipeline(&pipes);
-		return (g_exit_status = 1);
+		return ((*handle_exit_status())->exit_status = 1);
 	}
 	result = wait_all_processes(&pipes);
 	return (result);
@@ -64,7 +64,7 @@ int	count_commands(t_command *cmd)
 
 	if (!cmd)
 	{
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 		return (0);
 	}
 	count = 0;
@@ -90,14 +90,14 @@ static int	wait_all_processes(t_pipe *pipes)
 			last_exit_status = wait_single_process(pipes, i);
 		i++;
 	}
-	g_exit_status = last_exit_status;
+	(*handle_exit_status())->exit_status = last_exit_status;
 	cleanup_pipeline(pipes);
-	return (g_exit_status);
+	return ((*handle_exit_status())->exit_status);
 }
 
 int	handle_pipe_error(t_pipe *pipes)
 {
-	g_exit_status = 1;
+	(*handle_exit_status())->exit_status = 1;
 	cleanup_pipeline(pipes);
 	return (-1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:07:04 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/18 05:29:32 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:22:22 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	exec_pip_cmd(t_command *cmd_crr, t_pipe *pipes, int cmd_index,
 	if (pid == -1)
 	{
 		perror("minishell: error with fork ");
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 		flush_rsc_minishell(env, cmd_crr, -1);
 	}
 	else if (pid == 0)
@@ -122,9 +122,9 @@ static int	handle_builtin_in_pipe(t_command *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 	{
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 		return (127);
 	}
 	is_builtin(cmd);
-	return (g_exit_status);
+	return ((*handle_exit_status())->exit_status);
 }

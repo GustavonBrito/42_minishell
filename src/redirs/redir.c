@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 07:44:53 by gserafio          #+#    #+#             */
-/*   Updated: 2025/09/18 18:59:52 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:42:08 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,13 @@ int	handle_heredoc(t_redir *redir)
 	int		fd_heredoc;
 	char	*tmp_heredoc;
 
-	tmp_heredoc = ft_strjoin("heredoc", ft_itoa((*handle_t_env(NULL))->fd_cat++));
+	tmp_heredoc = ft_strjoin("heredoc",
+			ft_itoa((*handle_t_env(NULL))->fd_cat++));
 	fd_heredoc = open(tmp_heredoc, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	delimiter = redir->file;
-	g_exit_status = 0;
+	(*handle_exit_status())->exit_status = 0;
 	create_heredoc_file(delimiter, fd_heredoc);
 	free(tmp_heredoc);
 	close(fd_heredoc);
-	return (g_exit_status);
+	return ((*handle_exit_status())->exit_status);
 }
