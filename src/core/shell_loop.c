@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/15 19:57:24 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/18 01:37:59 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@ void	shell_loop(void)
 	char	*colored_prompt;
 	char	*tmp;
 	t_env	*env;
+	int		exit_timer;
 
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
+	exit_timer = 0;
 	while (1)
 	{
 		env = *handle_t_env(NULL);
@@ -50,6 +52,16 @@ void	shell_loop(void)
 			g_exit_status = process_input(buffer_received);
 		}
 		free(buffer_received);
+		if (g_exit_status != 0)
+		{
+			if (exit_timer == 1)
+			{
+				exit_timer = 0;
+				g_exit_status = 0;
+			}
+			else
+				exit_timer++;
+		}
 	}
 }
 
