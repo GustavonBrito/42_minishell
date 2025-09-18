@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 09:25:44 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 12:05:43 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	unset(t_command *cmd)
 	handle_t_env(filtered_list);
 }
 
-
 int	verify_remove_env(char **argv, t_env *s_env)
 {
 	char	**buffer;
@@ -42,7 +41,7 @@ int	verify_remove_env(char **argv, t_env *s_env)
 	{
 		buffer = ft_split(s_env->env_data, '=');
 		if (ft_strncmp(buffer[0], argv[i], ft_strlen(argv[i])) == 0 && argv[i]
-		&& buffer[0][ft_strlen(argv[i])] == '\0')
+			&& buffer[0][ft_strlen(argv[i])] == '\0')
 		{
 			skip_flag = 1;
 			free_split(buffer);

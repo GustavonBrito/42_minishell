@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/17 13:54:30 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/18 12:03:55 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	check_exit_condition(char *buffer_received)
 		rl_clear_history();
 		free_env_list(*handle_t_env(NULL));
 		free_pipe_mode((*handle_pipe_mode()));
-		exit(0);
+		exit(g_exit_status);
 	}
 }
 
