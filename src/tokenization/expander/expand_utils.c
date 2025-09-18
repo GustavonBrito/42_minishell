@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/31 23:40:04 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/18 04:06:03 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*get_env_val(const char *var_name)
 	while (env)
 	{
 		value_to_compare = ft_split(env->env_data, '=');
-		if (ft_strncmp(value_to_compare[0], var_name, ft_strlen(var_name)) == 0)
+		if (ft_strcmp(value_to_compare[0], var_name) == 0)
 		{
 			equal_sign = ft_strnstr(env->env_data, "=", ft_strlen(env->env_data));
 			if (equal_sign)
