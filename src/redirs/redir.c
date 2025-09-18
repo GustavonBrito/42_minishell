@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 07:44:53 by gserafio          #+#    #+#             */
-/*   Updated: 2025/09/18 19:42:08 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 20:43:56 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,16 +113,16 @@ int	handle_append_redirection(t_redir *redir)
 int	handle_heredoc(t_redir *redir)
 {
 	char	*delimiter;
-	int		fd_heredoc;
+	// int		fd_heredoc;
 	char	*tmp_heredoc;
 
 	tmp_heredoc = ft_strjoin("heredoc",
 			ft_itoa((*handle_t_env(NULL))->fd_cat++));
-	fd_heredoc = open(tmp_heredoc, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	// fd_heredoc = open(tmp_heredoc, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	delimiter = redir->file;
 	(*handle_exit_status())->exit_status = 0;
-	create_heredoc_file(delimiter, fd_heredoc);
+	create_heredoc_file(delimiter, tmp_heredoc);
 	free(tmp_heredoc);
-	close(fd_heredoc);
+	// close(fd_heredoc);
 	return ((*handle_exit_status())->exit_status);
 }
