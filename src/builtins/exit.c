@@ -6,14 +6,14 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:56:34 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/17 22:46:35 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 05:49:53 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void		exit_minishell(t_command *cmd);
-static int	is_valid_number(char *str);
+int			is_valid_number(char *str);
 static int	count_args(char **args);
 static int	ft_atoi_exit(char *str);
 static int	calculate_exit_code(int code);
@@ -24,43 +24,26 @@ void	exit_minishell(t_command *cmd)
 	int	exit_code;
 
 	ft_printf("exit\n");
+	if (!cmd || !cmd->args)
+		cleanup_and_exit(g_exit_status, cmd);
 	arg_count = count_args(cmd->args);
-	if (!cmd || !cmd->args || arg_count == 1)
+	if (arg_count == 1)
 	{
 		(*(handle_t_env(NULL)))->cat_flag = 0;
-		flush_rsc_minishell((*handle_t_env(NULL)), cmd, g_exit_status);
-		free_env_list(*handle_t_env(NULL));
-		rl_clear_history();
-		exit(g_exit_status);
+		cleanup_and_exit(g_exit_status, cmd);
 	}
 	if (arg_count >= 2)
 	{
-		if (!is_valid_number(cmd->args[1]))
-		{
-			write(2, "minishell: exit: numeric argument required\n", 43);
-			g_exit_status = 2;
-			flush_rsc_minishell((*handle_t_env(NULL)), cmd, g_exit_status);
-			free_env_list(*handle_t_env(NULL));
-			rl_clear_history();
-			exit(g_exit_status);
-		}
-		else if (arg_count > 2)
-		{
-			write(2, "minishell: exit: too many arguments\n", 36);
-			g_exit_status = 1;
+		if (analyze_exit_args(cmd, arg_count) == 1)
 			return ;
-		}
 		exit_code = ft_atoi_exit(cmd->args[1]);
 		exit_code = calculate_exit_code(exit_code);
-		flush_rsc_minishell((*handle_t_env(NULL)), cmd, exit_code);
-		free_env_list(*handle_t_env(NULL));
-		rl_clear_history();
-		exit(exit_code);
+		cleanup_and_exit(exit_code, cmd);
 	}
 	free_env_list(*handle_t_env(NULL));
 }
 
-static int	is_valid_number(char *str)
+int	is_valid_number(char *str)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/17 22:57:18 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 07:32:26 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	process_commands(t_command *commands);
 
 int	process_input(char *input)
 {
-	int	i;
+	int		i;
 	char	open_quote;
 
 	i = 0;
@@ -39,10 +39,7 @@ int	process_input(char *input)
 		i++;
 	}
 	if (open_quote != 0)
-	{
-		write(2, "No closed quotes\n", 18);
-		return (0);
-	}
+		return (ft_putstr_fd("No closed quotes\n", 2), 0);
 	if (!input || ft_strlen(input) == 0)
 		return (0);
 	return (lex_token(input));
