@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 01:15:13 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 04:18:44 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_env
 	int				export_organize_flag;
 	int				cat_flag;
 	int				heredoc_mode;
+	int				exit_timer;
 	t_command		*first_cmd;
 	t_token			*tokens;
 	t_pipe			*pipe;

@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 20:26:54 by lukorman          #+#    #+#             */
-/*   Updated: 2025/09/18 01:18:35 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 04:21:17 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ void	signal_handler(int signal_received)
 {
 	t_env	*handle_edge_cases;
 
+	(void)signal_received;
+	(*handle_t_env(NULL))->exit_timer++;
 	handle_edge_cases = *handle_t_env(NULL);
-	if (handle_edge_cases->heredoc_mode && signal_received == SIGINT)
+	g_exit_status = 130;
+	if (handle_edge_cases->heredoc_mode)
 	{
 		write(STDOUT_FILENO, "\n", 1);
-		g_exit_status = 130;
 		close(STDIN_FILENO);
 		restore_normal_signals();
 		return ;
