@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_runner.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:06:54 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/17 14:24:54 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/17 20:57:39 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	run_execve(t_command *cmd, char *cmd_path, char **env_array, t_comma
 		if (g_exit_status == 0)
 			g_exit_status = 127;
 		free_env_array(env_array);
-		write(2, "minishell: command not found\n", 29);
+		write_err("minishell: command not found\n");
 		close_dup_fds(env->fd_stdin, env->fd_stdout);
 		if ((*handle_pipe_mode())->pipe_mode == 1)
 			flush_rsc_minishell(env, first_cmd, g_exit_status);

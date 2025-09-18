@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_core.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/14 12:30:07 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/17 22:57:18 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	process_input(char *input)
 
 	i = 0;
 	open_quote = 0;
+	if (input[0] == '|')
+		return (2);
 	while (input[i])
 	{
 		if ((input[i] == '\'' || input[i] == '"'))
