@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 07:55:49 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 09:03:29 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	export(t_command *cmd)
 {
 	int	i;
 
+	printf("%s", cmd->)
 	if (!cmd->args[1])
 	{
 		env(1);

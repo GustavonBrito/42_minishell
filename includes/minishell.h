@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 08:16:55 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 09:04:02 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_env
 	int				export_organize_flag;
 	int				cat_flag;
 	int				heredoc_mode;
+	int				exit_timer;
 	t_command		*first_cmd;
 	t_token			*tokens;
 	t_pipe			*pipe;
