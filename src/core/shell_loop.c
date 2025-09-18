@@ -22,7 +22,6 @@ void	shell_loop(void)
 	char	*prompt;
 	char	*colored_prompt;
 	char	*tmp;
-	int		exit_timer;
 	t_env	*env;
 	int		exit_timer;
 
