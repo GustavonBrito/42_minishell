@@ -15,14 +15,14 @@ OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 OBJ_DIR = build
 
-CFLAGS = -Werror -Wall -Wextra -fPIE -g $(HEADER)
+CFLAGS = -Werror -Wall -Wextra -g $(HEADER)
 READLINE_FLAG = -lreadline
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	@make -C $(LIBFT_DIR)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) -pie -o $@ $(READLINE_FLAG)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) -o $@ $(READLINE_FLAG)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
