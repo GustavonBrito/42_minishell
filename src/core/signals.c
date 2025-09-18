@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 20:26:54 by lukorman          #+#    #+#             */
-/*   Updated: 2025/09/17 23:34:51 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 01:18:35 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,8 @@ void	signal_handler(int signal_received)
 	{
 		write(STDOUT_FILENO, "\n", 1);
 		g_exit_status = 130;
-		handle_edge_cases->heredoc_interrupted = 1;
-		handle_edge_cases->heredoc_mode = 0;
-		rl_replace_line("", 0);
-		rl_done = 1;
+		close(STDIN_FILENO);
+		restore_normal_signals();
 		return ;
 	}
 	ft_printf("\n");
@@ -46,10 +44,7 @@ void setup_heredoc_signals(void)
 
 	env= *handle_t_env(NULL);
 	if (env)
-	{
 		env->heredoc_mode = 1;
-		env->heredoc_interrupted = 0;
-	}
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -60,10 +55,7 @@ void restore_normal_signals(void)
 
 	env = *handle_t_env(NULL);
 	if (env)
-	{
 		env->heredoc_mode = 0;
-		env->heredoc_interrupted = 0;
-	}
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 }

@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:35:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/17 23:43:13 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 01:16:54 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,15 @@ void	create_heredoc_file(char *delimiter)
 	int				line_count;
 	int				delimiter_len;
 	t_env			*env;
-	
+
 	line_count = 1;
 	delimiter_len = ft_strlen(delimiter);
 	env= *handle_t_env(NULL);
 	setup_heredoc_signals();
 	while (1)
 	{
-		if (g_exit_status == 130 || env->heredoc_interrupted)
-		{
-			restore_normal_signals();
-			return ;
-		}
 		line = readline("> ");
-		if (g_exit_status == 130 || env->heredoc_interrupted)
+		if (g_exit_status == 130)
 		{
 			if (line)
 				free(line);
@@ -46,7 +41,7 @@ void	create_heredoc_file(char *delimiter)
 		}
 		if (line == NULL)
 		{
-			if (g_exit_status != 130 && !env->heredoc_interrupted)
+			if (g_exit_status != 130)
 			{
 				ft_printf("\nminishell: warning: here-document ");
 				ft_printf("at line %d delimited by end-of-file (wanted `%s')\n",

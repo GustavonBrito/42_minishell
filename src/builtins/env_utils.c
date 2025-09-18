@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:56:44 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/17 23:31:35 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 01:15:04 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static t_env	*create_env_node(char *env_data)
 	new_node->fd_stdout = -1;
 	new_node->cat_flag = 0;
 	new_node->heredoc_mode = 0;
-	new_node->heredoc_interrupted = 0;
 	new_node->next = NULL;
 	return (new_node);
 }
