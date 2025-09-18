@@ -3,12 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/17 20:45:00 by gserafio         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*   Updated: 2025/09/18 01:37:59 by lukorman         ###   ########.fr       */
+
 
 #include "minishell.h"
 
@@ -25,10 +24,12 @@ void	shell_loop(void)
 	char	*tmp;
 	int		exit_timer;
 	t_env	*env;
+	int		exit_timer;
 
 	exit_timer = 0;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
+	exit_timer = 0;
 	while (1)
 	{
 		env = *handle_t_env(NULL);

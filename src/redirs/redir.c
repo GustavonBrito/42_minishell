@@ -6,9 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 23:14:39 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/17 19:12:57 by gserafio         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*   Updated: 2025/09/18 03:39:07 by lukorman         ###   ########.fr       */
 
 #include "minishell.h"
 
@@ -115,6 +113,7 @@ int	handle_heredoc(t_redir *redir)
 	char	*delimiter;
 
 	delimiter = redir->file;
+	g_exit_status = 0;
 	create_heredoc_file(delimiter);
 	return (g_exit_status);
 }
