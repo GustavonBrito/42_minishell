@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/11 17:13:12 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/18 04:33:17 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,14 @@ void	unset(t_command *cmd)
 	first_node = s_env;
 	head = NULL;
 	last = NULL;
+	tmp = NULL;
 	while (s_env)
 	{
 		if (!verify_remove_env(cmd->args, s_env))
 		{
 			tmp = malloc(sizeof(t_env));
+			if (!tmp)
+				break ;
 			tmp->env_data = ft_strdup(s_env->env_data);
 			tmp->next = NULL;
 			if (!head)

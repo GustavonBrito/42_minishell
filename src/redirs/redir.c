@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 23:14:39 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/28 20:22:09 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/17 19:12:57 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,19 +112,9 @@ int	handle_append_redirection(t_redir *redir)
 
 int	handle_heredoc(t_redir *redir)
 {
-	int		heredoc_fd;
 	char	*delimiter;
 
 	delimiter = redir->file;
-	heredoc_fd = create_heredoc_file(delimiter);
-	if (heredoc_fd == -1)
-		return (1);
-	if (dup2(heredoc_fd, STDIN_FILENO) == -1)
-	{
-		perror("minishell: dup2 ");
-		close(heredoc_fd);
-		return (1);
-	}
-	close(heredoc_fd);
-	return (0);
+	create_heredoc_file(delimiter);
+	return (g_exit_status);
 }

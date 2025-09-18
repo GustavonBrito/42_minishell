@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:56:34 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/10 16:13:17 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/17 22:46:35 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,12 @@ void	exit_minishell(t_command *cmd)
 		{
 			write(2, "minishell: exit: numeric argument required\n", 43);
 			g_exit_status = 2;
-			return ;
-			//(*(handle_t_env(NULL)))->cat_flag = 0;
-			//flush_rsc_minishell((*handle_t_env(NULL)), cmd, 2);
-			//free_env_list(*handle_t_env(NULL));
-			//rl_clear_history();
-			//exit(2);
+			flush_rsc_minishell((*handle_t_env(NULL)), cmd, g_exit_status);
+			free_env_list(*handle_t_env(NULL));
+			rl_clear_history();
+			exit(g_exit_status);
 		}
-		if (arg_count > 2)
+		else if (arg_count > 2)
 		{
 			write(2, "minishell: exit: too many arguments\n", 36);
 			g_exit_status = 1;
@@ -57,7 +55,7 @@ void	exit_minishell(t_command *cmd)
 		flush_rsc_minishell((*handle_t_env(NULL)), cmd, exit_code);
 		free_env_list(*handle_t_env(NULL));
 		rl_clear_history();
-		exit(calculate_exit_code(exit_code));
+		exit(exit_code);
 	}
 	free_env_list(*handle_t_env(NULL));
 }

@@ -6,7 +6,7 @@
 /*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:33:30 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/12 10:58:23 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/17 10:36:47 by gustavo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	execute_external_command(t_command *cmd)
 	else if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
-		exit(run_external(cmd));
+		exit(run_external(cmd, cmd));
 	}
 	else
 	{

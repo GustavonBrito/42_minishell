@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/10 14:14:03 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/17 20:45:00 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,21 @@ void	shell_loop(void)
 	char	*prompt;
 	char	*colored_prompt;
 	char	*tmp;
+	int		exit_timer;
+	t_env	*env;
 
+	exit_timer = 0;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
+		env = *handle_t_env(NULL);
+		if (env)
+			env->heredoc_mode = 0;
 		prompt = create_prompt();
 		if (!prompt)
 			return ;
-		(*handle_t_env(NULL))->pipe = NULL;
+		env->pipe = NULL;
 		colored_prompt = ft_strjoin("\001\033[0;32m\002", prompt);
 		tmp = colored_prompt;
 		colored_prompt = ft_strjoin(colored_prompt, "\001\033[0m\002");
@@ -46,6 +52,16 @@ void	shell_loop(void)
 			g_exit_status = process_input(buffer_received);
 		}
 		free(buffer_received);
+		if (g_exit_status != 0)
+		{
+			if (exit_timer == 1)
+			{
+				exit_timer = 0;
+				g_exit_status = 0;
+			}
+			else
+				exit_timer++;
+		}
 	}
 }
 

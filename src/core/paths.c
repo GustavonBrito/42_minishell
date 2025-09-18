@@ -20,15 +20,23 @@ static void	free_array(char **path_dirs);
 
 char	*find_command_path(char *command)
 {
+	t_env	*env;
 	char	*path_env;
 	char	**path_dirs;
 	char	*full_path;
 
+	path_env = NULL;
+	env = *handle_t_env(NULL);
 	if (!command || command[0] == '\0')
 		return (NULL);
 	if (ft_strchr(command, '/'))
 		return (check_absolute_path(command));
-	path_env = getenv("PATH");
+	while (env)
+	{
+		if (ft_strncmp(env->env_data, "PATH", 4) == 0)
+			path_env = env->env_data;
+		env = env->next;
+	}
 	if (!path_env)
 		return (NULL);
 	path_dirs = ft_split(path_env, ':');

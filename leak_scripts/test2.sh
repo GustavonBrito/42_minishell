@@ -25,7 +25,7 @@ cat <<STOP
 STOP
 
 # Delimitador vazio (não deve travar)
-cat << ""
+cat << "" #Dando erro
 
 # =============================
 # Comandos inválidos em pipe
