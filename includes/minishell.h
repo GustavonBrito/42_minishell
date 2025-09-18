@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 05:11:29 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 05:28:20 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,7 @@ int				get_exit_status_from_wait(int status);
 void			init_pipe_struct(void);
 void			free_pipe_mode(t_pipe_mode *head);
 t_pipe_mode		**handle_pipe_mode(void);
+int				validate_pre_fork(t_command *cmd_crr, t_command *first_cmd);
 
 //error handling
 int				report_error(const char *msg, int exit_code);

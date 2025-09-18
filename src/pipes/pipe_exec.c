@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:07:04 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/17 12:02:10 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/18 05:29:32 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 pid_t		pipe_loop(t_command *cmd, t_pipe *pipes);
-static int	exec_pip_cmd(t_command *cmd_crr, t_pipe *pipes, int cmd_index, t_command *cmd);
+static int	exec_pip_cmd(t_command *cmd_crr, t_pipe *pipes, int cmd_index,
+				t_command *cmd);
 void		execute_child_command(t_command *cmd_crr, t_command *cmd);
 static void	close_parent_pipes(t_pipe *pipes, int current_index);
 static int	handle_builtin_in_pipe(t_command *cmd);
@@ -23,7 +24,7 @@ pid_t	pipe_loop(t_command *cmd, t_pipe *pipes)
 	pid_t		pid;
 	int			i;
 	t_command	*first_cmd;
-	
+
 	(*handle_pipe_mode())->pipe_mode = 1;
 	first_cmd = cmd;
 	i = 0;
@@ -45,19 +46,15 @@ pid_t	pipe_loop(t_command *cmd, t_pipe *pipes)
 	return (pipes->pids[pipes->total_commands - 1]);
 }
 
-static int	exec_pip_cmd(t_command *cmd_crr, t_pipe *pipes, int cmd_index, t_command *first_cmd)
+static int	exec_pip_cmd(t_command *cmd_crr, t_pipe *pipes, int cmd_index,
+				t_command *first_cmd)
 {
 	pid_t	pid;
 	t_env	*env;
 
+	if (validate_pre_fork(cmd_crr, first_cmd) == -1)
+		return (-1);
 	env = (*handle_t_env(NULL));
-	if (!cmd_crr || !cmd_crr->args || !cmd_crr->args[0])
-	{
-		g_exit_status = 1;
-		flush_rsc_minishell(env, first_cmd, -1);
-	}
-	if (ft_strncmp(cmd_crr->args[0], "cat", 3) == 0 && cmd_crr->args[1] == NULL)
-		(*handle_t_env(NULL))->cat_flag = 1;
 	pid = fork();
 	if (pid == -1)
 	{
