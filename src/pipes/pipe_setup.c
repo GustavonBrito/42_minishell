@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 17:55:08 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/10 14:21:25 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/18 19:22:22 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ int	init_pipeline(t_pipe *pipes, t_command *cmd)
 {
 	if (!pipes || !cmd)
 	{
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 		return (-1);
 	}
 	ft_memset(pipes, 0, sizeof(t_pipe));
 	pipes->total_commands = count_commands(cmd);
 	if (pipes->total_commands <= 0)
 	{
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 		return (-1);
 	}
 	return (init_pipe_arrays(pipes));
@@ -58,7 +58,7 @@ void	init_pipe_fds(t_pipe *pipes)
 		if (!pipes->pipe_fds[i])
 		{
 			free_partial_fds(pipes, i);
-			g_exit_status = 1;
+			(*handle_exit_status())->exit_status = 1;
 			return ;
 		}
 		pipes->pipe_fds[i][0] = -1;
@@ -71,7 +71,7 @@ int	create_pipe(int pipe_fd[2])
 {
 	if (pipe(pipe_fd) == -1)
 	{
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 		perror("minishell: pipeline creation failed ");
 		return (-1);
 	}

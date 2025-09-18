@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:33:30 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/18 07:43:28 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:22:22 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	execute_command(t_command *cmd)
 	int	exec_result;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
-		return (g_exit_status = 1, 0);
+		return ((*handle_exit_status())->exit_status = 1, 0);
 	saved_stdin = dup(STDIN_FILENO);
 	(*handle_t_env(NULL))->fd_stdin = saved_stdin;
 	saved_stdout = dup(STDOUT_FILENO);
@@ -50,11 +50,11 @@ int	execute_builtin(t_command *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 	{
-		g_exit_status = 1;
-		return (g_exit_status);
+		(*handle_exit_status())->exit_status = 1;
+		return ((*handle_exit_status())->exit_status);
 	}
 	is_builtin(cmd);
-	return (g_exit_status);
+	return ((*handle_exit_status())->exit_status);
 }
 
 int	execute_external_command(t_command *cmd)
@@ -63,15 +63,15 @@ int	execute_external_command(t_command *cmd)
 
 	if (!cmd || !cmd->args || !cmd->args[0])
 	{
-		g_exit_status = 1;
-		return (g_exit_status);
+		(*handle_exit_status())->exit_status = 1;
+		return ((*handle_exit_status())->exit_status);
 	}
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("minishell: fork ");
-		g_exit_status = 1;
-		return (g_exit_status);
+		(*handle_exit_status())->exit_status = 1;
+		return ((*handle_exit_status())->exit_status);
 	}
 	else if (pid == 0)
 	{
@@ -80,8 +80,8 @@ int	execute_external_command(t_command *cmd)
 	}
 	else
 	{
-		g_exit_status = handle_parent_process(pid);
-		return (g_exit_status);
+		(*handle_exit_status())->exit_status = handle_parent_process(pid);
+		return ((*handle_exit_status())->exit_status);
 	}
 }
 
@@ -92,19 +92,19 @@ void	handle_command_execution(t_command *cmd)
 
 	if (!cmd)
 	{
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 		return ;
 	}
 	current = cmd;
 	if (has_pipes(current))
 	{
 		result = execute_pipeline(current);
-		g_exit_status = result;
+		(*handle_exit_status())->exit_status = result;
 	}
 	else
 	{
 		result = execute_command(current);
-		g_exit_status = result;
+		(*handle_exit_status())->exit_status = result;
 	}
 }
 
@@ -112,7 +112,7 @@ int	check_builtin(t_command *cmd)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 	{
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 		return (0);
 	}
 	if ((ft_strncmp(cmd->args[0], "echo", 4) == 0

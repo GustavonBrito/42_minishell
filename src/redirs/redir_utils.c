@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:35:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/18 20:26:30 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 20:49:28 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static int	read_heredoc_line(char *delimiter, int line_count, int fd_archive)
 
 	delimiter_len = ft_strlen(delimiter);
 	line = readline("> ");
+	if ((*handle_exit_status())->exit_status == 130)
 	if (g_exit_status == 130)
 	{
 		if (line)

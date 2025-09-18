@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 11:44:21 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/18 19:04:12 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:39:47 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	init_heredoc_struct(void)
 	heredoc = ft_calloc(1, sizeof(t_heredoc));
 	*handle_heredoc_redir() = heredoc;
 }
+
 t_heredoc	**handle_heredoc_redir(void)
 {
 	static t_heredoc	*heredoc;
@@ -56,7 +57,7 @@ int	validate_pre_fork(t_command *cmd_crr, t_command *first_cmd)
 	env = (*handle_t_env(NULL));
 	if (!cmd_crr || !cmd_crr->args || !cmd_crr->args[0])
 	{
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 		flush_rsc_minishell(env, first_cmd, -1);
 		return (-1);
 	}

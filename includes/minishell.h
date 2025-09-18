@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 18:50:25 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:39:26 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,19 @@ typedef struct s_pipe_mode
 	int		pipe_mode;
 }	t_pipe_mode;
 
-typedef	struct s_heredoc
+typedef struct s_heredoc
 {
 	int			fd_heredoc_in;
 	int			fd_heredoc_out;
 }	t_heredoc;
 
+typedef struct s_exit_status
+{
+	int			exit_status;
+}	t_exit_status;
+
 //core
-extern int		g_exit_status;
+
 void			shell_loop(void);
 void			check_exit_condition(char *buffer_received);
 char			*obtain_current_directory(void);
@@ -254,9 +259,10 @@ int				wait_single_process(t_pipe *pipes, int index);
 int				get_exit_status_from_wait(int status);
 void			init_pipe_struct(void);
 void			init_heredoc_struct(void);
-void			free_pipe_mode(t_pipe_mode *head);
+void			init_exit_struct(void);
 t_pipe_mode		**handle_pipe_mode(void);
 t_heredoc		**handle_heredoc_redir(void);
+t_exit_status	**handle_exit_status(void);
 int				validate_pre_fork(t_command *cmd_crr, t_command *first_cmd);
 
 //error handling

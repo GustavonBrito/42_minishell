@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 14:26:20 by gserafio          #+#    #+#             */
-/*   Updated: 2025/09/18 15:09:15 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:22:22 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,15 @@ void	process_user_input(char *buffer)
 	if (*buffer)
 	{
 		add_history(buffer);
-		g_exit_status = process_input(buffer);
+		(*handle_exit_status())->exit_status = process_input(buffer);
 	}
 	free(buffer);
-	if (g_exit_status != 0)
+	if ((*handle_exit_status())->exit_status != 0)
 	{
 		if ((*handle_t_env(NULL))->exit_timer == 1)
 		{
 			(*handle_t_env(NULL))->exit_timer = 0;
-			g_exit_status = 0;
+			(*handle_exit_status())->exit_status = 0;
 		}
 		else
 			(*handle_t_env(NULL))->exit_timer = 1;
