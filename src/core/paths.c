@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:59:26 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/13 10:09:50 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/18 06:34:51 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ char	*find_command_path(char *command)
 	free_array(path_dirs);
 	return (full_path);
 }
+
 static char	*check_absolute_path(char *command)
 {
-	struct stat st;
+	struct stat	st;
+
 	if (access(command, F_OK) == 0)
 	{
 		if (stat(command, &st) == 0)
