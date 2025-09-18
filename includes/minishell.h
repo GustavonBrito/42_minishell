@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/17 21:00:51 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/17 23:14:27 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ void			create_new_var(t_env *last_env, char *var_name, char *value);
 void			pwd(void);
 void			unset(t_command *cmd);
 void			ft_free_split(char **array);
+int				process_identifier_loop(char *arg, int j,
+					int *equal_passed, int *first_passed);
 
 //lexing
 int				process_input(char *input);
