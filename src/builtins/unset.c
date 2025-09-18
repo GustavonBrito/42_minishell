@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 09:19:43 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 09:25:44 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void		unset(t_command *cmd);
 int			verify_remove_env(char **argv, t_env *s_env);
+void		free_split(char **buffer);
 
 void	unset(t_command *cmd)
 {
