@@ -30,7 +30,6 @@ $(OBJ_DIR)/%.o: %.c
 
 LEAKS := valgrind --leak-check=full --show-leak-kinds=all \
 	--track-origins=yes --track-fds=yes \
-	--log-file=valgrind-out.txt \
 	--suppressions=$(CURDIR)/valgrind_readline.supp
 
 vl: all

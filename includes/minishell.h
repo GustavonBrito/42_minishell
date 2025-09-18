@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 05:28:20 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 09:18:14 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,13 @@ void			create_new_var(t_env *last_env, char *var_name, char *value);
 void			pwd(void);
 void			unset(t_command *cmd);
 void			ft_free_split(char **array);
-int				process_identifier_loop(char *arg, int j,
-					int *equal_passed, int *first_passed);
+int				check_identifier_loop(char *arg, int *equal_passed,
+					int *first_passed);
+int				verify_remove_env(char **argv, t_env *s_env);
+t_env			*create_filtered_list(t_command *cmd, t_env *s_env);
+int				analyze_exit_args(t_command *cmd, int arg_count);
+void			cleanup_and_exit(int exit_code, t_command *cmd);
+int				is_valid_number(char *str);
 
 //lexing
 int				process_input(char *input);
@@ -203,6 +208,7 @@ void			create_heredoc_file(char *delimiter);
 void			restore_std_fds(int saved_stdin, int saved_stdout);
 int				validate_redirection(t_redir *redir);
 int				apply_redirection(t_redir *redir);
+void			restore_std_fds(int saved_stdin, int saved_stdout);
 
 //exec
 int				execute_command(t_command *cmd);
@@ -215,6 +221,7 @@ char			**convert_env_to_array(void);
 char			**cleanup_failed_env_array(char **env_array, int filled_count);
 void			cleanup_n_exit(char **env_array, char *cmd_path);
 void			free_env_array(char **env_array);
+int				handle_parent_process(pid_t pid);
 
 //pipes
 int				has_pipes(t_command *cmd);

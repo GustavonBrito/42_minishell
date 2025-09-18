@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:33:30 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/17 10:36:47 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/18 07:43:28 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,14 @@ int	execute_command(t_command *cmd)
 	int	exec_result;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
-	{
-		g_exit_status = 1;
-		return (0);
-	}
+		return (g_exit_status = 1, 0);
 	saved_stdin = dup(STDIN_FILENO);
 	(*handle_t_env(NULL))->fd_stdin = saved_stdin;
 	saved_stdout = dup(STDOUT_FILENO);
 	(*handle_t_env(NULL))->fd_stdout = saved_stdout;
 	redir_result = setup_redirections(cmd);
 	if (redir_result != 0)
-	{
-		restore_std_fds(saved_stdin, saved_stdout);
-		return (redir_result);
-	}
+		return (restore_std_fds(saved_stdin, saved_stdout), redir_result);
 	if (check_builtin(cmd))
 		exec_result = execute_builtin(cmd);
 	else
@@ -86,23 +80,9 @@ int	execute_external_command(t_command *cmd)
 	}
 	else
 	{
-		waitpid(pid, &g_exit_status, 0);
-		if (WIFEXITED(g_exit_status))
-		{
-			(*(handle_t_env(NULL)))->cat_flag = 0;
-			return (WEXITSTATUS(g_exit_status));
-		}
-		else if (WIFSIGNALED(g_exit_status))
-		{
-			if (WTERMSIG(g_exit_status) == SIGQUIT)
-			{
-				write(2, "Quit (core dumped)\n", 20);
-				(*(handle_t_env(NULL)))->cat_flag = 0;
-			}
-			return (128 + WTERMSIG(g_exit_status));
-		}
+		g_exit_status = handle_parent_process(pid);
+		return (g_exit_status);
 	}
-	return (g_exit_status);
 }
 
 void	handle_command_execution(t_command *cmd)

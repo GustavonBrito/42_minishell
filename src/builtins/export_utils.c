@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 05:11:17 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 09:19:26 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,32 +20,18 @@ void	create_new_var(t_env *last_env, char *var_name, char *value);
 
 int	validate_identifier(char *arg)
 {
-	int	j;
 	int	equal_passed;
 	int	first_passed;
+	int	result;
 
-	j = 0;
 	equal_passed = 0;
 	first_passed = 0;
 	if (arg[ft_strlen(arg) - 1] == '=' && arg[ft_strlen(arg)] == '\0'
-		&& ft_isalnum(arg[j]) != 0)
+		&& ft_isalnum(arg[0]) != 0)
 		return (2);
-	while (arg[j] && equal_passed == 0)
-	{
-		if (ft_isalnum(arg[j]) == 4 && first_passed == 0)
-			return (0);
-		if (arg[j] == '=')
-		{
-			if (ft_isalnum(arg[j - 1] == 4) || ft_isalnum(arg[j - 1] == ' '))
-				return (0);
-			equal_passed = 1;
-		}
-		if (ft_isalnum(arg[j]) == 0 && arg[j] != '_' && (arg[j] != '=' || arg[j
-					+ 1] == '\0'))
-			return (0);
-		j++;
-		first_passed = 1;
-	}
+	result = check_identifier_loop(arg, &equal_passed, &first_passed);
+	if (result == 0)
+		return (0);
 	return (1);
 }
 

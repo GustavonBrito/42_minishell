@@ -6,52 +6,30 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 05:16:57 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 09:19:43 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void		unset(t_command *cmd);
-static int	verify_remove_env(char **argv, t_env *s_env);
-void		free_split(char **buffer);
+int			verify_remove_env(char **argv, t_env *s_env);
 
 void	unset(t_command *cmd)
 {
 	t_env	*first_node;
 	t_env	*s_env;
-	t_env	*tmp;
-	t_env	*head;
-	t_env	*last;
+	t_env	*filtered_list;
 
 	s_env = *handle_t_env(NULL);
 	first_node = s_env;
-	head = NULL;
-	last = NULL;
-	tmp = NULL;
-	while (s_env)
-	{
-		if (!verify_remove_env(cmd->args, s_env))
-		{
-			tmp = malloc(sizeof(t_env));
-			if (!tmp)
-				break ;
-			tmp->env_data = ft_strdup(s_env->env_data);
-			tmp->next = NULL;
-			if (!head)
-				head = tmp;
-			else
-				last->next = tmp;
-			last = tmp;
-		}
-		s_env = s_env->next;
-	}
+	filtered_list = create_filtered_list(cmd, s_env);
 	free_env_list(first_node);
-	handle_t_env(head);
+	handle_t_env(filtered_list);
 }
 
 
-static int	verify_remove_env(char **argv, t_env *s_env)
+int	verify_remove_env(char **argv, t_env *s_env)
 {
 	char	**buffer;
 	int		skip_flag;

@@ -3,17 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 01:14:14 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 09:12:28 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void		export(t_command *cmd);
+static void	not_a_valid_identifier(char **verify_var);
 static void	process_export_arg(char *arg);
+
+static void	not_a_valid_identifier(char **verify_var)
+{
+	write(2, "minishell: not a valid identifier\n", 35);
+	free(*verify_var);
+	g_exit_status = 1;
+	return ;
+}
 
 void	export(t_command *cmd)
 {
@@ -42,12 +51,7 @@ static void	process_export_arg(char *arg)
 	equal_sign = ft_strchr(arg, '=');
 	verify_var = ft_strdup(arg);
 	if (validate_identifier(verify_var) == 0)
-	{
-		write(2, "minishell: not a valid identifier\n", 35);
-		free(verify_var);
-		g_exit_status = 1;
-		return ;
-	}
+		return (not_a_valid_identifier(&verify_var));
 	free(verify_var);
 	found_env = find_env_var(arg);
 	if (equal_sign)

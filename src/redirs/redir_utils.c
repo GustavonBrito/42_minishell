@@ -3,77 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:35:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/18 01:16:54 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 08:18:15 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	read_heredoc_line(char *delimiter, int line_count);
 void		create_heredoc_file(char *delimiter);
-void		restore_std_fds(int saved_stdin, int saved_stdout);
 int			validate_redirection(t_redir *redir);
 static int	validate_input_redir(t_redir *redir);
 int			apply_redirection(t_redir *redir);
 
+static int	read_heredoc_line(char *delimiter, int line_count)
+{
+	char	*line;
+	int		delimiter_len;	
+
+	delimiter_len = ft_strlen(delimiter);
+	line = readline("> ");
+	if (g_exit_status == 130)
+	{
+		if (line)
+			free(line);
+		return (1);
+	}
+	if (line == NULL)
+	{
+		ft_printf("\nminishell: warning: here-document ");
+		ft_printf("at line %d delimited by end-of-file (wanted `%s')\n",
+			line_count, delimiter);
+		return (2);
+	}
+	if (ft_strncmp(line, delimiter, delimiter_len) == 0
+		&& ft_strlen(line) == (size_t)delimiter_len)
+		return (free(line), 3);
+	return (free(line), 0);
+}
+
 void	create_heredoc_file(char *delimiter)
 {
-	char			*line;
-	int				line_count;
-	int				delimiter_len;
-	t_env			*env;
+	int	line_count;
+	int	status;
 
 	line_count = 1;
-	delimiter_len = ft_strlen(delimiter);
-	env= *handle_t_env(NULL);
 	setup_heredoc_signals();
 	while (1)
 	{
-		line = readline("> ");
-		if (g_exit_status == 130)
+		status = read_heredoc_line(delimiter, line_count);
+		if (status == 1 || status == 2)
 		{
-			if (line)
-				free(line);
 			restore_normal_signals();
 			return ;
 		}
-		if (line == NULL)
-		{
-			if (g_exit_status != 130)
-			{
-				ft_printf("\nminishell: warning: here-document ");
-				ft_printf("at line %d delimited by end-of-file (wanted `%s')\n",
-					line_count, delimiter);
-			}
-			restore_normal_signals();
-			return ;
-		}
-		if (ft_strncmp(line, delimiter, delimiter_len) == 0
-			&& ft_strlen(line) == (size_t)delimiter_len)
-			{
-				free(line);
-				break ;
-			}
-		free(line);
+		if (status == 3)
+			break ;
 		line_count++;
 	}
 	restore_normal_signals();
-}
-
-void	restore_std_fds(int saved_stdin, int saved_stdout)
-{
-	if (saved_stdin != -1)
-	{
-		dup2(saved_stdin, STDIN_FILENO);
-		close(saved_stdin);
-	}
-	if (saved_stdout != -1)
-	{
-		dup2(saved_stdout, STDOUT_FILENO);
-		close(saved_stdout);
-	}
 }
 
 int	validate_redirection(t_redir *redir)
@@ -124,4 +114,3 @@ int	apply_redirection(t_redir *redir)
 		return (handle_heredoc(redir));
 	return (0);
 }
-
