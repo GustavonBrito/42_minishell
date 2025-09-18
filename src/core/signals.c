@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 20:26:54 by lukorman          #+#    #+#             */
-/*   Updated: 2025/09/18 04:21:17 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 06:33:39 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,20 @@ void	signal_handler(int signal_received)
 		handle_edge_cases->cat_flag = 0;
 }
 
-void setup_heredoc_signals(void)
+void	setup_heredoc_signals(void)
 {
-	t_env *env;
+	t_env	*env;
 
-	env= *handle_t_env(NULL);
+	env = *handle_t_env(NULL);
 	if (env)
 		env->heredoc_mode = 1;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void restore_normal_signals(void)
+void	restore_normal_signals(void)
 {
-	t_env *env;
+	t_env	*env;
 
 	env = *handle_t_env(NULL);
 	if (env)
