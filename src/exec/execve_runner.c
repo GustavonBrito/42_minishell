@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_runner.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:06:54 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/18 19:04:01 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 20:15:12 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void	run_execve(t_command *cmd, char *cmd_path, char **env_array,
 		if ((*handle_pipe_mode())->pipe_mode == 1)
 			flush_rsc_minishell(env, first_cmd, g_exit_status);
 		flush_rsc_minishell(env, cmd, g_exit_status);
-	}
+	}	
 	args_to_use = get_args_for_execution(cmd);
 	execve(cmd_path, args_to_use, env_array);
 	perror("minishell: ");

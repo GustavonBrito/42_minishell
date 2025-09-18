@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/03 20:17:27 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/18 19:31:18 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	add_token(t_token **head, char *input, t_token_type type)
 	t_token	*new;
 	t_token	*temp;
 
-	new = malloc(sizeof(t_token));
+	new = calloc(1, sizeof(t_token));
 	if (!new)
 		return ;
 	new->value = ft_strdup(input);

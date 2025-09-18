@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:35:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/18 18:52:28 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 20:26:30 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@ int			apply_redirection(t_redir *redir);
 static int	read_heredoc_line(char *delimiter, int line_count, int fd_archive)
 {
 	char	*line;
-	int		delimiter_len;	
+	int		delimiter_len;
 
 	delimiter_len = ft_strlen(delimiter);
 	line = readline("> ");
-
 	if (g_exit_status == 130)
 	{
 		if (line)
@@ -50,15 +49,15 @@ void	create_heredoc_file(char *delimiter, int archive_fd)
 {
 	int	line_count;
 	int	status;
-	int saved_stdin;
-	int saved_stdout;
+	// int saved_stdin;
+	// int saved_stdout;
 
 	line_count = 1;
 	setup_heredoc_signals();
-	saved_stdin = dup(STDIN_FILENO);
-	(*handle_heredoc_redir())->fd_heredoc_in = saved_stdin;
-	saved_stdout = dup(STDOUT_FILENO);
-	(*handle_heredoc_redir())->fd_heredoc_out = saved_stdout;
+	// saved_stdin = dup(STDIN_FILENO);
+	// (*handle_heredoc_redir())->fd_heredoc_in = saved_stdin;
+	// saved_stdout = dup(STDOUT_FILENO);
+	// (*handle_heredoc_redir())->fd_heredoc_out = saved_stdout;
 	while (1)
 	{
 		status = read_heredoc_line(delimiter, line_count, archive_fd);
@@ -68,7 +67,16 @@ void	create_heredoc_file(char *delimiter, int archive_fd)
 			return ;
 		}
 		if (status == 3)
-			break ;
+		{
+			close(archive_fd);
+			int fd_open = open("./heredoc0", O_RDONLY);
+			if (fd_open == -1)
+				printf ("cannot open\n");
+			dup2(fd_open, STDIN_FILENO);
+			close(fd_open);
+			// dup2(archive_fd, STDIN_FILENO);
+			return ;
+		}
 		line_count++;
 	}
 	restore_normal_signals();
