@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_cleaner.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustavo <gustavo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 13:19:33 by vboxuser          #+#    #+#             */
-/*   Updated: 2025/09/17 13:42:44 by gustavo          ###   ########.fr       */
+/*   Updated: 2025/09/18 19:02:09 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code)
 		cleanup_pipeline(env->pipe);
 	free_tokens(env->tokens);
 	free_env_list(env);
-	free_pipe_mode((*handle_pipe_mode()));
+	free(*handle_pipe_mode());
+	free(*handle_heredoc_redir());
 	rl_clear_history();
 	free_commands(cmd);
 	exit(exit_code);

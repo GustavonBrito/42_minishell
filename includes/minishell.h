@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 09:18:14 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:50:25 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_env
 	int				cat_flag;
 	int				heredoc_mode;
 	int				exit_timer;
+	int				fd_cat;
 	t_command		*first_cmd;
 	t_token			*tokens;
 	t_pipe			*pipe;
@@ -91,6 +92,12 @@ typedef struct s_pipe_mode
 	int		pipe_mode;
 }	t_pipe_mode;
 
+typedef	struct s_heredoc
+{
+	int			fd_heredoc_in;
+	int			fd_heredoc_out;
+}	t_heredoc;
+
 //core
 extern int		g_exit_status;
 void			shell_loop(void);
@@ -100,6 +107,9 @@ char			*get_env_or_cleanup(const char *var, char *to_free);
 void			signal_handler(int signal);
 void			setup_heredoc_signals(void);
 void			restore_normal_signals(void);
+char			*create_prompt(void);
+char			*get_user_input(t_env *env);
+void			process_user_input(char *buffer);
 
 //paths
 void			update_pwd(void);
@@ -204,7 +214,7 @@ int				handle_input_redirection(t_redir *redir);
 int				handle_output_redirection(t_redir *redir);
 int				handle_append_redirection(t_redir *redir);
 int				handle_heredoc(t_redir *redir);
-void			create_heredoc_file(char *delimiter);
+void			create_heredoc_file(char *delimiter, int fd_heredoc);
 void			restore_std_fds(int saved_stdin, int saved_stdout);
 int				validate_redirection(t_redir *redir);
 int				apply_redirection(t_redir *redir);
@@ -243,8 +253,10 @@ void			close_pipe_fd(int *fd);
 int				wait_single_process(t_pipe *pipes, int index);
 int				get_exit_status_from_wait(int status);
 void			init_pipe_struct(void);
+void			init_heredoc_struct(void);
 void			free_pipe_mode(t_pipe_mode *head);
 t_pipe_mode		**handle_pipe_mode(void);
+t_heredoc		**handle_heredoc_redir(void);
 int				validate_pre_fork(t_command *cmd_crr, t_command *first_cmd);
 
 //error handling

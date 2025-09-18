@@ -6,13 +6,16 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 14:26:20 by gserafio          #+#    #+#             */
-/*   Updated: 2025/09/18 14:27:03 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 15:09:15 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_user_input(t_env *env)
+char	*get_user_input(t_env *env);
+void	process_user_input(char *buffer);
+
+char	*get_user_input(t_env *env)
 {
 	char	*prompt;
 	char	*colored_prompt;
@@ -33,7 +36,7 @@ static char	*get_user_input(t_env *env)
 	return (buffer);
 }
 
-static void	process_user_input(char *buffer)
+void	process_user_input(char *buffer)
 {
 	if (!buffer)
 		check_exit_condition(buffer);
@@ -51,6 +54,6 @@ static void	process_user_input(char *buffer)
 			g_exit_status = 0;
 		}
 		else
-			(*handle_t_env(NULL))->exit_timer++;
+			(*handle_t_env(NULL))->exit_timer = 1;
 	}
 }

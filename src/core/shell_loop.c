@@ -6,14 +6,14 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 07:46:09 by gserafio          #+#    #+#             */
-/*   Updated: 2025/09/18 14:27:50 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 14:31:35 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void		shell_loop(void);
-static char	*create_prompt(void);
+char		*create_prompt(void);
 static char	*format_path(char *current_dir, char *home_dir);
 static char	*build_prompt(char *username, char *display_path);
 
@@ -34,7 +34,7 @@ void	shell_loop(void)
 	}
 }
 
-static char	*create_prompt(void)
+char	*create_prompt(void)
 {
 	char	*current_dir;
 	char	*username;

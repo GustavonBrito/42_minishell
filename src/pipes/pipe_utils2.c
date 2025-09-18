@@ -3,18 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 11:44:21 by gustavo           #+#    #+#             */
-/*   Updated: 2025/09/18 06:23:38 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:04:12 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void			init_heredoc_struct(void);
 void			init_pipe_struct(void);
+t_heredoc		**handle_heredoc_redir(void);
 t_pipe_mode		**handle_pipe_mode(void);
 int				validate_pre_fork(t_command *cmd_crr, t_command *first_cmd);
+
+void	init_heredoc_struct(void)
+{
+	t_heredoc	*heredoc;
+
+	heredoc = NULL;
+	heredoc = ft_calloc(1, sizeof(t_heredoc));
+	*handle_heredoc_redir() = heredoc;
+}
+t_heredoc	**handle_heredoc_redir(void)
+{
+	static t_heredoc	*heredoc;
+
+	return (&heredoc);
+}
 
 void	init_pipe_struct(void)
 {
@@ -30,11 +47,6 @@ t_pipe_mode	**handle_pipe_mode(void)
 	static t_pipe_mode	*pipe;
 
 	return (&pipe);
-}
-
-void	free_pipe_mode(t_pipe_mode *head)
-{
-	free(head);
 }
 
 int	validate_pre_fork(t_command *cmd_crr, t_command *first_cmd)

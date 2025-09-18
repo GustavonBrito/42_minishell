@@ -6,25 +6,26 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:35:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/18 08:18:15 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:52:28 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	read_heredoc_line(char *delimiter, int line_count);
-void		create_heredoc_file(char *delimiter);
+static int	read_heredoc_line(char *delimiter, int line_count, int fd_archive);
+void		create_heredoc_file(char *delimiter, int archive_fd);
 int			validate_redirection(t_redir *redir);
 static int	validate_input_redir(t_redir *redir);
 int			apply_redirection(t_redir *redir);
 
-static int	read_heredoc_line(char *delimiter, int line_count)
+static int	read_heredoc_line(char *delimiter, int line_count, int fd_archive)
 {
 	char	*line;
 	int		delimiter_len;	
 
 	delimiter_len = ft_strlen(delimiter);
 	line = readline("> ");
+
 	if (g_exit_status == 130)
 	{
 		if (line)
@@ -41,19 +42,26 @@ static int	read_heredoc_line(char *delimiter, int line_count)
 	if (ft_strncmp(line, delimiter, delimiter_len) == 0
 		&& ft_strlen(line) == (size_t)delimiter_len)
 		return (free(line), 3);
+	ft_putendl_fd(line, fd_archive);
 	return (free(line), 0);
 }
 
-void	create_heredoc_file(char *delimiter)
+void	create_heredoc_file(char *delimiter, int archive_fd)
 {
 	int	line_count;
 	int	status;
+	int saved_stdin;
+	int saved_stdout;
 
 	line_count = 1;
 	setup_heredoc_signals();
+	saved_stdin = dup(STDIN_FILENO);
+	(*handle_heredoc_redir())->fd_heredoc_in = saved_stdin;
+	saved_stdout = dup(STDOUT_FILENO);
+	(*handle_heredoc_redir())->fd_heredoc_out = saved_stdout;
 	while (1)
 	{
-		status = read_heredoc_line(delimiter, line_count);
+		status = read_heredoc_line(delimiter, line_count, archive_fd);
 		if (status == 1 || status == 2)
 		{
 			restore_normal_signals();
