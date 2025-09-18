@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/17 23:14:27 by gserafio         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
+/*   Updated: 2025/09/18 05:11:29 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define _GNU_SOURCE
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -28,7 +24,6 @@
 # include <sys/stat.h>
 # include <termcap.h>
 # include <errno.h>
-# include <termios.h>
 # include "../libft/headers/libft.h"
 # include "../libft/headers/get_next_line.h"
 # include "../libft/headers/ft_printf.h"
@@ -85,6 +80,7 @@ typedef struct s_env
 	int				export_organize_flag;
 	int				cat_flag;
 	int				heredoc_mode;
+	int				exit_timer;
 	t_command		*first_cmd;
 	t_token			*tokens;
 	t_pipe			*pipe;
@@ -207,7 +203,6 @@ void			create_heredoc_file(char *delimiter);
 void			restore_std_fds(int saved_stdin, int saved_stdout);
 int				validate_redirection(t_redir *redir);
 int				apply_redirection(t_redir *redir);
-char			*ft_realloc(char *ptr, int old_size, int new_size);
 
 //exec
 int				execute_command(t_command *cmd);

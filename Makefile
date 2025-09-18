@@ -1,7 +1,7 @@
 CC = cc
 
 LIBFT_DIR = libft
-LIBFT_LIB = $(LIBFT_DIR)/libftprintf.a
+LIBFT_LIB = $(LIBFT_DIR)/libft_gnl_printf.a
 
 HEADER = -Iincludes -I$(LIBFT_DIR)
 
@@ -15,14 +15,14 @@ OBJS =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 OBJ_DIR = build
 
-CFLAGS = -Werror -Wall -Wextra -fPIE -g $(HEADER)
+CFLAGS = -Werror -Wall -Wextra -g $(HEADER)
 READLINE_FLAG = -lreadline
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	@make -C $(LIBFT_DIR)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) -pie -o $@ $(READLINE_FLAG)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) -o $@ $(READLINE_FLAG)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
@@ -30,6 +30,7 @@ $(OBJ_DIR)/%.o: %.c
 
 LEAKS := valgrind --leak-check=full --show-leak-kinds=all \
 	--track-origins=yes --track-fds=yes \
+	--log-file=valgrind-out.txt \
 	--suppressions=$(CURDIR)/valgrind_readline.supp
 
 vl: all

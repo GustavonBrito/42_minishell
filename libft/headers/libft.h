@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:36:25 by gserafio          #+#    #+#             */
-/*   Updated: 2025/04/17 12:36:27 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 01:27:45 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 int		ft_putnbr(int n);
 int		ft_atoi_hexa(char *str);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif

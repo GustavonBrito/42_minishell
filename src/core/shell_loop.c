@@ -3,12 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/17 20:45:00 by gserafio         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*   Updated: 2025/09/18 01:37:59 by lukorman         ###   ########.fr       */
+
 
 #include "minishell.h"
 
@@ -23,10 +22,8 @@ void	shell_loop(void)
 	char	*prompt;
 	char	*colored_prompt;
 	char	*tmp;
-	int		exit_timer;
 	t_env	*env;
 
-	exit_timer = 0;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
@@ -54,13 +51,13 @@ void	shell_loop(void)
 		free(buffer_received);
 		if (g_exit_status != 0)
 		{
-			if (exit_timer == 1)
+			if ((*handle_t_env(NULL))->exit_timer == 1)
 			{
-				exit_timer = 0;
+				(*handle_t_env(NULL))->exit_timer = 0;
 				g_exit_status = 0;
 			}
 			else
-				exit_timer++;
+				(*handle_t_env(NULL))->exit_timer++;
 		}
 	}
 }

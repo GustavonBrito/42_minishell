@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/17 23:21:38 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 05:11:17 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ t_env	*find_env_var(char *var_name)
 	while (s_env)
 	{
 		env_to_compare = ft_split(s_env->env_data, '=');
-		if (ft_strncmp(var_to_compare[0], env_to_compare[0],
-				ft_strlen(var_to_compare[0])) == 0)
+		if (ft_strcmp(var_to_compare[0], env_to_compare[0]) == 0)
 		{
 			ft_free_split(env_to_compare);
 			ft_free_split(var_to_compare);
