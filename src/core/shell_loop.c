@@ -6,7 +6,7 @@
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 07:46:09 by gserafio          #+#    #+#             */
-/*   Updated: 2025/09/18 11:38:58 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 14:26:52 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ static char	*build_prompt(char *username, char *display_path);
 
 void	shell_loop(void)
 {
-	char	*buffer_received;
-	char	*prompt;
-	char	*colored_prompt;
-	char	*tmp;
+	char	*buffer;
 	t_env	*env;
 
 	signal(SIGINT, signal_handler);
@@ -32,36 +29,56 @@ void	shell_loop(void)
 		env = *handle_t_env(NULL);
 		if (env)
 			env->heredoc_mode = 0;
-		prompt = create_prompt();
-		if (!prompt)
-			return ;
-		env->pipe = NULL;
-		colored_prompt = ft_strjoin("\001\033[0;32m\002", prompt);
-		tmp = colored_prompt;
-		colored_prompt = ft_strjoin(colored_prompt, "\001\033[0m\002");
-		free(tmp);
-		buffer_received = readline(colored_prompt);
-		free(prompt);
-		free(colored_prompt);
-		check_exit_condition(buffer_received);
-		if (*buffer_received)
-		{
-			add_history(buffer_received);
-			g_exit_status = process_input(buffer_received);
-		}
-		free(buffer_received);
-		if (g_exit_status != 0)
-		{
-			if ((*handle_t_env(NULL))->exit_timer == 1)
-			{
-				(*handle_t_env(NULL))->exit_timer = 0;
-				g_exit_status = 0;
-			}
-			else
-				(*handle_t_env(NULL))->exit_timer++;
-		}
+		buffer = get_user_input(env);
+		process_user_input(buffer);
 	}
 }
+
+// void	shell_loop(void)
+// {
+// 	char	*buffer_received;
+// 	char	*prompt;
+// 	char	*colored_prompt;
+// 	char	*tmp;
+// 	t_env	*env;
+
+// 	signal(SIGINT, signal_handler);
+// 	signal(SIGQUIT, SIG_IGN);
+// 	while (1)
+// 	{
+// 		env = *handle_t_env(NULL);
+// 		if (env)
+// 			env->heredoc_mode = 0;
+// 		prompt = create_prompt();
+// 		if (!prompt)
+// 			return ;
+// 		env->pipe = NULL;
+// 		colored_prompt = ft_strjoin("\001\033[0;32m\002", prompt);
+// 		tmp = colored_prompt;
+// 		colored_prompt = ft_strjoin(colored_prompt, "\001\033[0m\002");
+// 		free(tmp);
+// 		buffer_received = readline(colored_prompt);
+// 		free(prompt);
+// 		free(colored_prompt);
+// 		check_exit_condition(buffer_received);
+// 		if (*buffer_received)
+// 		{
+// 			add_history(buffer_received);
+// 			g_exit_status = process_input(buffer_received);
+// 		}
+// 		free(buffer_received);
+// 		if (g_exit_status != 0)
+// 		{
+// 			if ((*handle_t_env(NULL))->exit_timer == 1)
+// 			{
+// 				(*handle_t_env(NULL))->exit_timer = 0;
+// 				g_exit_status = 0;
+// 			}
+// 			else
+// 				(*handle_t_env(NULL))->exit_timer++;
+// 		}
+// 	}
+// }
 
 static char	*create_prompt(void)
 {
