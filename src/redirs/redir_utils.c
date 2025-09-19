@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:35:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/18 19:41:41 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 20:56:38 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	read_heredoc_line(char *delimiter, int line_count, int fd_archive);
-void		create_heredoc_file(char *delimiter, int archive_fd);
+void		create_heredoc_file(char *delimiter, int archive_fd, char *tmp_heredoc);
 int			validate_redirection(t_redir *redir);
 static int	validate_input_redir(t_redir *redir);
 int			apply_redirection(t_redir *redir);
@@ -21,7 +21,7 @@ int			apply_redirection(t_redir *redir);
 static int	read_heredoc_line(char *delimiter, int line_count, int fd_archive)
 {
 	char	*line;
-	int		delimiter_len;	
+	int		delimiter_len;
 
 	delimiter_len = ft_strlen(delimiter);
 	line = readline("> ");
@@ -45,19 +45,13 @@ static int	read_heredoc_line(char *delimiter, int line_count, int fd_archive)
 	return (free(line), 0);
 }
 
-void	create_heredoc_file(char *delimiter, int archive_fd)
+void	create_heredoc_file(char *delimiter, int archive_fd, char *tmp_heredoc)
 {
 	int	line_count;
 	int	status;
-	int	saved_stdin;
-	int	saved_stdout;
 
 	line_count = 1;
 	setup_heredoc_signals();
-	saved_stdin = dup(STDIN_FILENO);
-	(*handle_heredoc_redir())->fd_heredoc_in = saved_stdin;
-	saved_stdout = dup(STDOUT_FILENO);
-	(*handle_heredoc_redir())->fd_heredoc_out = saved_stdout;
 	while (1)
 	{
 		status = read_heredoc_line(delimiter, line_count, archive_fd);
@@ -67,7 +61,13 @@ void	create_heredoc_file(char *delimiter, int archive_fd)
 			return ;
 		}
 		if (status == 3)
-			break ;
+		{
+			close(archive_fd);
+			int fd_open = open(tmp_heredoc, O_RDONLY);
+			dup2(fd_open, STDIN_FILENO);
+			close(fd_open);
+			return ;
+		}
 		line_count++;
 	}
 	restore_normal_signals();

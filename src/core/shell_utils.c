@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 19:42:19 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 20:47:02 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,19 @@ void	initialize_arrays(t_command *cmd, int arg_count)
 		cmd->quote_removed[i] = 0;
 		cmd->token_types[i] = WORD;
 		i++;
+	}
+}
+
+void	free_pipe_mode(t_pipe_mode *head)
+{
+	t_pipe_mode *tmp;
+
+	tmp = head;
+	if (!tmp)
+		return ;
+	if (tmp->pipe_mode)
+	{
+		tmp->pipe_mode = 0;
+		free(tmp);
 	}
 }
