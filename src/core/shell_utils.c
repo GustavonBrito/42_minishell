@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 20:47:02 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 21:14:06 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	initialize_arrays(t_command *cmd, int arg_count)
 
 void	free_pipe_mode(t_pipe_mode *head)
 {
-	t_pipe_mode *tmp;
+	t_pipe_mode	*tmp;
 
 	tmp = head;
 	if (!tmp)

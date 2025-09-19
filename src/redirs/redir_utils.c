@@ -6,14 +6,15 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 00:35:22 by luiza             #+#    #+#             */
-/*   Updated: 2025/09/18 20:56:38 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 21:16:04 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	read_heredoc_line(char *delimiter, int line_count, int fd_archive);
-void		create_heredoc_file(char *delimiter, int archive_fd, char *tmp_heredoc);
+void		create_heredoc_file(char *delimiter, int archive_fd,
+				char *tmp_heredoc);
 int			validate_redirection(t_redir *redir);
 static int	validate_input_redir(t_redir *redir);
 int			apply_redirection(t_redir *redir);
@@ -49,6 +50,7 @@ void	create_heredoc_file(char *delimiter, int archive_fd, char *tmp_heredoc)
 {
 	int	line_count;
 	int	status;
+	int	fd_open;
 
 	line_count = 1;
 	setup_heredoc_signals();
@@ -63,7 +65,7 @@ void	create_heredoc_file(char *delimiter, int archive_fd, char *tmp_heredoc)
 		if (status == 3)
 		{
 			close(archive_fd);
-			int fd_open = open(tmp_heredoc, O_RDONLY);
+			fd_open = open(tmp_heredoc, O_RDONLY);
 			dup2(fd_open, STDIN_FILENO);
 			close(fd_open);
 			return ;
