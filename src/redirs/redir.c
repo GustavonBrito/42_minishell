@@ -6,7 +6,7 @@
 /*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 07:44:53 by gserafio          #+#    #+#             */
-/*   Updated: 2025/09/18 20:43:56 by lukorman         ###   ########.fr       */
+/*   Updated: 2025/09/18 21:02:43 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,16 +113,18 @@ int	handle_append_redirection(t_redir *redir)
 int	handle_heredoc(t_redir *redir)
 {
 	char	*delimiter;
-	// int		fd_heredoc;
+	int		fd_heredoc;
 	char	*tmp_heredoc;
+	char	*itoa_agregator;
 
-	tmp_heredoc = ft_strjoin("heredoc",
-			ft_itoa((*handle_t_env(NULL))->fd_cat++));
-	// fd_heredoc = open(tmp_heredoc, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	itoa_agregator = ft_itoa((*handle_t_env(NULL))->fd_cat++);
+	tmp_heredoc = ft_strjoin("heredoc", itoa_agregator);
+	fd_heredoc = open(tmp_heredoc, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	delimiter = redir->file;
 	(*handle_exit_status())->exit_status = 0;
-	create_heredoc_file(delimiter, tmp_heredoc);
+	create_heredoc_file(delimiter, fd_heredoc, tmp_heredoc);
 	free(tmp_heredoc);
-	// close(fd_heredoc);
+	free(itoa_agregator);
+	close(fd_heredoc);
 	return ((*handle_exit_status())->exit_status);
 }

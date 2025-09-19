@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 19:39:26 by gserafio         ###   ########.fr       */
+/*   Updated: 2025/09/18 20:55:00 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,7 +219,7 @@ int				handle_input_redirection(t_redir *redir);
 int				handle_output_redirection(t_redir *redir);
 int				handle_append_redirection(t_redir *redir);
 int				handle_heredoc(t_redir *redir);
-void			create_heredoc_file(char *delimiter, int fd_heredoc);
+void			create_heredoc_file(char *delimiter, int archive_fd, char *tmp_heredoc);
 void			restore_std_fds(int saved_stdin, int saved_stdout);
 int				validate_redirection(t_redir *redir);
 int				apply_redirection(t_redir *redir);
