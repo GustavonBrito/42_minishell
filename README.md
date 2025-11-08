@@ -1,4 +1,3 @@
-```markdown
 # 🐚 42 Minishell 🚀
 
 A simplified Unix shell implementation written in C.
