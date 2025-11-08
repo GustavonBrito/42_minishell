@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 20:54:17 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 19:29:24 by luiza            ###   ########.fr       */
+/*   Updated: 2025/09/18 19:22:22 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static t_env	*get_environment(void)
 
 	environ = *handle_t_env(NULL);
 	if (!environ)
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 	return (environ);
 }
 
@@ -65,7 +65,7 @@ static char	**allocate_env_array(int env_length)
 
 	env_array = malloc(sizeof(char *) * (env_length + 1));
 	if (!env_array)
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 	return (env_array);
 }
 

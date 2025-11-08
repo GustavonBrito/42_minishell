@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/03 20:18:43 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 20:26:47 by luiza            ###   ########.fr       */
+/*   Created: 2025/09/05 16:07:14 by gustavo           #+#    #+#             */
+/*   Updated: 2025/09/18 19:22:22 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	allocate_pids_array(t_pipe *pipes)
 	pipes->pids = malloc(sizeof(pid_t) * pipes->total_commands);
 	if (!pipes->pids)
 	{
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 		return (-1);
 	}
 	i = 0;
@@ -44,7 +44,7 @@ int	allocate_pipe_fds_array(t_pipe *pipes)
 	{
 		free(pipes->pids);
 		pipes->pids = NULL;
-		g_exit_status = 1;
+		(*handle_exit_status())->exit_status = 1;
 		return (-1);
 	}
 	init_pipe_fds(pipes);
@@ -74,9 +74,23 @@ int	wait_single_process(t_pipe *pipes, int index)
 
 int	get_exit_status_from_wait(int status)
 {
+	(*handle_pipe_mode())->pipe_mode = 0;
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
+	{
+		if (WIFEXITED(status))
+		{
+			(*(handle_t_env(NULL)))->cat_flag = 0;
+			return (WEXITSTATUS(status));
+		}
+		if (WTERMSIG(status) == SIGQUIT
+			&& (*(handle_t_env(NULL)))->cat_flag == 1)
+		{
+			write(2, "Quit (core dumped)\n", 20);
+			(*(handle_t_env(NULL)))->cat_flag = 0;
+		}
 		return (128 + WTERMSIG(status));
+	}
 	return (0);
 }

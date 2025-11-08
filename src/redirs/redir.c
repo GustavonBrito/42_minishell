@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/10 23:14:39 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 21:07:25 by luiza            ###   ########.fr       */
+/*   Created: 2025/09/18 07:44:53 by gserafio          #+#    #+#             */
+/*   Updated: 2025/09/18 21:02:43 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	handle_input_redirection(t_redir *redir)
 	if (fd == -1)
 	{
 		ft_printf("minishell: %s: ", redir->file);
-		perror(" ");
+		perror("minishell ");
 		return (1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
@@ -76,7 +76,7 @@ int	handle_output_redirection(t_redir *redir)
 	if (fd == -1)
 	{
 		ft_printf("minishell: %s: ", redir->file);
-		perror(" ");
+		perror("minishell ");
 		return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
@@ -97,7 +97,7 @@ int	handle_append_redirection(t_redir *redir)
 	if (fd == -1)
 	{
 		ft_printf("minishell: %s: ", redir->file);
-		perror(" ");
+		perror("minishell ");
 		return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
@@ -112,19 +112,19 @@ int	handle_append_redirection(t_redir *redir)
 
 int	handle_heredoc(t_redir *redir)
 {
-	int		heredoc_fd;
 	char	*delimiter;
+	int		fd_heredoc;
+	char	*tmp_heredoc;
+	char	*itoa_agregator;
 
+	itoa_agregator = ft_itoa((*handle_t_env(NULL))->fd_cat++);
+	tmp_heredoc = ft_strjoin("heredoc", itoa_agregator);
+	fd_heredoc = open(tmp_heredoc, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	delimiter = redir->file;
-	heredoc_fd = create_heredoc_file(delimiter);
-	if (heredoc_fd == -1)
-		return (1);
-	if (dup2(heredoc_fd, STDIN_FILENO) == -1)
-	{
-		perror("minishell: dup2 ");
-		close(heredoc_fd);
-		return (1);
-	}
-	close(heredoc_fd);
-	return (0);
+	(*handle_exit_status())->exit_status = 0;
+	create_heredoc_file(delimiter, fd_heredoc, tmp_heredoc);
+	free(tmp_heredoc);
+	free(itoa_agregator);
+	close(fd_heredoc);
+	return ((*handle_exit_status())->exit_status);
 }

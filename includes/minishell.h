@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 00:41:22 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/10 23:16:45 by luiza            ###   ########.fr       */
+/*   Updated: 2025/09/18 21:13:23 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <termcap.h>
 # include <errno.h>
 # include "../libft/headers/libft.h"
@@ -74,15 +75,46 @@ typedef struct s_env
 {
 	char			*env_data;
 	struct s_env	*next;
+	int				fd_stdin;
+	int				fd_stdout;
+	int				export_organize_flag;
+	int				cat_flag;
+	int				heredoc_mode;
+	int				exit_timer;
+	int				fd_cat;
+	t_command		*first_cmd;
+	t_token			*tokens;
+	t_pipe			*pipe;
 }	t_env;
 
+typedef struct s_pipe_mode
+{
+	int		pipe_mode;
+}	t_pipe_mode;
+
+typedef struct s_heredoc
+{
+	int			fd_heredoc_in;
+	int			fd_heredoc_out;
+}	t_heredoc;
+
+typedef struct s_exit_status
+{
+	int			exit_status;
+}	t_exit_status;
+
 //core
-extern int		g_exit_status;
+
 void			shell_loop(void);
 void			check_exit_condition(char *buffer_received);
-void			signal_handler(int signal);
 char			*obtain_current_directory(void);
 char			*get_env_or_cleanup(const char *var, char *to_free);
+void			signal_handler(int signal);
+void			setup_heredoc_signals(void);
+void			restore_normal_signals(void);
+char			*create_prompt(void);
+char			*get_user_input(t_env *env);
+void			process_user_input(char *buffer);
 
 //paths
 void			update_pwd(void);
@@ -105,6 +137,13 @@ void			create_new_var(t_env *last_env, char *var_name, char *value);
 void			pwd(void);
 void			unset(t_command *cmd);
 void			ft_free_split(char **array);
+int				check_identifier_loop(char *arg, int *equal_passed,
+					int *first_passed);
+int				verify_remove_env(char **argv, t_env *s_env);
+t_env			*create_filtered_list(t_command *cmd, t_env *s_env);
+int				analyze_exit_args(t_command *cmd, int arg_count);
+void			cleanup_and_exit(int exit_code, t_command *cmd);
+int				is_valid_number(char *str);
 
 //lexing
 int				process_input(char *input);
@@ -180,11 +219,12 @@ int				handle_input_redirection(t_redir *redir);
 int				handle_output_redirection(t_redir *redir);
 int				handle_append_redirection(t_redir *redir);
 int				handle_heredoc(t_redir *redir);
-int				create_heredoc_file(char *delimiter);
+void			create_heredoc_file(char *delimiter,
+					int archive_fd, char *tmp_heredoc);
 void			restore_std_fds(int saved_stdin, int saved_stdout);
 int				validate_redirection(t_redir *redir);
 int				apply_redirection(t_redir *redir);
-char			*ft_realloc(char *ptr, int old_size, int new_size);
+void			restore_std_fds(int saved_stdin, int saved_stdout);
 
 //exec
 int				execute_command(t_command *cmd);
@@ -192,11 +232,12 @@ int				execute_builtin(t_command *cmd);
 int				execute_external_command(t_command *cmd);
 void			handle_command_execution(t_command *cmd);
 int				check_builtin(t_command *cmd);
-int				run_external(t_command *cmd);
+int				run_external(t_command *cmd, t_command *first_cmd);
 char			**convert_env_to_array(void);
 char			**cleanup_failed_env_array(char **env_array, int filled_count);
 void			cleanup_n_exit(char **env_array, char *cmd_path);
 void			free_env_array(char **env_array);
+int				handle_parent_process(pid_t pid);
 
 //pipes
 int				has_pipes(t_command *cmd);
@@ -208,7 +249,7 @@ int				count_commands(t_command *cmd);
 int				create_pipe(int pipe_fd[2]);
 void			cleanup_pipeline(t_pipe *pipes);
 void			setup_child_pipes(t_pipe *pipes, int cmd_index);
-void			execute_child_command(t_command *cmd);
+void			execute_child_command(t_command *cmd_crr, t_command *first_cmd);
 void			free_pipe_fds(t_pipe *pipes);
 void			free_partial_fds(t_pipe *pipes, int max_index);
 int				allocate_pids_array(t_pipe *pipes);
@@ -217,10 +258,22 @@ void			init_pipe_fds(t_pipe *pipes);
 void			close_pipe_fd(int *fd);
 int				wait_single_process(t_pipe *pipes, int index);
 int				get_exit_status_from_wait(int status);
+void			init_pipe_struct(void);
+void			init_heredoc_struct(void);
+void			init_exit_struct(void);
+t_pipe_mode		**handle_pipe_mode(void);
+t_heredoc		**handle_heredoc_redir(void);
+t_exit_status	**handle_exit_status(void);
+int				validate_pre_fork(t_command *cmd_crr, t_command *first_cmd);
 
 //error handling
 int				report_error(const char *msg, int exit_code);
 void			critical_error(const char *msg, int exit_code);
 void			write_err(const char *msg);
+void			close_dup_fds(int fd1, int fd2);
+void			flush_rsc_minishell(t_env *env, t_command *cmd, int exit_code);
+
+//treat_leaks
+void			free_env_list(t_env *head);
 
 #endif

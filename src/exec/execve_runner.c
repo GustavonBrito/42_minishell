@@ -1,43 +1,64 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_ve.c                                          :+:      :+:    :+:   */
+/*   execve_runner.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/17 20:54:17 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 19:06:35 by luiza            ###   ########.fr       */
+/*   Created: 2025/09/05 16:06:54 by gustavo           #+#    #+#             */
+/*   Updated: 2025/09/18 20:48:04 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			run_external(t_command *cmd);
-static char	*get_executable_path(t_command *cmd);
+int			run_external(t_command *cmd, t_command *first_cmd);
+static char	*get_executable_path(t_command *cmd, char **env_array,
+				t_command *first_cmd);
 static int	is_empty_command(char *command);
-static void	run_execve(t_command *cmd, char *cmd_path, char **env_array);
+static void	run_execve(t_command *cmd, char *cmd_path, char **env_array,
+				t_command *first_cmd);
 static char	**get_args_for_execution(t_command *cmd);
 
-int	run_external(t_command *cmd)
+int	run_external(t_command *cmd, t_command *first_cmd)
 {
 	char	**env_array;
 	char	*cmd_path;
+	t_env	*env;
 
+	env = (*handle_t_env(NULL));
 	if (!cmd || !cmd->args || !cmd->args[0])
-		exit(127);
+	{
+		if ((*handle_pipe_mode())->pipe_mode == 1)
+			flush_rsc_minishell(env, first_cmd, 127);
+		flush_rsc_minishell(env, cmd, 127);
+	}
 	env_array = convert_env_to_array();
 	if (!env_array)
-		exit(1);
-	cmd_path = get_executable_path(cmd);
-	run_execve(cmd, cmd_path, env_array);
+	{
+		if ((*handle_pipe_mode())->pipe_mode == 1)
+			flush_rsc_minishell(env, first_cmd, 1);
+		flush_rsc_minishell(env, cmd, 1);
+	}
+	cmd_path = get_executable_path(cmd, env_array, first_cmd);
+	run_execve(cmd, cmd_path, env_array, first_cmd);
 	cleanup_n_exit(env_array, cmd_path);
 	return (0);
 }
 
-static char	*get_executable_path(t_command *cmd)
+static char	*get_executable_path(t_command *cmd, char **env_array,
+				t_command *first_cmd)
 {
 	if (is_empty_command(cmd->args[0]) && cmd->args[1] == NULL)
+	{
+		free_env_array(env_array);
+		close_dup_fds((*handle_t_env(NULL))->fd_stdin,
+			(*handle_t_env(NULL))->fd_stdout);
+		if ((*handle_pipe_mode())->pipe_mode == 1)
+			flush_rsc_minishell(*(handle_t_env(NULL)), first_cmd, 0);
+		flush_rsc_minishell(*(handle_t_env(NULL)), cmd, 0);
 		exit(0);
+	}
 	if (is_empty_command(cmd->args[0]))
 		return (find_command_path(cmd->args[1]));
 	return (find_command_path(cmd->args[0]));
@@ -48,19 +69,33 @@ static int	is_empty_command(char *command)
 	return (ft_strncmp(command, "", 1) == 0);
 }
 
-static void	run_execve(t_command *cmd, char *cmd_path, char **env_array)
+static void	run_execve(t_command *cmd, char *cmd_path, char **env_array,
+				t_command *first_cmd)
 {
 	char	**args_to_use;
+	t_env	*env;
 
+	env = (*handle_t_env(NULL));
 	if (!cmd_path && !is_empty_command(cmd->args[0]))
 	{
+		if ((*handle_exit_status())->exit_status == 0)
+			(*handle_exit_status())->exit_status = 127;
 		free_env_array(env_array);
-		perror(" ");
-		exit(127);
+		write_err("minishell: command not found\n");
+		close_dup_fds(env->fd_stdin, env->fd_stdout);
+		if ((*handle_pipe_mode())->pipe_mode == 1)
+			flush_rsc_minishell(env, first_cmd,
+				(*handle_exit_status())->exit_status);
+		flush_rsc_minishell(env, cmd, (*handle_exit_status())->exit_status);
 	}
 	args_to_use = get_args_for_execution(cmd);
-	if (execve(cmd_path, args_to_use, env_array) == -1)
-		perror(" ");
+	execve(cmd_path, args_to_use, env_array);
+	perror("minishell: ");
+	free_env_array(env_array);
+	close_dup_fds(env->fd_stdin, env->fd_stdout);
+	if ((*handle_pipe_mode())->pipe_mode == 1)
+		flush_rsc_minishell(env, first_cmd, 126);
+	flush_rsc_minishell(env, cmd, 126);
 }
 
 static char	**get_args_for_execution(t_command *cmd)

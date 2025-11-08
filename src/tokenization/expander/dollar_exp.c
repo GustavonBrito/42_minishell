@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_exp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 21:52:25 by luiza            ###   ########.fr       */
+/*   Updated: 2025/09/18 19:22:22 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,5 @@ int	expand_process_id(char **res)
 
 char	*itoa_exit_status(void)
 {
-	return (ft_itoa(g_exit_status));
+	return (ft_itoa((*handle_exit_status())->exit_status));
 }

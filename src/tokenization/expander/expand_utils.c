@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:03:33 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/03 21:56:39 by luiza            ###   ########.fr       */
+/*   Updated: 2025/09/18 07:30:01 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,31 @@ char	*append_str(char *dest, const char *src)
 
 char	*get_env_val(const char *var_name)
 {
+	t_env	*env;
 	char	*value;
+	char	**value_to_compare;
+	char	*equal_sign;
 
-	value = getenv(var_name);
+	env = *(handle_t_env(NULL));
+	value = NULL;
+	while (env)
+	{
+		value_to_compare = ft_split(env->env_data, '=');
+		if (ft_strcmp(value_to_compare[0], var_name) == 0)
+		{
+			equal_sign = ft_strnstr(env->env_data, "=",
+					ft_strlen(env->env_data));
+			if (equal_sign)
+				value = ft_strdup(equal_sign + 1);
+			ft_free_split(value_to_compare);
+			break ;
+		}
+		env = env->next;
+		ft_free_split(value_to_compare);
+	}
 	if (!value)
 		return (ft_strdup(""));
-	return (ft_strdup(value));
+	return (value);
 }
 
 char	*append_char(char *dest, char c)

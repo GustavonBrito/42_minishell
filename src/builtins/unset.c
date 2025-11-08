@@ -3,47 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:34 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 21:01:51 by luiza            ###   ########.fr       */
+/*   Updated: 2025/09/18 12:05:43 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void		unset(t_command *cmd);
-static int	verify_remove_env(char **argv, t_env *s_env);
+int			verify_remove_env(char **argv, t_env *s_env);
+void		free_split(char **buffer);
 
 void	unset(t_command *cmd)
 {
+	t_env	*first_node;
 	t_env	*s_env;
-	t_env	*tmp;
-	t_env	*head;
-	t_env	*last;
+	t_env	*filtered_list;
 
 	s_env = *handle_t_env(NULL);
-	head = NULL;
-	last = NULL;
-	while (s_env)
-	{
-		if (!verify_remove_env(cmd->args, s_env))
-		{
-			tmp = malloc(sizeof(t_env));
-			tmp->env_data = ft_strdup(s_env->env_data);
-			tmp->next = NULL;
-			if (!head)
-				head = tmp;
-			else
-				last->next = tmp;
-			last = tmp;
-		}
-		s_env = s_env->next;
-	}
-	handle_t_env(head);
+	first_node = s_env;
+	filtered_list = create_filtered_list(cmd, s_env);
+	free_env_list(first_node);
+	handle_t_env(filtered_list);
 }
 
-static int	verify_remove_env(char **argv, t_env *s_env)
+int	verify_remove_env(char **argv, t_env *s_env)
 {
 	char	**buffer;
 	int		skip_flag;
@@ -58,9 +44,24 @@ static int	verify_remove_env(char **argv, t_env *s_env)
 			&& buffer[0][ft_strlen(argv[i])] == '\0')
 		{
 			skip_flag = 1;
+			free_split(buffer);
 			break ;
 		}
 		i++;
+		free_split(buffer);
 	}
 	return (skip_flag);
+}
+
+void	free_split(char **buffer)
+{
+	int	i;
+
+	i = 0;
+	while (buffer[i])
+	{
+		free(buffer[i]);
+		i++;
+	}
+	free(buffer);
 }

@@ -3,38 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lukorman <lukorman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 23:07:58 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/08/05 02:45:56 by luiza            ###   ########.fr       */
+/*   Updated: 2025/09/18 21:14:06 by lukorman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	check_exit_condition(char *buffer_received);
-void	signal_handler(int signal);
 char	*obtain_current_directory(void);
 char	*get_env_or_cleanup(const char *var, char *to_free);
 void	initialize_arrays(t_command *cmd, int arg_count);
 
 void	check_exit_condition(char *buffer_received)
 {
+	int	exit_status;
+
+	exit_status = (*handle_exit_status())->exit_status;
 	if (buffer_received == NULL)
 	{
 		ft_printf("exit\n");
-		exit(0);
+		(*(handle_t_env(NULL)))->cat_flag = 0;
+		rl_clear_history();
+		free_env_list(*handle_t_env(NULL));
+		free(*handle_pipe_mode());
+		free(*handle_heredoc_redir());
+		free(*handle_exit_status());
+		exit(exit_status);
 	}
-}
-
-void	signal_handler(int signal)
-{
-	(void)signal;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	g_exit_status = 130;
 }
 
 char	*obtain_current_directory(void)
@@ -71,5 +69,19 @@ void	initialize_arrays(t_command *cmd, int arg_count)
 		cmd->quote_removed[i] = 0;
 		cmd->token_types[i] = WORD;
 		i++;
+	}
+}
+
+void	free_pipe_mode(t_pipe_mode *head)
+{
+	t_pipe_mode	*tmp;
+
+	tmp = head;
+	if (!tmp)
+		return ;
+	if (tmp->pipe_mode)
+	{
+		tmp->pipe_mode = 0;
+		free(tmp);
 	}
 }

@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   redir_utils_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 00:45:31 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/09/18 19:23:39 by gserafio         ###   ########.fr       */
+/*   Created: 2025/09/18 08:16:16 by gserafio          #+#    #+#             */
+/*   Updated: 2025/09/18 08:17:02 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **env);
+void	restore_std_fds(int saved_stdin, int saved_stdout);
 
-int	main(int argc, char **argv, char **env)
+void	restore_std_fds(int saved_stdin, int saved_stdout)
 {
-	(void)argc;
-	(void)argv;
-	handle_store_env(env);
-	init_exit_struct();
-	init_pipe_struct();
-	init_heredoc_struct();
-	shell_loop();
-	free_env_list(*handle_t_env(NULL));
-	rl_clear_history();
-	return (0);
+	if (saved_stdin != -1)
+	{
+		dup2(saved_stdin, STDIN_FILENO);
+		close(saved_stdin);
+	}
+	if (saved_stdout != -1)
+	{
+		dup2(saved_stdout, STDOUT_FILENO);
+		close(saved_stdout);
+	}
 }

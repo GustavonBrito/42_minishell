@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_core.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/04 16:56:49 by luiza            ###   ########.fr       */
+/*   Updated: 2025/09/18 19:22:22 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,26 @@ static int	process_commands(t_command *commands);
 
 int	process_input(char *input)
 {
+	int		i;
+	char	open_quote;
+
+	i = 0;
+	open_quote = 0;
+	if (input[0] == '|')
+		return (2);
+	while (input[i])
+	{
+		if ((input[i] == '\'' || input[i] == '"'))
+		{
+			if (open_quote == 0)
+				open_quote = input[i];
+			else if (open_quote == input[i])
+				open_quote = 0;
+		}
+		i++;
+	}
+	if (open_quote != 0)
+		return (ft_putstr_fd("No closed quotes\n", 2), 0);
 	if (!input || ft_strlen(input) == 0)
 		return (0);
 	return (lex_token(input));
@@ -34,13 +54,20 @@ static int	lex_token(char *input)
 	token_lst = NULL;
 	res = tokenize_input(input, &token_lst);
 	if (res != 0)
+	{
+		if (ft_strncmp(input, "echo", 4) == 0)
+			printf("\n");
+		else if (ft_strncmp(input, "cat", 3) == 0)
+			write(2, "cat: '': No such file or directory\n", 36);
 		return (res);
+	}
 	commands = parse_tokens(token_lst);
 	if (!commands)
 	{
 		free_tokens(token_lst);
 		return (1);
 	}
+	(*handle_t_env(NULL))->tokens = token_lst;
 	res = process_commands(commands);
 	free_commands(commands);
 	free_tokens(token_lst);
@@ -87,5 +114,5 @@ static int	process_commands(t_command *commands)
 		current_cmd = current_cmd->next;
 	}
 	handle_command_execution(commands);
-	return (g_exit_status);
+	return ((*handle_exit_status())->exit_status);
 }

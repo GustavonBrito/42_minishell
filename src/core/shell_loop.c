@@ -3,45 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   shell_loop.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 17:50:24 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/29 21:10:33 by luiza            ###   ########.fr       */
+/*   Created: 2025/09/18 07:46:09 by gserafio          #+#    #+#             */
+/*   Updated: 2025/09/18 14:31:35 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void		shell_loop(void);
-static char	*create_prompt(void);
+char		*create_prompt(void);
 static char	*format_path(char *current_dir, char *home_dir);
 static char	*build_prompt(char *username, char *display_path);
 
 void	shell_loop(void)
 {
-	char		*buffer_received;
-	char		*prompt;
+	char	*buffer;
+	t_env	*env;
 
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		prompt = create_prompt();
-		if (!prompt)
-			return ;
-		buffer_received = readline(prompt);
-		free(prompt);
-		check_exit_condition(buffer_received);
-		if (*buffer_received)
-		{
-			add_history(buffer_received);
-			g_exit_status = process_input(buffer_received);
-		}
-		free(buffer_received);
+		env = *handle_t_env(NULL);
+		if (env)
+			env->heredoc_mode = 0;
+		buffer = get_user_input(env);
+		process_user_input(buffer);
 	}
 }
 
-static char	*create_prompt(void)
+char	*create_prompt(void)
 {
 	char	*current_dir;
 	char	*username;

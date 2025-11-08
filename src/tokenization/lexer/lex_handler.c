@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:21:55 by luiza             #+#    #+#             */
-/*   Updated: 2025/08/10 22:54:21 by luiza            ###   ########.fr       */
+/*   Updated: 2025/09/18 07:31:14 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	handle_quotes(char *input, t_token **token_lst, int i)
 
 int	handle_var(char *input, t_token **token_lst, int i)
 {
+	int	j;
 	int	start;
 
 	start = i;
@@ -41,8 +42,15 @@ int	handle_var(char *input, t_token **token_lst, int i)
 		return (handle_special_vars(input, token_lst, i - 1));
 	if (!ft_isalpha(input[i]) && input[i] != '_')
 	{
-		add_token(token_lst, "$", WORD);
-		return (1);
+		j = i - 1;
+		while (input[j++])
+		{
+			if (input[j] == ' ')
+			{
+				add_token(token_lst, "$", WORD);
+				return (1);
+			}
+		}
 	}
 	return (process_var_name(input, token_lst, start));
 }

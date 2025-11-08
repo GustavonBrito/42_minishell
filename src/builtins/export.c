@@ -3,21 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:31:28 by gustavo-lin       #+#    #+#             */
-/*   Updated: 2025/07/30 21:51:39 by luiza            ###   ########.fr       */
+/*   Updated: 2025/09/18 19:22:22 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void		export(t_command *cmd);
+static void	not_a_valid_identifier(char **verify_var);
 static void	process_export_arg(char *arg);
+
+static void	not_a_valid_identifier(char **verify_var)
+{
+	write(2, "minishell: not a valid identifier\n", 35);
+	free(*verify_var);
+	(*handle_exit_status())->exit_status = 1;
+	return ;
+}
 
 void	export(t_command *cmd)
 {
-	int		i;
+	int	i;
 
 	if (!cmd->args[1])
 	{
@@ -41,21 +50,20 @@ static void	process_export_arg(char *arg)
 
 	equal_sign = ft_strchr(arg, '=');
 	verify_var = ft_strdup(arg);
-	if (!validate_identifier(verify_var))
-	{
-		write(2, "minishell: export: not a valid identifier", 41);
-		free(verify_var);
-		exit(1);
-	}
+	if (validate_identifier(verify_var) == 0 || arg[0] == '=')
+		return (not_a_valid_identifier(&verify_var));
 	free(verify_var);
+	found_env = find_env_var(arg);
 	if (equal_sign)
 	{
-		*equal_sign = '\0';
 		found_env = find_env_var(arg);
-		if (found_env && found_env->env_data[ft_strlen(arg)] == '=')
+		*equal_sign = '\0';
+		if (ft_strncmp(arg, found_env->env_data, ft_strlen(arg)) == 0)
 			update_env_var(found_env, arg, equal_sign + 1);
 		else
 			create_new_var(found_env, arg, equal_sign + 1);
 		*equal_sign = '=';
 	}
+	else if (ft_strncmp(found_env->env_data, arg, ft_strlen(arg)) != 0)
+		create_new_var(found_env, arg, equal_sign);
 }

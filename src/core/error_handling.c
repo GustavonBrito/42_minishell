@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luiza <luiza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gserafio <gserafio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 06:28:59 by luiza             #+#    #+#             */
-/*   Updated: 2025/07/30 17:15:38 by luiza            ###   ########.fr       */
+/*   Updated: 2025/09/17 19:46:31 by gserafio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ int	report_error(const char *msg, int exit_code)
 void	critical_error(const char *msg, int exit_code)
 {
 	ft_printf("minishell: %s\n", msg);
+	free_env_list(*handle_t_env(NULL));
 	exit(exit_code);
 }
